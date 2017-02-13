@@ -1,0 +1,163 @@
+<?php
+/*
+Plugin Name: UsersWP - Social Login
+Plugin URI: https://wpgeodirectory.com
+Description: Social add-on for UsersWP.
+Version: 1.0.0
+Author: GeoDirectory team
+Author URI: https://wpgeodirectory.com
+License: GPL-2.0+
+License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+Text Domain: uwp-social
+Domain Path: /languages
+Requires at least: 3.1
+Tested up to: 4.6
+*/
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+define( 'UWP_SOCIAL_LOGIN_PATH', plugin_dir_path( __FILE__ ) );
+
+define( 'UWP_SOCIAL_LOGIN_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+define( 'UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL', UWP_SOCIAL_LOGIN_PLUGIN_URL . 'vendor/hybridauth/' );
+
+class Users_WP_Social {
+
+    private static $instance;
+
+    /**
+     * Plugin Version
+     */
+    private $version = '1.0.0';
+
+    private $file;
+
+    private $plugin_dir;
+
+    private $plugin_url;
+
+    private $includes_dir;
+
+    private $includes_url;
+
+    /**
+     * Plugin Title
+     */
+    public $title = 'UsersWP - Social';
+
+
+    public static function get_instance() {
+        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Users_WP_Social ) ) {
+            self::$instance = new Users_WP_Social;
+            self::$instance->setup_globals();
+            self::$instance->includes();
+            self::$instance->setup_actions();
+            self::$instance->load_textdomain();
+        }
+
+        return self::$instance;
+    }
+
+    private function __construct() {
+        self::$instance = $this;
+    }
+
+    private function setup_globals() {
+
+        // paths
+        $this->file         = __FILE__;
+        $this->basename     = apply_filters( 'uwp_social_plugin_basenname', plugin_basename( $this->file ) );
+        $this->plugin_dir   = apply_filters( 'uwp_social_plugin_dir_path',  plugin_dir_path( $this->file ) );
+        $this->plugin_url   = apply_filters( 'uwp_social_plugin_dir_url',   plugin_dir_url ( $this->file ) );
+
+        // includes
+        $this->includes_dir = apply_filters( 'uwp_social_includes_dir', trailingslashit( $this->plugin_dir . 'includes'  ) );
+        $this->includes_url = apply_filters( 'uwp_social_includes_url', trailingslashit( $this->plugin_url . 'includes'  ) );
+
+    }
+
+    private function setup_actions() {
+        if (class_exists( 'Users_WP' )) {
+            add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+        }
+        do_action( 'uwp_social_setup_actions' );
+    }
+
+    public function enqueue_styles() {
+
+        wp_enqueue_style( 'uwp_social_styles', plugin_dir_url( __FILE__ ) . 'public/assets/css/styles.css', array(), $this->version, 'all' );
+        
+    }
+
+    public function load_textdomain() {
+
+        // Set filter for plugin's languages directory
+        $lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+        $lang_dir = apply_filters( 'uwp_social_languages_directory', $lang_dir );
+
+        // Traditional WordPress plugin locale filter
+        $locale        = apply_filters( 'plugin_locale',  get_locale(), 'uwp-social' );
+        $mofile        = sprintf( '%1$s-%2$s.mo', 'uwp-social', $locale );
+
+        // Setup paths to current locale file
+        $mofile_local  = $lang_dir . $mofile;
+        $mofile_global = WP_LANG_DIR . '/uwp-social/' . $mofile;
+
+        if ( file_exists( $mofile_global ) ) {
+            // Look in global /wp-content/languages/uwp-social/ folder
+            load_textdomain( 'uwp-social', $mofile_global );
+        } elseif ( file_exists( $mofile_local ) ) {
+            // Look in local /wp-content/plugins/uwp-social/languages/ folder
+            load_textdomain( 'uwp-social', $mofile_local );
+        } else {
+            // Load the default language files
+            load_plugin_textdomain( 'uwp-social', false, $lang_dir );
+        }
+    }
+
+    private function includes() {
+
+
+        if (class_exists( 'Users_WP' )) {
+            require_once dirname( __FILE__ ) . '/includes/social-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/widget-functions.php';
+        }
+
+        do_action( 'uwp_social_include_files' );
+
+        if ( ! is_admin() )
+            return;
+
+        require_once dirname( __FILE__ ) . '/includes/admin-settings.php';
+        do_action( 'uwp_social_include_admin_files' );
+
+    }
+
+
+}
+
+
+
+function activate_uwp_social() {
+    require_once('includes/class-uwp-social-activator.php');
+    UWP_Social_Activator::activate();
+}
+register_activation_hook( __FILE__, 'activate_uwp_social' );
+
+
+function init_uwp_social() {
+
+    if ( ! class_exists( 'Users_WP' ) ) {
+        if ( !class_exists( 'Users_WP_Extension_Activation' ) ) {
+            require_once dirname( __FILE__ ) . '/includes/class-ext-activation.php';
+        }
+        $activation = new Users_WP_Extension_Activation( plugin_dir_path( __FILE__ ), basename( __FILE__ ) );
+        $activation->run();
+        return Users_WP_Social::get_instance();
+
+    } else {
+        return Users_WP_Social::get_instance();
+    }
+}
+add_action( 'plugins_loaded', 'init_uwp_social', apply_filters( 'uwp_social_action_priority', 10 ) );
