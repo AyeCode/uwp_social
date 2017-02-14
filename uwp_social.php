@@ -120,8 +120,10 @@ class Users_WP_Social {
 
 
         if (class_exists( 'Users_WP' )) {
+            require_once dirname( __FILE__ ) . '/includes/helper-functions.php';
             require_once dirname( __FILE__ ) . '/includes/social-functions.php';
             require_once dirname( __FILE__ ) . '/includes/widget-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/error-functions.php';
         }
 
         do_action( 'uwp_social_include_files' );

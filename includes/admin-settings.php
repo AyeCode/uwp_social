@@ -67,21 +67,21 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_google_key' => array(
-            'id' => 'uwp_social_google_key',
-            'name' => __( 'Google API Key', 'uwp' ),
+        'uwp_social_google_id' => array(
+            'id' => 'uwp_social_google_id',
+            'name' => __( 'Google APP ID', 'uwp' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Google API Key', 'uwp' )
+            'placeholder' => __( 'Enter Google APP ID', 'uwp' )
         ),
         'uwp_social_google_secret' => array(
             'id' => 'uwp_social_google_secret',
-            'name' => __( 'Google API Secret', 'uwp' ),
+            'name' => __( 'Google APP Secret', 'uwp' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Google API Secret', 'uwp' )
+            'placeholder' => __( 'Enter Google APP Secret', 'uwp' )
         ),
     );
 

@@ -38,6 +38,55 @@ class UWP_Social_Activator
 
     public static function create_tables()
     {
-        
+        global $wpdb;
+
+        $table_name = $wpdb->prefix . 'uwp_social_profiles';
+
+        $wpdb->hide_errors();
+
+        $collate = '';
+        if ($wpdb->has_cap('collation')) {
+            if (!empty($wpdb->charset)) $collate = "DEFAULT CHARACTER SET $wpdb->charset";
+            if (!empty($wpdb->collate)) $collate .= " COLLATE $wpdb->collate";
+        }
+
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+
+        $social_profiles = "CREATE TABLE " . $table_name . " (
+                            id int(11) NOT NULL AUTO_INCREMENT,
+                            user_id int(11) NOT NULL,
+                            provider varchar(50) NOT NULL,
+                            object_sha varchar(45) NOT NULL,
+                            identifier varchar(255) NOT NULL,
+                            profileurl varchar(255) NOT NULL,
+                            websiteurl varchar(255) NOT NULL,
+                            photourl varchar(255) NOT NULL,
+                            displayname varchar(150) NOT NULL,
+                            description varchar(255) NOT NULL,
+                            firstname varchar(150) NOT NULL,
+                            lastname varchar(150) NOT NULL,
+                            gender varchar(10) NOT NULL,
+                            language varchar(20) NOT NULL,
+                            age varchar(10) NOT NULL,
+                            birthday int(11) NOT NULL,
+                            birthmonth int(11) NOT NULL,
+                            birthyear int(11) NOT NULL,
+                            email varchar(255) NOT NULL,
+                            emailverified varchar(255) NOT NULL,
+                            phone varchar(75) NOT NULL,
+                            address varchar(255) NOT NULL,
+                            country varchar(75) NOT NULL,
+                            region varchar(50) NOT NULL,
+                            city varchar(50) NOT NULL,
+                            zip varchar(25) NOT NULL,
+                            UNIQUE KEY id (id),
+                            KEY user_id (user_id),
+                            KEY provider (provider)
+                          ) $collate";
+
+        $social_profiles = apply_filters('uwp_social_profiles_before_table_create', $social_profiles);
+
+        dbDelta($social_profiles);   
     }
 }
