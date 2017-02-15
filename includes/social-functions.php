@@ -106,7 +106,7 @@ function uwp_social_login_buttons_display($args, $instance, $shortcode = false) 
 add_action('init', 'uwp_social_authenticate_init');
 function uwp_social_authenticate_init() {
     if (isset($_GET['action']) && $_GET['action'] == 'uwp_social_authenticate') {
-        return uwp_social_authenticate_process();
+        uwp_social_authenticate_process();
     }
 
     if (isset($_GET['action']) && $_GET['action'] == 'uwp_social_authenticated') {
@@ -149,9 +149,20 @@ function uwp_social_authenticate_process() {
         }
 
         // build the authenticateD, which will make wsl_process_login() fire the next step wsl_process_login_end()
-        $authenticated_url = home_url() . "/?action=uwp_social_authenticated&provider=".$provider;
+        $redirect_to = isset( $_REQUEST[ 'redirect_to' ] ) ? $_REQUEST[ 'redirect_to' ] : home_url();
 
-        return $authenticated_url;
+        // build the authenticateD, which will make wsl_process_login() fire the next step wsl_process_login_end()
+        $authenticated_url = add_query_arg(
+            array(
+                'action' =>  'uwp_social_authenticated',
+                'provider' => $provider
+            ),
+            home_url()
+        );
+
+        // display a loading screen
+        uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
+
     }
 }
 
@@ -267,7 +278,7 @@ function uwp_social_authenticated_process()
             )
             = uwp_social_get_user_data( $provider, $redirect_to );
 
-        // if no associated user were found in wslusersprofiles, create new WordPress user
+        // if no associated user were found in uwp social profiles, create new WordPress user
         if( ! $wordpress_user_id )
         {
             $user_id = uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $requested_user_login, $requested_user_email );
@@ -315,11 +326,11 @@ function uwp_social_get_user_data( $provider, $redirect_to )
 
     /* 1. Grab the user profile from social network */
 
-    if( ! ( isset( $_SESSION['wsl::userprofile'] ) && $_SESSION['wsl::userprofile'] && $hybridauth_user_profile = json_decode( $_SESSION['wsl::userprofile'] ) ) )
+    if( ! ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] && $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] ) ) )
     {
         $hybridauth_user_profile = uwp_request_user_social_profile( $provider );
 
-        $_SESSION['wsl::userprofile'] = json_encode( $hybridauth_user_profile );
+        $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
     }
 
     $adapter = uwp_social_get_provider_adapter( $provider );
@@ -354,7 +365,7 @@ function uwp_social_get_user_data( $provider, $redirect_to )
                     $requested_user_login,
                     $requested_user_email
                     )
-                    = wsl_process_login_new_users_gateway( $provider, $redirect_to, $hybridauth_user_profile );
+                    = uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user_profile );
             }
             while( ! $shall_pass );
         }
@@ -362,10 +373,10 @@ function uwp_social_get_user_data( $provider, $redirect_to )
         $wordpress_user_id = $user_id;
     }
     
-    // check if user already exist in wslusersprofiles
+    // check if user already exist in uwp social profiles
     $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
 
-    // if not found in wslusersprofiles, then check his verified email
+    // if not found in uwp social profiles, then check his verified email
     if( ! $user_id && ! empty( $hybridauth_user_profile->emailVerified ) )
     {
         // check if the verified email exist in wp_users
@@ -374,7 +385,7 @@ function uwp_social_get_user_data( $provider, $redirect_to )
         // the user exists in Wordpress
         $wordpress_user_id = $user_id;
 
-        // check if the verified email exist in wslusersprofiles
+        // check if the verified email exist in uwp social profiles
         if( ! $user_id )
         {
             $user_id = (int) uwp_get_social_profile_by_email_verified( $hybridauth_user_profile->emailVerified );
@@ -616,5 +627,150 @@ function uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapt
     wp_safe_redirect( $redirect_to );
 
     // for good measures
+    die();
+}
+
+function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user_profile )
+{
+    do_action( "uwp_social_new_users_gateway_start", $provider, $redirect_to, $hybridauth_user_profile );
+
+    $assets_base_url = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/images/16x16/';
+
+    // remove wsl widget
+    remove_action( 'register_form', 'uwp_render_auth_widget_in_wp_register_form' );
+
+    $hybridauth_user_email       = sanitize_email( $hybridauth_user_profile->email );
+    $hybridauth_user_login       = sanitize_user( $hybridauth_user_profile->displayName, true );
+    $hybridauth_user_avatar      = $hybridauth_user_profile->photoURL;
+    $hybridauth_user_website     = $hybridauth_user_profile->webSiteURL;
+    $hybridauth_user_link        = $hybridauth_user_profile->profileURL;
+
+    $hybridauth_user_login       = trim( str_replace( array( ' ', '.' ), '_', $hybridauth_user_login ) );
+    $hybridauth_user_login       = trim( str_replace( '__', '_', $hybridauth_user_login ) );
+
+    $requested_user_email        = isset( $_REQUEST["user_email"] ) ? trim( $_REQUEST["user_email"] ) : $hybridauth_user_email;
+    $requested_user_login        = isset( $_REQUEST["user_login"] ) ? trim( $_REQUEST["user_login"] ) : $hybridauth_user_login;
+
+    $requested_user_email        = apply_filters( 'uwp_new_users_gateway_alter_requested_email', $requested_user_email );
+    $requested_user_login        = apply_filters( 'uwp_new_users_gateway_alter_requested_login', $requested_user_login );
+
+    $user_id    = 0;
+    $shall_pass = false;
+
+    $bouncer_account_linking    = false;
+    $account_linking_errors     = array();
+
+    $bouncer_profile_completion = false;
+    $profile_completion_errors  = array();
+
+    $require_email   = 2;
+    $change_username = 2;
+    $extra_fields    = 2;
+
+    
+
+//    if( isset( $_REQUEST["bouncer_profile_completion"] ) )
+//    {
+//        if( $require_email == 2 && $change_username == 2 && $extra_fields == 2 )
+//        {
+//            $shall_pass = true;
+//        }
+//    }
+
+    if( $require_email == 2 && $change_username == 2 && $extra_fields == 2 )
+    {
+        $shall_pass = true;
+    }
+    
+
+    return array( $shall_pass, $user_id, $requested_user_login, $requested_user_email );
+}
+
+
+function uwp_social_get_provider_name_by_id( $provider_id)
+{
+    $providers = uwp_get_available_social_providers();
+
+    foreach( $providers as $provider ) {
+        if ( $provider['provider_id'] == $provider_id ) {
+            return $provider['provider_name'];
+        }
+    }
+
+    return $provider_id;
+}
+
+
+function uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to )
+{
+
+    $assets_base_url  = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/images/';
+    ob_start();
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="robots" content="NOINDEX, NOFOLLOW">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><?php _e("Redirecting...", 'uwp-social') ?> - <?php bloginfo('name'); ?></title>
+        <style type="text/css">
+            html {
+                background: #f1f1f1;
+            }
+            body {
+                background: #fff;
+                color: #444;
+                font-family: "Open Sans", sans-serif;
+                margin: 2em auto;
+                padding: 1em 2em;
+                max-width: 700px;
+                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+            }
+            #loading-screen {
+                margin-top: 50px;
+            }
+            #loading-screen div{
+                line-height: 20px;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align:center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+                margin-top:25px;
+            }
+        </style>
+        <script>
+            function init()
+            {
+                document.loginform.submit();
+            }
+        </script>
+    </head>
+    <body id="loading-screen" onload="init();">
+    <table width="100%" border="0">
+        <tr>
+            <td align="center"><img src="<?php echo $assets_base_url ?>loading.gif" /></td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div>
+                    <?php _e( "Processing, please wait...", 'uwp-social');  ?>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <form name="loginform" method="post" action="<?php echo $authenticated_url; ?>">
+        <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo esc_url( $redirect_to ); ?>">
+        <input type="hidden" id="provider" name="provider" value="<?php echo $provider ?>">
+        <input type="hidden" id="action" name="action" value="wordpress_social_authenticated">
+    </form>
+    </body>
+    </html>
+    <?php
+    $output = ob_get_contents();
+    ob_end_clean();
+    echo $output;
     die();
 }
