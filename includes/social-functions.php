@@ -260,23 +260,32 @@ function uwp_social_authenticated_process()
     $enable = uwp_get_option('enable_uwp_social_'.$provider, "0");
 
     if ($enable != "1") {
-        return uwp_social_render_error( __( "Unknown or disabled provider.", 'uwp-social' ) );
+        echo uwp_social_render_error( __( "Unknown or disabled provider.", 'uwp-social' ) );
     }
 
 
     if( 'login' == $auth_mode )
     {
+
+        $data = uwp_social_get_user_data( $provider, $redirect_to );
         // returns user data after he authenticate via hybridauth
-        list
-            (
-            $user_id                ,
-            $adapter                ,
-            $hybridauth_user_profile,
-            $requested_user_login   ,
-            $requested_user_email   ,
-            $wordpress_user_id
-            )
-            = uwp_social_get_user_data( $provider, $redirect_to );
+
+        if (is_string($data)) {
+            echo $data;
+            die();
+        } else {
+            list
+                (
+                $user_id                ,
+                $adapter                ,
+                $hybridauth_user_profile,
+                $requested_user_login   ,
+                $requested_user_email   ,
+                $wordpress_user_id
+                )
+                = $data;
+        }
+
 
         // if no associated user were found in uwp social profiles, create new WordPress user
         if( ! $wordpress_user_id )
@@ -324,7 +333,6 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $requested_user_email     = '';
     $wordpress_user_id        = 0;
 
-    /* 1. Grab the user profile from social network */
 
     if( ! ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] && $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] ) ) )
     {
@@ -338,12 +346,10 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $hybridauth_user_email = sanitize_email( $hybridauth_user_profile->email );
 
     
-    /* 4 Deletegate detection of user id to custom filters hooks */
 
     $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
 
 
-    /* 5. If Bouncer::Profile Completion is enabled and user didn't exist, we require the user to complete the registration (user name & email) */
     if( ! $user_id )
     {
         // Bouncer :: Accept new registrations?
@@ -353,7 +359,7 @@ function uwp_social_get_user_data( $provider, $redirect_to )
         }
         
         $require_email = true;
-        
+
         if(( $require_email == 1 && empty( $hybridauth_user_email )))
         {
             do
@@ -391,11 +397,7 @@ function uwp_social_get_user_data( $provider, $redirect_to )
             $user_id = (int) uwp_get_social_profile_by_email_verified( $hybridauth_user_profile->emailVerified );
         }
     }
-
-    /* 4 Deletegate detection of user id to custom filters hooks */
-
-    /* 6. returns user data */
-
+    
     return array(
         $user_id,
         $adapter,

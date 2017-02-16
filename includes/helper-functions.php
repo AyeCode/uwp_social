@@ -20,8 +20,18 @@ function uwp_social_get_provider_adapter( $provider )
     {
         require_once UWP_SOCIAL_LOGIN_PATH . "vendor/hybridauth/Hybrid/Auth.php";
     }
-    
-    return Hybrid_Auth::getAdapter( $provider );
+
+    $adapter                 = null;
+    $config = null;
+
+    try {
+        $adapter = Hybrid_Auth::getAdapter( $provider );
+    } catch( Exception $e )
+    {
+        echo uwp_social_render_error( $e, $config, $provider, $adapter );
+        die();
+    }
+    return $adapter;
 }
 
 function uwp_get_social_profile( $provider, $provider_uid )
@@ -45,7 +55,7 @@ function uwp_get_social_profile_by_email_verified( $email_verified )
 function uwp_social_store_user_profile( $user_id, $provider, $profile )
 {
     global $wpdb;
-
+    
     $wpdb->show_errors();
 
     $sql = "SELECT id, object_sha FROM `{$wpdb->prefix}uwp_social_profiles` where user_id = %d and provider = %s and identifier = %s";
