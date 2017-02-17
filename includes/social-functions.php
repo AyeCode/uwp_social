@@ -30,16 +30,40 @@ function uwp_get_available_social_providers() {
             "cat"               => "microblogging",
         ),
         array(
-            "provider_id"       => "linkedIn",
+            "provider_id"       => "linkedin",
             "provider_name"     => "LinkedIn",
             "new_app_link"      => "https://www.linkedin.com/secure/developer",
             "cat"               => "professional",
+        ),
+        array(
+            "provider_id"       => "instagram",
+            "provider_name"     => "Instagram",
+            "callback"          => true,
+            "require_client_id" => true,
+            "new_app_link"      => "http://instagr.am/developer/clients/manage/",
+            "cat"               => "media",
         ),
         array(
             "provider_id"       => "yahoo",
             "provider_name"     => "Yahoo!",
             "new_app_link"      => null,
             "cat"               => "pleasedie",
+        ),
+        array(
+            "provider_id"       => "wordpress",
+            "provider_name"     => "WordPress",
+            "require_client_id" => true,
+            "callback"          => true,
+            "new_app_link"      => "https://developer.wordpress.com/apps/new/",
+            "cat"               => "blogging",
+        ),
+        array(
+            "provider_id"       => "vkontakte",
+            "provider_name"     => "ВКонтакте",
+            "callback"          => true,
+            "require_client_id" => true,
+            "new_app_link"      => "http://vk.com/developers.php",
+            "cat"               => "socialnetworks",
         ),
     );
 
