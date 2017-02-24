@@ -119,20 +119,24 @@ class Users_WP_Social {
     private function includes() {
 
 
-        if (class_exists( 'Users_WP' )) {
+        $errors = uwp_social_check_plugin_requirements();
+
+        if ( empty ( $errors ) ) {
+
             require_once dirname( __FILE__ ) . '/includes/helper-functions.php';
             require_once dirname( __FILE__ ) . '/includes/social-functions.php';
             require_once dirname( __FILE__ ) . '/includes/widget-functions.php';
             require_once dirname( __FILE__ ) . '/includes/error-functions.php';
+
+            do_action( 'uwp_social_include_files' );
+
+            if ( ! is_admin() )
+                return;
+
+            require_once dirname( __FILE__ ) . '/includes/admin-settings.php';
+            do_action( 'uwp_social_include_admin_files' );
         }
 
-        do_action( 'uwp_social_include_files' );
-
-        if ( ! is_admin() )
-            return;
-
-        require_once dirname( __FILE__ ) . '/includes/admin-settings.php';
-        do_action( 'uwp_social_include_admin_files' );
 
     }
 
@@ -150,16 +154,50 @@ register_activation_hook( __FILE__, 'activate_uwp_social' );
 
 function init_uwp_social() {
 
-    if ( ! class_exists( 'Users_WP' ) ) {
-        if ( !class_exists( 'Users_WP_Extension_Activation' ) ) {
-            require_once dirname( __FILE__ ) . '/includes/class-ext-activation.php';
-        }
-        $activation = new Users_WP_Extension_Activation( plugin_dir_path( __FILE__ ), basename( __FILE__ ) );
-        $activation->run();
-        return Users_WP_Social::get_instance();
+    $errors = uwp_social_check_plugin_requirements();
 
-    } else {
-        return Users_WP_Social::get_instance();
+    if ( empty ( $errors ) ) {
+        Users_WP_Social::get_instance();
     }
+
 }
 add_action( 'plugins_loaded', 'init_uwp_social', apply_filters( 'uwp_social_action_priority', 10 ) );
+
+
+
+// -------------------------
+// Plugin requirement check
+// -------------------------
+function uwp_social_check_plugin_requirements()
+{
+    $errors = array ();
+
+    $name = get_file_data( __FILE__, array ( 'Plugin Name' ) );
+
+    if ( ! class_exists( 'Users_WP' ) ) {
+        $errors[] =  __( '<b>'.$name[0].'</b> addon requires <a href="https://wordpress.org/plugins/userswp/" target="_blank">UsersWP</a> plugin.', 'uwp-social' );
+    }
+    
+
+    return $errors;
+
+}
+
+add_action( 'admin_notices', 'uwp_social_check_admin_notices', 0 );
+function uwp_social_check_admin_notices()
+{
+    $errors = uwp_social_check_plugin_requirements();
+
+    if ( empty ( $errors ) )
+        return;
+
+    // Suppress "Plugin activated" notice.
+    unset( $_GET['activate'] );
+
+    printf(
+        '<div class="error"><p>%1$s</p>
+        </div>',
+        join( '</p><p>', $errors )
+    );
+
+}
