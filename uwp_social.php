@@ -146,8 +146,10 @@ class Users_WP_Social {
 
 
 function activate_uwp_social() {
-    require_once('includes/class-uwp-social-activator.php');
-    UWP_Social_Activator::activate();
+    if (is_main_site()) {
+        require_once('includes/class-uwp-social-activator.php');
+        UWP_Social_Activator::activate();
+    }
 }
 register_activation_hook( __FILE__, 'activate_uwp_social' );
 
@@ -175,7 +177,7 @@ function uwp_social_check_plugin_requirements()
     $name = get_file_data( __FILE__, array ( 'Plugin Name' ) );
 
     if ( ! class_exists( 'Users_WP' ) ) {
-        $errors[] =  __( '<b>'.$name[0].'</b> addon requires <a href="https://wordpress.org/plugins/userswp/" target="_blank">UsersWP</a> plugin.', 'uwp-social' );
+        $errors[] =  '<b>'.$name[0].'</b>'.__( ' addon requires <a href="https://wordpress.org/plugins/userswp/" target="_blank">UsersWP</a> plugin.', 'uwp-social' );
     }
     
 

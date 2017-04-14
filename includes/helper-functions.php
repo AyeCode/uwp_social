@@ -38,7 +38,7 @@ function uwp_get_social_profile( $provider, $provider_uid )
 {
     global $wpdb;
 
-    $sql = "SELECT user_id FROM `{$wpdb->prefix}uwp_social_profiles` WHERE provider = %s AND identifier = %s";
+    $sql = "SELECT user_id FROM `{$wpdb->base_prefix}uwp_social_profiles` WHERE provider = %s AND identifier = %s";
 
     return $wpdb->get_var( $wpdb->prepare( $sql, $provider, $provider_uid ) );
 }
@@ -47,7 +47,7 @@ function uwp_get_social_profile_by_email_verified( $email_verified )
 {
     global $wpdb;
 
-    $sql = "SELECT user_id FROM `{$wpdb->prefix}uwp_social_profiles` WHERE emailverified = %s";
+    $sql = "SELECT user_id FROM `{$wpdb->base_prefix}uwp_social_profiles` WHERE emailverified = %s";
 
     return $wpdb->get_var( $wpdb->prepare( $sql, $email_verified ) );
 }
@@ -58,7 +58,7 @@ function uwp_social_store_user_profile( $user_id, $provider, $profile )
     
     $wpdb->show_errors();
 
-    $sql = "SELECT id, object_sha FROM `{$wpdb->prefix}uwp_social_profiles` where user_id = %d and provider = %s and identifier = %s";
+    $sql = "SELECT id, object_sha FROM `{$wpdb->base_prefix}uwp_social_profiles` where user_id = %d and provider = %s and identifier = %s";
 
     $rs  = $wpdb->get_results( $wpdb->prepare( $sql, $user_id, $provider, $profile->identifier ) );
 
@@ -118,7 +118,7 @@ function uwp_social_store_user_profile( $user_id, $provider, $profile )
         }
     }
 
-    $wpdb->replace( "{$wpdb->prefix}uwp_social_profiles", $table_data );
+    $wpdb->replace( "{$wpdb->base_prefix}uwp_social_profiles", $table_data );
 
     return $wpdb->insert_id;
 }
