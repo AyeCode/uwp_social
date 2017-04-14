@@ -40,7 +40,7 @@ class UWP_Social_Activator
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . 'uwp_social_profiles';
+        $table_name = $wpdb->base_prefix . 'uwp_social_profiles';
 
         $wpdb->hide_errors();
 

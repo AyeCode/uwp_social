@@ -111,7 +111,7 @@ function uwp_social_login_buttons_display($args, $instance, $shortcode = false) 
     extract($args, EXTR_SKIP);
     ob_start();
     
-    $title = empty($instance['title']) ? __('Social Login', 'uwp') : apply_filters('uwp_social_login_title', $instance['title']);
+    $title = empty($instance['title']) ? __('Social Login', 'uwp-social') : apply_filters('uwp_social_login_title', $instance['title']);
     echo $before_widget;
     ?>
     <?php if ($title) {

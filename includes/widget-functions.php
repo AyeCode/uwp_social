@@ -9,10 +9,10 @@ class UWP_Social_Login_Widget extends WP_Widget
     function __construct()
     {
         $widget_ops = array(
-            'description' => __('Displays Social Login', 'uwp'),
+            'description' => __('Displays Social Login', 'uwp-social'),
             'classname' => 'uwp_progress_users',
         );
-        parent::__construct(false, $name = _x('UWP > Social Login', 'widget name', 'uwp'), $widget_ops);
+        parent::__construct(false, $name = _x('UWP > Social Login', 'widget name', 'uwp-social'), $widget_ops);
 
     }
 
@@ -39,11 +39,11 @@ class UWP_Social_Login_Widget extends WP_Widget
     {
         //widgetform in backend
         $instance = wp_parse_args((array)$instance, array(
-            'title' => __('Social Login', 'uwp'),
+            'title' => __('Social Login', 'uwp-social'),
         ));
         $title = strip_tags($instance['title']);
         ?>
-        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php echo __("Widget Title:", 'uwp'); ?> <input class="widefat"
+        <p><label for="<?php echo $this->get_field_id('title'); ?>"><?php echo __("Widget Title:", 'uwp-social'); ?> <input class="widefat"
                                                                                                                      id="<?php echo $this->get_field_id('title'); ?>"
                                                                                                                      name="<?php echo $this->get_field_name('title'); ?>"
                                                                                                                      type="text"
