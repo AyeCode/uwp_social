@@ -155,7 +155,7 @@ function uwp_social_authenticate_process() {
         // load hybridauth main class
         if( ! class_exists('Hybrid_Auth', false) )
         {
-            require_once UWP_SOCIAL_LOGIN_PATH . "vendor/hybridauth/Hybrid/Auth.php";
+            require_once UWP_SOCIAL_PATH . "vendor/hybridauth/Hybrid/Auth.php";
         }
 
         try
@@ -193,7 +193,7 @@ function uwp_social_authenticate_process() {
 function uwp_social_build_provider_config( $provider )
 {
     $config = array();
-    $config["base_url"] = UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL;
+    $config["base_url"] = UWP_SOCIAL_HYBRIDAUTH_ENDPOINT;
     $config["providers"] = array();
     $config["providers"][$provider] = array();
     $config["providers"][$provider]["enabled"] = true;
@@ -660,7 +660,7 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
 {
     do_action( "uwp_social_new_users_gateway_start", $provider, $redirect_to, $hybridauth_user_profile );
 
-    $assets_base_url = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/images/16x16/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/16x16/';
 
     // remove wsl widget
     remove_action( 'register_form', 'uwp_render_auth_widget_in_wp_register_form' );
@@ -730,7 +730,7 @@ function uwp_social_get_provider_name_by_id( $provider_id)
 function uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to )
 {
 
-    $assets_base_url  = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/images/';
+    $assets_base_url  = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ob_start();
     ?>
     <!DOCTYPE html>

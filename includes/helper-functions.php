@@ -18,7 +18,7 @@ function uwp_social_get_provider_adapter( $provider )
 {
     if( ! class_exists('Hybrid_Auth', false) )
     {
-        require_once UWP_SOCIAL_LOGIN_PATH . "vendor/hybridauth/Hybrid/Auth.php";
+        require_once UWP_SOCIAL_PATH . "vendor/hybridauth/Hybrid/Auth.php";
     }
 
     $adapter                 = null;
