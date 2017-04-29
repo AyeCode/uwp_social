@@ -50,7 +50,7 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
 function uwp_social_render_error_page( $message, $notes = null, $provider = null, $api_error = null, $php_exception = null )
 {
     ob_start();
-    $assets_base_url = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/images/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ?>
     <!DOCTYPE html>
     <html>
@@ -183,7 +183,7 @@ function uwp_social_render_notice( $message )
 function uwp_social_render_notice_page( $message )
 {
     ob_start();
-    $assets_base_url = UWP_SOCIAL_LOGIN_PLUGIN_URL . 'assets/img/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/img/';
     ?>
     <!DOCTYPE html>
     <html>

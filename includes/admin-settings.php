@@ -65,7 +65,7 @@ function uwp_social_google_tab_content($form) {
                     <li>Put your website domain in the <b>Authorized JavaScript origins</b> field. This should match with the current hostname <b>localhost</b>.</li>
                     <li>
                         Provide this URL as the <b>Authorized redirect URI</b> for your application: <br>
-                        <span style="color:green"><?php echo UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL; ?>?hauth.done=Google</span>
+                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Google</span>
                     </li>
                 </ul>
             </li>
@@ -164,7 +164,7 @@ function uwp_social_twitter_tab_content($form) {
             </li>
             <li>
                 Provide this URL as the <b>Callback URL</b> for your application: <br>
-                <code><?php echo UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL; ?>?hauth.done=Twitter</code>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Twitter</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials (Consumer Key and Secret) into the boxes above.
@@ -480,7 +480,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=google',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=google',
         ),
     );
 
@@ -524,7 +524,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=facebook',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=facebook',
         ),
     );
 
@@ -568,7 +568,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=twitter',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=twitter',
         ),
     );
 
@@ -612,7 +612,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=linkedin',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=linkedin',
         ),
     );
 
@@ -656,7 +656,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=instagram',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=instagram',
         ),
     );
 
@@ -700,7 +700,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=yahoo',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=yahoo',
         ),
     );
 
@@ -744,7 +744,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=wordpress',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=wordpress',
         ),
     );
 
@@ -788,7 +788,7 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_LOGIN_HYBRIDAUTH_ENDPOINT_URL.'?hauth.done=vkontakte',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=vkontakte',
         ),
     );
 
