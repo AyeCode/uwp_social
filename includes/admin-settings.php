@@ -430,14 +430,7 @@ add_filter('uwp_registered_settings', 'uwp_add_social_settings');
 function uwp_add_social_settings($uwp_settings) {
 
     $options = array(
-        'disable_uwp_social' => array(
-            'id'   => 'disable_uwp_social',
-            'name' => 'Disable Social',
-            'desc' => '',
-            'type' => 'checkbox',
-            'std'  => '1',
-            'class' => 'uwp_label_inline',
-        ),
+        
     );
 
     $google_options = array(
@@ -449,8 +442,8 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_google_id' => array(
-            'id' => 'uwp_social_google_id',
+        'uwp_social_google_key' => array(
+            'id' => 'uwp_social_google_key',
             'name' => __( 'Google APP ID', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',

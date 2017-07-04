@@ -3,7 +3,7 @@
 Plugin Name: UsersWP - Social Login
 Plugin URI: https://wpgeodirectory.com
 Description: Social add-on for UsersWP.
-Version: 1.0.0
+Version: 1.0.0-dev
 Author: GeoDirectory team
 Author URI: https://wpgeodirectory.com
 License: GPL-2.0+
@@ -16,7 +16,7 @@ Tested up to: 4.6
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'UWP_SOCIAL_VERSION', '1.0.0' );
+define( 'UWP_SOCIAL_VERSION', '1.0.0-dev' );
 
 define( 'UWP_SOCIAL_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -31,7 +31,7 @@ class Users_WP_Social {
     /**
      * Plugin Version
      */
-    private $version = '1.0.0';
+    private $version = '1.0.0-dev';
 
     private $file;
 

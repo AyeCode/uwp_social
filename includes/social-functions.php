@@ -74,7 +74,6 @@ function uwp_get_available_social_providers() {
 
 function uwp_social_login_buttons() {
     $providers = uwp_get_available_social_providers();
-
     ?>
     <ul class="uwp_social_login_ul">
     <?php
@@ -83,7 +82,6 @@ function uwp_social_login_buttons() {
         $provider_name = isset( $provider["provider_name"] ) ? $provider["provider_name"] : '';
 
         $enable = uwp_get_option('enable_uwp_social_'.$provider_id, "0");
-
         if ($enable == "1") {
             $key = uwp_get_option('uwp_social_'.$provider_id.'_key', "");
             $secret = uwp_get_option('uwp_social_'.$provider_id.'_secret', "");
