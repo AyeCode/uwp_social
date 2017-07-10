@@ -290,8 +290,8 @@ function uwp_social_authenticated_process()
     {
 
         $data = uwp_social_get_user_data( $provider, $redirect_to );
-        // returns user data after he authenticate via hybridauth
 
+        // returns user data after he authenticate via hybridauth
         if (is_string($data)) {
             echo $data;
             die();
@@ -312,9 +312,15 @@ function uwp_social_authenticated_process()
         // if no associated user were found in uwp social profiles, create new WordPress user
         if( ! $wordpress_user_id )
         {
-            $user_id = uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $requested_user_login, $requested_user_email );
 
-            $is_new_user = true;
+            if (is_string($hybridauth_user_profile)) {
+                echo $hybridauth_user_profile;
+                die();
+            } else {
+                $user_id = uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $requested_user_login, $requested_user_email );
+
+                $is_new_user = true;
+            }
         }else{
             $user_id = $wordpress_user_id;
             $is_new_user = false;
@@ -323,7 +329,6 @@ function uwp_social_authenticated_process()
 
     $wp_user = get_userdata( $user_id );
 
-    
     // store user profile
     uwp_social_update_user_data( $is_new_user, $user_id, $provider, $adapter, $hybridauth_user_profile, $wp_user );
 
@@ -355,19 +360,25 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $requested_user_email     = '';
     $wordpress_user_id        = 0;
 
+    if ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] ) {
+        $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] );
+    } else {
+        list($error,$hybridauth_user_profile) = uwp_request_user_social_profile( $provider );
+        if (!$error) {
+            $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
+        }
+    }
 
-    if( ! ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] && $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] ) ) )
-    {
-        $hybridauth_user_profile = uwp_request_user_social_profile( $provider );
-
-        $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
+    // must be error templte
+    if (is_string($hybridauth_user_profile)) {
+        echo $hybridauth_user_profile;
+        die();
     }
 
     $adapter = uwp_social_get_provider_adapter( $provider );
 
     $hybridauth_user_email = sanitize_email( $hybridauth_user_profile->email );
 
-    
 
     $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
 
@@ -576,9 +587,11 @@ function uwp_request_user_social_profile( $provider )
     $adapter                 = null;
     $config                  = null;
     $hybridauth_user_profile = null;
+    var_dump($hybridauth_user_profile);
 
     try
     {
+        $provider = ucfirst($provider);
         // get idp adapter
         $adapter = uwp_social_get_provider_adapter( $provider );
 
@@ -589,22 +602,32 @@ function uwp_request_user_social_profile( $provider )
         {
             // grab user profile via hybridauth api
             $hybridauth_user_profile = $adapter->getUserProfile();
+            //var_dump($hybridauth_user_profile);
         }
 
         // if user not connected to provider (ie: session lost, url forged)
         else
         {
-            return uwp_social_render_notice( sprintf( __( "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try again</a>.", 'uwp-social' ), $provider, site_url( 'wp-login.php', 'login_post' ) ) );
+            return array(
+                true,
+                uwp_social_render_notice( sprintf( __( "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try again</a>.", 'uwp-social' ), $provider, site_url( 'wp-login.php', 'login_post' ) ) )
+            );
         }
     }
 
         // if things didn't go as expected, we dispay the appropriate error message
     catch( Exception $e )
     {
-        return uwp_social_render_error( $e, $config, $provider, $adapter );
+        return array(
+            true,
+            uwp_social_render_error( $e, $config, $provider, $adapter )
+        );
     }
 
-    return $hybridauth_user_profile;
+    return array(
+        false,
+        $hybridauth_user_profile
+    );
 }
 
 

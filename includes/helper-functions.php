@@ -54,6 +54,7 @@ function uwp_get_social_profile_by_email_verified( $email_verified )
 
 function uwp_social_store_user_profile( $user_id, $provider, $profile )
 {
+    
     global $wpdb;
     
     $wpdb->show_errors();
@@ -107,7 +108,7 @@ function uwp_social_store_user_profile( $user_id, $provider, $profile )
         'city',
         'zip'
     );
-
+    
     foreach( $profile as $key => $value )
     {
         $key = strtolower($key);

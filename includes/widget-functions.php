@@ -24,6 +24,9 @@ class UWP_Social_Login_Widget extends WP_Widget
      */
     function widget($args, $instance)
     {
+        if (is_user_logged_in()) {
+            return;
+        }
         echo uwp_social_login_buttons_display($args, $instance);
     }
 
