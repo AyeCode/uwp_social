@@ -12,7 +12,11 @@ Social Login addon for UsersWP.
 
 == Description ==
 
-Social Login addon for UsersWP
+Social Login addon for UsersWP.
+
+This addon lets your user to register and login with popular sites like Facebook, Google etc.
+
+This addon is a Work In Progress.
 
 100% translatable.
 

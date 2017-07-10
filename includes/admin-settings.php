@@ -430,14 +430,7 @@ add_filter('uwp_registered_settings', 'uwp_add_social_settings');
 function uwp_add_social_settings($uwp_settings) {
 
     $options = array(
-        'disable_uwp_social' => array(
-            'id'   => 'disable_uwp_social',
-            'name' => 'Disable Social',
-            'desc' => '',
-            'type' => 'checkbox',
-            'std'  => '1',
-            'class' => 'uwp_label_inline',
-        ),
+        
     );
 
     $google_options = array(
@@ -465,14 +458,14 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Google APP Secret', 'uwp-social' )
         ),
-        'uwp_social_google_scope' => array(
-            'id' => 'uwp_social_google_scope',
-            'name' => __( 'Google APP Scope', 'uwp-social' ),
-            'desc' => "",
-            'type' => 'text',
-            'size' => 'regular',
-            'placeholder' => __( 'Enter Google APP Scope', 'uwp-social' )
-        ),
+//        'uwp_social_google_scope' => array(
+//            'id' => 'uwp_social_google_scope',
+//            'name' => __( 'Google APP Scope', 'uwp-social' ),
+//            'desc' => "",
+//            'type' => 'text',
+//            'size' => 'regular',
+//            'placeholder' => __( 'Enter Google APP Scope', 'uwp-social' )
+//        ),
         'uwp_social_google_callback' => array(
             'id' => 'uwp_social_google_callback',
             'name' => __( 'Google APP Callback URL', 'uwp-social' ),
@@ -509,14 +502,14 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Facebook API Secret', 'uwp-social' )
         ),
-        'uwp_social_facebook_scope' => array(
-            'id' => 'uwp_social_facebook_scope',
-            'name' => __( 'Facebook APP Scope', 'uwp-social' ),
-            'desc' => "",
-            'type' => 'text',
-            'size' => 'regular',
-            'placeholder' => __( 'Enter Facebook APP Scope', 'uwp-social' )
-        ),
+//        'uwp_social_facebook_scope' => array(
+//            'id' => 'uwp_social_facebook_scope',
+//            'name' => __( 'Facebook APP Scope', 'uwp-social' ),
+//            'desc' => "",
+//            'type' => 'text',
+//            'size' => 'regular',
+//            'placeholder' => __( 'Enter Facebook APP Scope', 'uwp-social' )
+//        ),
         'uwp_social_facebook_callback' => array(
             'id' => 'uwp_social_facebook_callback',
             'name' => __( 'Facebook APP Callback URL', 'uwp-social' ),
@@ -553,14 +546,14 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Twitter API Secret', 'uwp-social' )
         ),
-        'uwp_social_twitter_scope' => array(
-            'id' => 'uwp_social_twitter_scope',
-            'name' => __( 'Twitter APP Scope', 'uwp-social' ),
-            'desc' => "",
-            'type' => 'text',
-            'size' => 'regular',
-            'placeholder' => __( 'Enter Twitter APP Scope', 'uwp-social' )
-        ),
+//        'uwp_social_twitter_scope' => array(
+//            'id' => 'uwp_social_twitter_scope',
+//            'name' => __( 'Twitter APP Scope', 'uwp-social' ),
+//            'desc' => "",
+//            'type' => 'text',
+//            'size' => 'regular',
+//            'placeholder' => __( 'Enter Twitter APP Scope', 'uwp-social' )
+//        ),
         'uwp_social_twitter_callback' => array(
             'id' => 'uwp_social_twitter_callback',
             'name' => __( 'Twitter APP Callback URL', 'uwp-social' ),
@@ -597,14 +590,14 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter LinkedIn API Secret', 'uwp-social' )
         ),
-        'uwp_social_linkedin_scope' => array(
-            'id' => 'uwp_social_linkedin_scope',
-            'name' => __( 'LinkedIn APP Scope', 'uwp-social' ),
-            'desc' => "",
-            'type' => 'text',
-            'size' => 'regular',
-            'placeholder' => __( 'Enter LinkedIn APP Scope', 'uwp-social' )
-        ),
+//        'uwp_social_linkedin_scope' => array(
+//            'id' => 'uwp_social_linkedin_scope',
+//            'name' => __( 'LinkedIn APP Scope', 'uwp-social' ),
+//            'desc' => "",
+//            'type' => 'text',
+//            'size' => 'regular',
+//            'placeholder' => __( 'Enter LinkedIn APP Scope', 'uwp-social' )
+//        ),
         'uwp_social_linkedin_callback' => array(
             'id' => 'uwp_social_linkedin_callback',
             'name' => __( 'LinkedIn APP Callback URL', 'uwp-social' ),
@@ -685,14 +678,14 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Yahoo API Secret', 'uwp-social' )
         ),
-        'uwp_social_yahoo_scope' => array(
-            'id' => 'uwp_social_yahoo_scope',
-            'name' => __( 'Yahoo APP Scope', 'uwp-social' ),
-            'desc' => "",
-            'type' => 'text',
-            'size' => 'regular',
-            'placeholder' => __( 'Enter Yahoo APP Scope', 'uwp-social' )
-        ),
+//        'uwp_social_yahoo_scope' => array(
+//            'id' => 'uwp_social_yahoo_scope',
+//            'name' => __( 'Yahoo APP Scope', 'uwp-social' ),
+//            'desc' => "",
+//            'type' => 'text',
+//            'size' => 'regular',
+//            'placeholder' => __( 'Enter Yahoo APP Scope', 'uwp-social' )
+//        ),
         'uwp_social_yahoo_callback' => array(
             'id' => 'uwp_social_yahoo_callback',
             'name' => __( 'Yahoo APP Callback URL', 'uwp-social' ),

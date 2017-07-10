@@ -67,6 +67,7 @@ class Hybrid_Providers_Google extends Hybrid_Provider_Model_OAuth2
 	*/
 	function getUserProfile()
 	{
+
 		// refresh tokens if needed 
 		$this->refreshToken();
 
