@@ -25,6 +25,7 @@ function uwp_get_available_social_providers() {
             "provider_id"       => "twitter",
             "provider_name"     => "Twitter",
             "callback"          => true,
+            "require_client_id" => false,
             "new_app_link"      => "https://dev.twitter.com/apps",
             "default_network"  => true,
             "cat"               => "microblogging",
@@ -32,6 +33,8 @@ function uwp_get_available_social_providers() {
         array(
             "provider_id"       => "linkedin",
             "provider_name"     => "LinkedIn",
+            "callback"          => true,
+            "require_client_id" => true,
             "new_app_link"      => "https://www.linkedin.com/secure/developer",
             "cat"               => "professional",
         ),
@@ -46,6 +49,8 @@ function uwp_get_available_social_providers() {
         array(
             "provider_id"       => "yahoo",
             "provider_name"     => "Yahoo!",
+            "require_client_id" => true,
+            "callback"          => true,
             "new_app_link"      => null,
             "cat"               => "pleasedie",
         ),
@@ -83,7 +88,11 @@ function uwp_social_login_buttons() {
 
         $enable = uwp_get_option('enable_uwp_social_'.$provider_id, "0");
         if ($enable == "1") {
-            $key = uwp_get_option('uwp_social_'.$provider_id.'_key', "");
+            if (isset($provider["require_client_id"]) && $provider["require_client_id"]) {
+                $key = uwp_get_option('uwp_social_'.$provider_id.'_id', "");
+            } else {
+                $key = uwp_get_option('uwp_social_'.$provider_id.'_key', "");
+            }
             $secret = uwp_get_option('uwp_social_'.$provider_id.'_secret', "");
             $icon = plugins_url()."/uwp_social/assets/images/32/".$provider_id.".png";
             $url = home_url() . "/?action=uwp_social_authenticate&provider=".$provider_id;
@@ -587,7 +596,7 @@ function uwp_request_user_social_profile( $provider )
     $adapter                 = null;
     $config                  = null;
     $hybridauth_user_profile = null;
-    var_dump($hybridauth_user_profile);
+    //var_dump($hybridauth_user_profile);
 
     try
     {

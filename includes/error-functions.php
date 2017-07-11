@@ -183,7 +183,7 @@ function uwp_social_render_notice( $message )
 function uwp_social_render_notice_page( $message )
 {
     ob_start();
-    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/img/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ?>
     <!DOCTYPE html>
     <html>
