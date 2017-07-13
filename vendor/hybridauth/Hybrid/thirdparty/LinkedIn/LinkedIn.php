@@ -716,9 +716,9 @@ class LinkedIn {
 		Hybrid_Error::setApiError( $http_code . '. ' . preg_replace('/\s+/', ' ', $return_data['linkedin'] ) );
 	}
 
-	if( defined( 'WORDPRESS_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
+	if( defined( 'UWP_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
 	{
-		do_action( 'wsl_log_provider_api_call', 'OAuth1.LinkedIn', $url, $method, $data, $http_code, $this->http_info, $return_data['linkedin'] );
+		do_action( 'uwp_log_provider_api_call', 'OAuth1.LinkedIn', $url, $method, $data, $http_code, $this->http_info, $return_data['linkedin'] );
 	}
 	//-
         

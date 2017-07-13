@@ -1,0 +1,18 @@
+.uwp_social_login_ul {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  li {
+    padding: 0;
+    margin: 0;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border: none !important;
+    float: left;
+    a, a:hover, img {
+      box-shadow: none !important;
+      -moz-box-shadow: none !important;
+    }
+  }
+}

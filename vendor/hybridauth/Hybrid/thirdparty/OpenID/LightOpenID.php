@@ -221,9 +221,9 @@ class LightOpenID
 			Hybrid_Error::setApiError( $http_code . '. ' . preg_replace('/\s+/', ' ', $response ) );
 		}
 
-		if( defined( 'WORDPRESS_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
+		if( defined( 'UWP_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
 		{
-			do_action( 'wsl_log_provider_api_call', 'OpenID', $url . ($method == 'GET' && $params ? '?' . $params : ''), $method, $params, curl_getinfo($curl), curl_getinfo($curl), $response );
+			do_action( 'uwp_log_provider_api_call', 'OpenID', $url . ($method == 'GET' && $params ? '?' . $params : ''), $method, $params, curl_getinfo($curl), curl_getinfo($curl), $response );
 		}
         //-
 

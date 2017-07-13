@@ -14,7 +14,7 @@ function uwp_email_exists( $email )
     return false;
 }
 
-function uwp_social_get_provider_adapter( $provider )
+function uwp_social_get_provider_adapter( $provider_id )
 {
     if( ! class_exists('Hybrid_Auth', false) )
     {
@@ -25,10 +25,10 @@ function uwp_social_get_provider_adapter( $provider )
     $config = null;
 
     try {
-        $adapter = Hybrid_Auth::getAdapter( $provider );
+        $adapter = Hybrid_Auth::getAdapter( $provider_id );
     } catch( Exception $e )
     {
-        echo uwp_social_render_error( $e, $config, $provider, $adapter );
+        echo uwp_social_render_error( $e, $config, $provider_id, $adapter );
         die();
     }
     return $adapter;

@@ -22,6 +22,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 	*/
 	function initialize() 
 	{
+
 		if ( ! $this->config["keys"]["id"] || ! $this->config["keys"]["secret"] ){
 			throw new Exception( "Your application id and secret are required in order to connect to {$this->providerId}.", 4 );
 		}
@@ -85,7 +86,7 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 	* finish login step 
 	*/
 	function loginFinish()
-	{ 
+	{
 		// in case we get error_reason=user_denied&error=access_denied
 		if ( isset( $_REQUEST['error'] ) && $_REQUEST['error'] == "access_denied" ){ 
 			throw new Exception( "Authentication failed! The user denied your request.", 5 );
@@ -105,7 +106,6 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 
 			$this->api->setAccessToken( $this->token("access_token") );
 		}
-
 		// if auth_type is used, then an auth_nonce is passed back, and we need to check it.
 		if(isset($_REQUEST['auth_nonce'])){
 			
@@ -118,15 +118,15 @@ class Hybrid_Providers_Facebook extends Hybrid_Provider_Model
 				throw new Exception( "Authentication failed! Invalid nonce used for reauthentication.", 5 );
 			}
 		}
-
+		
 		// try to get the UID of the connected user from fb, should be > 0 
 		if ( ! $this->api->getUser() ){
 			throw new Exception( "Authentication failed! {$this->providerId} returned an invalid user id.", 5 );
 		}
-
+		
 		// set user as logged in
 		$this->setUserConnected();
-
+		
 		// store facebook access token 
 		$this->token( "access_token", $this->api->getAccessToken() );
 	}

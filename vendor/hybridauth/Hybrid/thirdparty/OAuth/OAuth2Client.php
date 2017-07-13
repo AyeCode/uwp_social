@@ -204,9 +204,9 @@ class OAuth2Client
 			Hybrid_Error::setApiError( $this->http_code . '. ' . preg_replace('/\s+/', ' ', $response ) );
 		}
 
-		if( defined( 'WORDPRESS_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
+		if( defined( 'UWP_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
 		{
-			do_action( 'wsl_log_provider_api_call', 'OAuth2', $url, $type, $params, $this->http_code, $this->http_info, $response );
+			do_action( 'uwp_log_provider_api_call', 'OAuth2', $url, $type, $params, $this->http_code, $this->http_info, $response );
 		}
 		//-
 

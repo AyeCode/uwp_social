@@ -604,21 +604,21 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_yahoo_key' => array(
-            'id' => 'uwp_social_yahoo_key',
-            'name' => __( 'Yahoo API Key', 'uwp-social' ),
+        'uwp_social_yahoo_id' => array(
+            'id' => 'uwp_social_yahoo_id',
+            'name' => __( 'Yahoo Client ID', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Yahoo API Key', 'uwp-social' )
+            'placeholder' => __( 'Enter Yahoo Client ID', 'uwp-social' )
         ),
         'uwp_social_yahoo_secret' => array(
             'id' => 'uwp_social_yahoo_secret',
-            'name' => __( 'Yahoo API Secret', 'uwp-social' ),
+            'name' => __( 'Yahoo Client Secret', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Yahoo API Secret', 'uwp-social' )
+            'placeholder' => __( 'Enter Yahoo Client Secret', 'uwp-social' )
         ),
 //        'uwp_social_yahoo_scope' => array(
 //            'id' => 'uwp_social_yahoo_scope',

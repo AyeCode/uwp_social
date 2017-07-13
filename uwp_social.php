@@ -82,6 +82,7 @@ class Users_WP_Social {
     private function setup_actions() {
         if (class_exists( 'Users_WP' )) {
             add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+            add_action('login_enqueue_scripts', array($this, 'enqueue_styles'));
         }
         do_action( 'uwp_social_setup_actions' );
     }
@@ -129,6 +130,7 @@ class Users_WP_Social {
             require_once dirname( __FILE__ ) . '/includes/social-functions.php';
             require_once dirname( __FILE__ ) . '/includes/widget-functions.php';
             require_once dirname( __FILE__ ) . '/includes/error-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/linking-functions.php';
 
             do_action( 'uwp_social_include_files' );
 
