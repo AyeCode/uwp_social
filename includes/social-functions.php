@@ -136,15 +136,15 @@ function uwp_social_login_buttons_display($args, $instance, $shortcode = false) 
 
 add_action('init', 'uwp_social_authenticate_init');
 function uwp_social_authenticate_init() {
-    if (isset($_GET['action']) && $_GET['action'] == 'uwp_social_authenticate') {
+    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_authenticate') {
         uwp_social_authenticate_process();
     }
 
-    if (isset($_GET['action']) && $_GET['action'] == 'uwp_social_authenticated') {
+    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_authenticated') {
         uwp_social_authenticated_process();
     }
 
-    if (isset($_GET['action']) && $_GET['action'] == 'uwp_social_account_linking') {
+    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_account_linking') {
         uwp_social_authenticated_process();
     }
 }
@@ -154,8 +154,8 @@ function uwp_social_authenticate_process() {
         wp_redirect(home_url());
         die();
     } else {
-        if (isset($_GET['provider']) && !empty($_GET['provider'])) {
-            $provider = strip_tags(esc_sql(trim($_GET['provider'])));
+        if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
+            $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
         } else {
             //todo: maybe display error?
             $provider = 'google';
@@ -265,8 +265,8 @@ function uwp_social_authenticated_process()
         $redirect_to = home_url('/');
     }
 
-    if (isset($_GET['provider']) && !empty($_GET['provider'])) {
-        $provider = strip_tags(esc_sql(trim($_GET['provider'])));
+    if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
+        $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
     } else {
         //todo: maybe display error?
         $provider = 'Google';
@@ -388,15 +388,34 @@ function uwp_social_get_user_data( $provider, $redirect_to )
 
     if( ! $user_id )
     {
-        // Bouncer :: Accept new registrations?
+        // Accept new registrations?
         if (!get_option('users_can_register')) 
         {
             return uwp_social_render_notice( __( "Registration is now closed.", 'uwp-social' ) );
         }
-        
-        $require_email = true;
 
-        if(( $require_email == 1 && empty( $hybridauth_user_email )))
+        $linking_enabled   = apply_filters('uwp_social_linking_enabled', true, $provider);
+        $require_email   = apply_filters('uwp_social_require_email', true, $provider);
+        $change_username = apply_filters('uwp_social_change_username', true, $provider);
+
+        if( $linking_enabled )
+        {
+            do
+            {
+                list
+                    (
+                    $shall_pass,
+                    $user_id,
+                    $requested_user_login,
+                    $requested_user_email
+                    )
+                    = uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user_profile );
+            }
+            while( ! $shall_pass );
+            $wordpress_user_id = $user_id;
+        }
+
+        elseif(( $require_email && empty( $hybridauth_user_email ) ) || $change_username)
         {
             do
             {
@@ -693,7 +712,7 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
 {
     do_action( "uwp_social_new_users_gateway_start", $provider, $redirect_to, $hybridauth_user_profile );
 
-    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/16x16/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/16/';
 
     remove_action( 'register_form', 'uwp_render_auth_widget_in_wp_register_form' );
 
@@ -711,7 +730,7 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
 
     $requested_user_email        = apply_filters( 'uwp_new_users_gateway_alter_requested_email', $requested_user_email );
     $requested_user_login        = apply_filters( 'uwp_new_users_gateway_alter_requested_login', $requested_user_login );
-
+    
     $linking_data = array();
 
     $user_id    = 0;
@@ -726,6 +745,115 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
     $linking_enabled   = apply_filters('uwp_social_linking_enabled', false, $provider);
     $require_email   = apply_filters('uwp_social_require_email', false, $provider);
     $change_username = apply_filters('uwp_social_change_username', false, $provider);
+
+    if( isset( $_REQUEST["account_linking"] ) )
+    {
+        if( !$linking_enabled )
+        {
+            return uwp_social_render_notice( __( "Not tonight.", 'uwp-social' ) );
+        }
+
+        $account_linking = true;
+
+        $username = isset( $_REQUEST["user_login"]    ) ? trim( $_REQUEST["user_login"]    ) : '';
+        $password = isset( $_REQUEST["user_password"] ) ? trim( $_REQUEST["user_password"] ) : '';
+
+        # http://codex.wordpress.org/Function_Reference/wp_authenticate
+        $user = wp_authenticate( $username, $password );
+
+        // WP_Error object?
+        if( is_wp_error( $user ) )
+        {
+            // we give no useful hint.
+            $account_linking_errors[] =
+                sprintf(
+                    __(
+                        '<strong>ERROR</strong>: Invalid username or incorrect password. <a href="%s">Lost your password</a>?',
+                        'uwp-social'
+                    ),
+                    wp_lostpassword_url( home_url() )
+                );
+        }
+
+        elseif( is_a( $user, 'WP_User') )
+        {
+            $user_id = $user->ID;
+
+            $shall_pass = true;
+        }
+    } elseif( isset( $_REQUEST["profile_completion"] ) )
+    {
+        // Profile Completion enabled?
+        if( !$require_email && !$change_username ) {
+            $shall_pass = true;
+        }
+
+        // otherwise we request email &or username &or extra fields
+        else
+        {
+            $profile_completion = true;
+
+            // validate usermail
+            if( $require_email )
+            {
+                if ( empty( $requested_user_email ) )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Please type your e-mail address.', 'uwp-social' );
+                }
+
+                if ( ! is_email( $requested_user_email ) )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Please enter a valid email address.', 'uwp-social' );
+                }
+
+                if ( uwp_email_exists( $requested_user_email ) )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, that email address is already used!', 'uwp-social' );
+                }
+            }
+
+            // validate username
+            if( $change_username )
+            {
+                $illegal_names = array(  'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
+
+                $illegal_names = apply_filters( 'uwp_new_users_gateway_alter_illegal_names', $illegal_names );
+
+                if ( in_array( $requested_user_login, $illegal_names ) == true )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: That username is not allowed.', 'uwp-social' );
+                }
+
+                if ( strlen( $requested_user_login ) < 4 )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Username must be at least 4 characters.', 'uwp-social' );
+                }
+
+                if ( strpos( ' ' . $requested_user_login, '_' ) != false )
+                {
+                    // $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, usernames may not contain the character &#8220;_&#8221;!', 'uwp-social' );
+                }
+
+                if ( preg_match( '/^[0-9]*$/', $requested_user_login ) )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, usernames must have letters too!', 'uwp-social' );
+                }
+
+                if ( username_exists( $requested_user_login) )
+                {
+                    $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, that username already exists!', 'uwp-social' );
+                }
+            }
+
+
+            $profile_completion_errors = apply_filters( 'uwp_new_users_gateway_alter_profile_completion_errors', $profile_completion_errors );
+
+            if( ! $profile_completion_errors )
+            {
+                $shall_pass = true;
+            }
+        }
+    }
 
 
     if( !$require_email && !$change_username ) {
@@ -873,4 +1001,25 @@ function uwp_social_admin_notification( $user_id, $provider )
     $message .= sprintf(__('Email: %s'                             , 'uwp-social'), $user->user_email) . "\r\n";
 
     wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'uwp-social'), $blogname), $message);
+}
+
+
+add_filter( 'uwp_social_require_email', 'uwp_social_require_email_value', 10, 2 );
+function uwp_social_require_email_value($value, $provider) {
+    $provider = strtolower($provider);
+    $enabled = uwp_get_option('uwp_social_'.$provider.'_pick_email', "0");
+    if ($enabled == '1') {
+        $value = true;
+    }
+    return $value;
+}
+
+add_filter( 'uwp_social_change_username', 'uwp_social_change_username_value', 10, 2 );
+function uwp_social_change_username_value($value, $provider) {
+    $provider = strtolower($provider);
+    $enabled = uwp_get_option('uwp_social_'.$provider.'_pick_username', "0");
+    if ($enabled == '1') {
+        $value = true;
+    }
+    return $value;
 }

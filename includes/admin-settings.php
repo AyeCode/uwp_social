@@ -65,7 +65,7 @@ function uwp_social_google_tab_content($form) {
                     <li>Put your website domain in the <b>Authorized JavaScript origins</b> field. This should match with the current hostname <b>localhost</b>.</li>
                     <li>
                         Provide this URL as the <b>Authorized redirect URI</b> for your application: <br>
-                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=google</span>
+                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Google</span>
                     </li>
                 </ul>
             </li>
@@ -164,7 +164,7 @@ function uwp_social_twitter_tab_content($form) {
             </li>
             <li>
                 Provide this URL as the <b>Callback URL</b> for your application: <br>
-                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=twitter</code>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Twitter</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials (Consumer Key and Secret) into the boxes above.
@@ -194,7 +194,7 @@ function uwp_social_linkedin_tab_content($form) {
             </li>
             <li>
                 Put your website domain in the OAuth 2.0 Authorized Redirect URLs: (i.e
-                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=linkedin</code>)
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=LinkedIn</code>)
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -217,7 +217,7 @@ function uwp_social_instagram_tab_content($form) {
                 Fill out any required fields such as the application name and description.
             </li>
             <li>
-                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=instagram</code>
+                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Instagram</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -243,7 +243,7 @@ function uwp_social_yahoo_tab_content($form) {
             </li>
             <li>
                 Specify the domain to which your application will be returning after successfully authenticating. (i.e.
-                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=yahoo</code>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Yahoo</code>
             </li>
             <li>
                 Select private user data APIs that your application needs to access.
@@ -261,33 +261,15 @@ function uwp_social_vkontakte_tab_content($form) {
     echo $form;
     ?>
     <div class="uwp_social_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>LinkedIn API</code>
-            and these credentials are needed in order for <b>LinkedIn</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>LinkedIn API Application</b>, follow the steps
-        </p>
-
         <ol>
             <li>
-                First go to: <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a>
-            </li>
-            <li>
-                Create a new application.
+                Go to <a href="https://vk.com/apps?act=manage">vk.com/apps?act=manage</a> and <strong>create a new application</strong>.
             </li>
             <li>
                 Fill out any required fields such as the application name and description.
             </li>
             <li>
-                Choose <b>Live</b> on <b>Live Status</b>.
+                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Vkontakte</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -302,33 +284,15 @@ function uwp_social_wordpress_tab_content($form) {
     echo $form;
     ?>
     <div class="uwp_social_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>LinkedIn API</code>
-            and these credentials are needed in order for <b>LinkedIn</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>LinkedIn API Application</b>, follow the steps
-        </p>
-
         <ol>
             <li>
-                First go to: <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a>
-            </li>
-            <li>
-                Create a new application.
+                Go to <a href="https://developer.wordpress.com/apps/">developer.wordpress.com/apps/</a> and <strong>create a new application</strong>.
             </li>
             <li>
                 Fill out any required fields such as the application name and description.
             </li>
             <li>
-                Choose <b>Live</b> on <b>Live Status</b>.
+                Provide this URL as the <strong>Redirect URLs</strong> for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=WordPress</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -400,14 +364,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Google APP Secret', 'uwp-social' )
         ),
-//        'uwp_social_google_scope' => array(
-//            'id' => 'uwp_social_google_scope',
-//            'name' => __( 'Google APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Google APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_google_callback' => array(
             'id' => 'uwp_social_google_callback',
             'name' => __( 'Google APP Callback URL', 'uwp-social' ),
@@ -415,7 +371,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=google',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Google',
+        ),
+        'uwp_social_google_pick_username' => array(
+            'id'   => 'uwp_social_google_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_google_pick_email' => array(
+            'id'   => 'uwp_social_google_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -444,14 +416,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Facebook API Secret', 'uwp-social' )
         ),
-//        'uwp_social_facebook_scope' => array(
-//            'id' => 'uwp_social_facebook_scope',
-//            'name' => __( 'Facebook APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Facebook APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_facebook_callback' => array(
             'id' => 'uwp_social_facebook_callback',
             'name' => __( 'Facebook APP Callback URL', 'uwp-social' ),
@@ -459,7 +423,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=facebook',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Facebook',
+        ),
+        'uwp_social_facebook_pick_username' => array(
+            'id'   => 'uwp_social_facebook_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_facebook_pick_email' => array(
+            'id'   => 'uwp_social_facebook_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -488,14 +468,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Twitter API Secret', 'uwp-social' )
         ),
-//        'uwp_social_twitter_scope' => array(
-//            'id' => 'uwp_social_twitter_scope',
-//            'name' => __( 'Twitter APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Twitter APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_twitter_callback' => array(
             'id' => 'uwp_social_twitter_callback',
             'name' => __( 'Twitter APP Callback URL', 'uwp-social' ),
@@ -503,7 +475,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=twitter',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Twitter',
+        ),
+        'uwp_social_twitter_pick_username' => array(
+            'id'   => 'uwp_social_twitter_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_twitter_pick_email' => array(
+            'id'   => 'uwp_social_twitter_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -532,14 +520,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter LinkedIn Client Secret', 'uwp-social' )
         ),
-//        'uwp_social_linkedin_scope' => array(
-//            'id' => 'uwp_social_linkedin_scope',
-//            'name' => __( 'LinkedIn APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter LinkedIn APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_linkedin_callback' => array(
             'id' => 'uwp_social_linkedin_callback',
             'name' => __( 'LinkedIn APP Callback URL', 'uwp-social' ),
@@ -547,7 +527,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=linkedin',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=LinkedIn',
+        ),
+        'uwp_social_linkedin_pick_username' => array(
+            'id'   => 'uwp_social_linkedin_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_linkedin_pick_email' => array(
+            'id'   => 'uwp_social_linkedin_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -576,14 +572,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Instagram APP Secret', 'uwp-social' )
         ),
-//        'uwp_social_instagram_scope' => array(
-//            'id' => 'uwp_social_instagram_scope',
-//            'name' => __( 'Instagram APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Instagram APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_instagram_callback' => array(
             'id' => 'uwp_social_instagram_callback',
             'name' => __( 'Instagram APP Callback URL', 'uwp-social' ),
@@ -591,7 +579,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=instagram',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Instagram',
+        ),
+        'uwp_social_instagram_pick_username' => array(
+            'id'   => 'uwp_social_instagram_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_instagram_pick_email' => array(
+            'id'   => 'uwp_social_instagram_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -620,14 +624,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Yahoo Client Secret', 'uwp-social' )
         ),
-//        'uwp_social_yahoo_scope' => array(
-//            'id' => 'uwp_social_yahoo_scope',
-//            'name' => __( 'Yahoo APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Yahoo APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_yahoo_callback' => array(
             'id' => 'uwp_social_yahoo_callback',
             'name' => __( 'Yahoo APP Callback URL', 'uwp-social' ),
@@ -635,7 +631,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=yahoo',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Yahoo',
+        ),
+        'uwp_social_yahoo_pick_username' => array(
+            'id'   => 'uwp_social_yahoo_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_yahoo_pick_email' => array(
+            'id'   => 'uwp_social_yahoo_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -664,14 +676,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter WordPress APP Secret', 'uwp-social' )
         ),
-//        'uwp_social_wordpress_scope' => array(
-//            'id' => 'uwp_social_wordpress_scope',
-//            'name' => __( 'WordPress APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter WordPress APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_wordpress_callback' => array(
             'id' => 'uwp_social_wordpress_callback',
             'name' => __( 'WordPress APP Callback URL', 'uwp-social' ),
@@ -679,7 +683,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=wordpress',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=WordPress',
+        ),
+        'uwp_social_wordpress_pick_username' => array(
+            'id'   => 'uwp_social_wordpress_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_wordpress_pick_email' => array(
+            'id'   => 'uwp_social_wordpress_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
@@ -708,14 +728,6 @@ function uwp_add_social_settings($uwp_settings) {
             'size' => 'regular',
             'placeholder' => __( 'Enter Vkontakte APP Secret', 'uwp-social' )
         ),
-//        'uwp_social_vkontakte_scope' => array(
-//            'id' => 'uwp_social_vkontakte_scope',
-//            'name' => __( 'Vkontakte APP Scope', 'uwp-social' ),
-//            'desc' => "",
-//            'type' => 'text',
-//            'size' => 'regular',
-//            'placeholder' => __( 'Enter Vkontakte APP Scope', 'uwp-social' )
-//        ),
         'uwp_social_vkontakte_callback' => array(
             'id' => 'uwp_social_vkontakte_callback',
             'name' => __( 'Vkontakte APP Callback URL', 'uwp-social' ),
@@ -723,7 +735,23 @@ function uwp_add_social_settings($uwp_settings) {
             'type' => 'text',
             'readonly' => true,
             'size' => 'regular',
-            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=vkontakte',
+            'std'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Vkontakte',
+        ),
+        'uwp_social_vkontakte_pick_username' => array(
+            'id'   => 'uwp_social_vkontakte_pick_username',
+            'name' => 'Let the user to enter username?',
+            'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
+        ),
+        'uwp_social_vkontakte_pick_email' => array(
+            'id'   => 'uwp_social_vkontakte_pick_email',
+            'name' => 'Let the user to enter email?',
+            'desc' => 'By default, the email returned by the provider is used. If this option enabled then we would ask the user to enter the email by displaying a form.',
+            'type' => 'checkbox',
+            'std'  => '0',
+            'class' => 'uwp_label_inline',
         ),
     );
 
