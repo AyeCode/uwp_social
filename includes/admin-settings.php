@@ -24,7 +24,7 @@ function uwp_social_main_tab_content($form) {
 function uwp_social_google_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
+    <div class="uwp_social_tab_content_help" style="">
         <p>
             <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
             or <b>Client</b> id and secret) are what we call an application credentials.
@@ -65,7 +65,7 @@ function uwp_social_google_tab_content($form) {
                     <li>Put your website domain in the <b>Authorized JavaScript origins</b> field. This should match with the current hostname <b>localhost</b>.</li>
                     <li>
                         Provide this URL as the <b>Authorized redirect URI</b> for your application: <br>
-                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Google</span>
+                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=google</span>
                     </li>
                 </ul>
             </li>
@@ -82,7 +82,7 @@ function uwp_social_google_tab_content($form) {
 function uwp_social_facebook_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
+    <div class="uwp_social_tab_content_help" style="">
         <p>
             <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
             or <b>Client</b> id and secret) are what we call an application credentials.
@@ -136,7 +136,7 @@ function uwp_social_facebook_tab_content($form) {
 function uwp_social_twitter_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
+    <div class="uwp_social_tab_content_help" style="">
         <p>
             <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
             or <b>Client</b> id and secret) are what we call an application credentials.
@@ -164,7 +164,7 @@ function uwp_social_twitter_tab_content($form) {
             </li>
             <li>
                 Provide this URL as the <b>Callback URL</b> for your application: <br>
-                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Twitter</code>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=twitter</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials (Consumer Key and Secret) into the boxes above.
@@ -182,34 +182,19 @@ function uwp_social_twitter_tab_content($form) {
 function uwp_social_linkedin_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>LinkedIn API</code>
-            and these credentials are needed in order for <b>LinkedIn</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>LinkedIn API Application</b>, follow the steps
-        </p>
+    <div class="uwp_social_tab_content_help" style="">
 
         <ol>
             <li>
-                First go to: <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a>
-            </li>
-            <li>
-                Create a new application.
+                Go to <a target="_blank" href="https://www.linkedin.com/developer/apps">https://www.linkedin.com/developer/apps</a> and <strong>create
+                    a new application</strong> by clicking "Create Application".
             </li>
             <li>
                 Fill out any required fields such as the application name and description.
             </li>
             <li>
-                Choose <b>Live</b> on <b>Live Status</b>.
+                Put your website domain in the OAuth 2.0 Authorized Redirect URLs: (i.e
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=linkedin</code>)
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -223,34 +208,16 @@ function uwp_social_linkedin_tab_content($form) {
 function uwp_social_instagram_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>LinkedIn API</code>
-            and these credentials are needed in order for <b>LinkedIn</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>LinkedIn API Application</b>, follow the steps
-        </p>
-
+    <div class="uwp_social_tab_content_help" style="">
         <ol>
             <li>
-                First go to: <a href="https://www.linkedin.com/secure/developer" target="_blank">https://www.linkedin.com/secure/developer</a>
-            </li>
-            <li>
-                Create a new application.
+                Go to <a href="http://instagram.com/developer/clients/manage/">instagram.com/developer/clients/manage/</a> and <strong>create a new application</strong> (Register new Client).
             </li>
             <li>
                 Fill out any required fields such as the application name and description.
             </li>
             <li>
-                Choose <b>Live</b> on <b>Live Status</b>.
+                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=instagram</code>
             </li>
             <li>
                 Once you have registered, past the created application credentials into the boxes above.
@@ -264,50 +231,25 @@ function uwp_social_instagram_tab_content($form) {
 function uwp_social_yahoo_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>Facebook API</code>
-            and these credentials are needed in order for <b>Facebook</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>Facebook API Application</b>, follow the steps
-        </p>
+    <div class="uwp_social_tab_content_help" style="">
 
         <ol>
             <li>
-                First go to: <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a>
+                Go to <a target="_blank" href="https://developer.yahoo.com/apps">https://developer.yahoo.com/apps</a> and <strong>create
+                    a new application</strong> by clicking "Create an App".
             </li>
             <li>
-                Select <b>Add a New App</b> from the <b>Apps</b> menu at the top.
+                Fill out any required fields such as the Application Name.
             </li>
             <li>
-                Fill out Display Name, Namespace, choose a category and click <b>Create App</b>
+                Specify the domain to which your application will be returning after successfully authenticating. (i.e.
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=yahoo</code>
             </li>
             <li>
-                Go to Settings page and click on <b>Add Platform</b>.
-                Choose website and enter in the new screen your website url in <b>App Domains</b> and <b>Site URL</b> fields.
-                They should match with the current hostname <b><?php echo $_SERVER["SERVER_NAME"]; ?></b>
+                Select private user data APIs that your application needs to access.
             </li>
             <li>
-                Go to the <b>Status &amp; Review</b> page and choose <b>yes</b> where it says <b>Do you want to make this app and all its live features available to the general public?</b>
-            </li>
-            <li>
-                Go back to the <b>Dashboard</b> page and past the created application credentials (APP ID and Secret) into the boxes above.
-            </li>
-            <li>
-                And that's it!
-            </li>
-            <li>
-                If for some reason you still can't manage to create an application for Facebook,
-                first try to <a href="https://www.google.com/search?q=Facebook API create application" target="_blank">Google it</a>,
-                then check it on <a href="http://www.youtube.com/results?search_query=Facebook API create application " target="_blank">Youtube</a>
+                Once you have registered, past the created application credentials into the boxes above.
             </li>
         </ol>
     </div>
@@ -318,7 +260,7 @@ function uwp_social_yahoo_tab_content($form) {
 function uwp_social_vkontakte_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
+    <div class="uwp_social_tab_content_help" style="">
         <p>
             <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
             or <b>Client</b> id and secret) are what we call an application credentials.
@@ -359,7 +301,7 @@ function uwp_social_vkontakte_tab_content($form) {
 function uwp_social_wordpress_tab_content($form) {
     echo $form;
     ?>
-    <div class="uwp_social_facebook_tab_content_help" style="">
+    <div class="uwp_social_tab_content_help" style="">
         <p>
             <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
             or <b>Client</b> id and secret) are what we call an application credentials.
@@ -574,21 +516,21 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_linkedin_key' => array(
-            'id' => 'uwp_social_linkedin_key',
-            'name' => __( 'LinkedIn API Key', 'uwp-social' ),
+        'uwp_social_linkedin_id' => array(
+            'id' => 'uwp_social_linkedin_id',
+            'name' => __( 'LinkedIn Client ID', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter LinkedIn API Key', 'uwp-social' )
+            'placeholder' => __( 'Enter LinkedIn Client ID', 'uwp-social' )
         ),
         'uwp_social_linkedin_secret' => array(
             'id' => 'uwp_social_linkedin_secret',
-            'name' => __( 'LinkedIn API Secret', 'uwp-social' ),
+            'name' => __( 'LinkedIn Client Secret', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter LinkedIn API Secret', 'uwp-social' )
+            'placeholder' => __( 'Enter LinkedIn Client Secret', 'uwp-social' )
         ),
 //        'uwp_social_linkedin_scope' => array(
 //            'id' => 'uwp_social_linkedin_scope',
@@ -662,21 +604,21 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_yahoo_key' => array(
-            'id' => 'uwp_social_yahoo_key',
-            'name' => __( 'Yahoo API Key', 'uwp-social' ),
+        'uwp_social_yahoo_id' => array(
+            'id' => 'uwp_social_yahoo_id',
+            'name' => __( 'Yahoo Client ID', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Yahoo API Key', 'uwp-social' )
+            'placeholder' => __( 'Enter Yahoo Client ID', 'uwp-social' )
         ),
         'uwp_social_yahoo_secret' => array(
             'id' => 'uwp_social_yahoo_secret',
-            'name' => __( 'Yahoo API Secret', 'uwp-social' ),
+            'name' => __( 'Yahoo Client Secret', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
             'size' => 'regular',
-            'placeholder' => __( 'Enter Yahoo API Secret', 'uwp-social' )
+            'placeholder' => __( 'Enter Yahoo Client Secret', 'uwp-social' )
         ),
 //        'uwp_social_yahoo_scope' => array(
 //            'id' => 'uwp_social_yahoo_scope',

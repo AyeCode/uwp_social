@@ -6,7 +6,14 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
     
     $message  = __("Unspecified error!", 'uwp-social');
     $notes    = "";
-    $apierror = substr( $e->getMessage(), 0, 145 );
+    $apierror = "";
+
+    if (is_string($e)) {
+        $message = $e;
+        $apierror = $e;
+    } else {
+        $apierror = substr( $e->getMessage(), 0, 145 );
+    }
     
     $provider_name = uwp_social_get_provider_name_by_id($provider);
 
@@ -183,7 +190,7 @@ function uwp_social_render_notice( $message )
 function uwp_social_render_notice_page( $message )
 {
     ob_start();
-    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/img/';
+    $assets_base_url = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ?>
     <!DOCTYPE html>
     <html>

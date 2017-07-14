@@ -195,7 +195,8 @@ class Hybrid_Providers_Vkontakte extends Hybrid_Provider_Model_OAuth2
 			}
 		}
 
-		if (property_exists($user, 'city') && $withAdditionalRequests) {
+
+		if (property_exists($user, 'city') && !empty($user->city) && $withAdditionalRequests) {
 			$params     = array(
 				'city_ids' => $user->city,
 			);
@@ -205,7 +206,7 @@ class Hybrid_Providers_Vkontakte extends Hybrid_Provider_Model_OAuth2
 			$user->city = property_exists($city, 'name') ? $city->name : null;
 		}
 
-		if (property_exists($user, 'country') && $withAdditionalRequests) {
+		if (property_exists($user, 'country') && !empty($user->country) && $withAdditionalRequests) {
 			$params        = array(
 				'country_ids' => $user->country,
 			);

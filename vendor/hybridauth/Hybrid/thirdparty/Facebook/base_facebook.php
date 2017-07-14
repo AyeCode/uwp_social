@@ -1042,9 +1042,9 @@ abstract class BaseFacebook
 		Hybrid_Error::setApiError( $http_code . '. ' . preg_replace('/\s+/', ' ', $result ) );
 	}
 
-	if( defined( 'WORDPRESS_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
+	if( defined( 'UWP_SOCIAL_LOGIN_DEBUG_API_CALLS' ) )
 	{
-		do_action( 'wsl_log_provider_api_call', 'OAuth2.Facebook', $opts[CURLOPT_URL], null, $opts[CURLOPT_POSTFIELDS], $http_code, curl_getinfo($ch), $result );
+		do_action( 'uwp_log_provider_api_call', 'OAuth2.Facebook', $opts[CURLOPT_URL], null, $opts[CURLOPT_POSTFIELDS], $http_code, curl_getinfo($ch), $result );
 	}
 	//-
 
