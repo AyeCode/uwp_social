@@ -6,7 +6,9 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
         $provider = $linking_data["provider"];
         $account_linking_errors = $linking_data['account_linking_errors'];
         $profile_completion_errors = $linking_data['profile_completion_errors'];
-
+        $linking_enabled = $linking_data['linking_enabled'];
+        $account_linking = $linking_data['account_linking'];
+        $profile_completion = $linking_data['profile_completion'];
         $require_email = $linking_data['require_email'];
         $change_username = $linking_data['change_username'];
         $requested_user_email = $linking_data['requested_user_email'];
@@ -14,6 +16,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
         $hybridauth_user_profile = $linking_data['hybridauth_user_profile'];
         $hybridauth_user_avatar = $linking_data['hybridauth_user_avatar'];
         $assets_base_url = $linking_data['assets_base_url'];
+        $redirect_to = $linking_data['redirect_to'];
         ?>
         <!DOCTYPE html>
         <head>
@@ -179,7 +182,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                     text-decoration: none;
                 }
                 <?php
-                    if( $linking_data["linking_enabled"] )
+                    if( $linking_enabled )
                     {
                         ?>
                         #login {width: 400px;}
@@ -187,7 +190,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                         #errors-profile-completion, #mapping-complete-info {display: block;}
                         <?php
                     }
-                    elseif( $linking_data["account_linking"] )
+                    elseif( $account_linking )
                     {
                         ?>
                         #login {width: 400px;}
@@ -195,7 +198,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                         #errors-account-linking, #mapping-authenticate {display: block;}
                         <?php
                     }
-                    elseif( $linking_data["profile_completion"] )
+                    elseif( $profile_completion )
                     {
                         ?>
                         #login {width: 400px;}
@@ -283,31 +286,31 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
 
                 <table id="mapping-options" border="0">
                     <tr>
-                        <?php if( $linking_data["linking_enabled"] ): ?>
+                        <?php if( $linking_enabled ): ?>
                             <td valign="top"  width="50%" style="text-align:center;">
-                                <h4><?php __( "Already have an account", 'uwp-social' ); ?>?</h4>
+                                <h4><?php echo __( "Already have an account", 'uwp-social' ); ?>?</h4>
                                 <p style="font-size: 12px;"><?php printf( __( "Link your existing account on our website to your %s ID.", 'uwp-social' ), $provider ); ?></p>
                             </td>
                         <?php endif; ?>
 
                         <td valign="top"  width="50%" style="text-align:center;">
-                            <h4><?php __( "New to our website", 'uwp-social' ); ?>?</h4>
+                            <h4><?php echo __( "New to our website", 'uwp-social' ); ?>?</h4>
                             <p style="font-size: 12px;"><?php printf( __( "Create a new account and it will be associated with your %s ID.", 'uwp-social' ), $provider ); ?></p>
                         </td>
                     </tr>
 
                     <tr>
-                        <?php if( $linking_data["linking_enabled"] ): ?>
+                        <?php if( $linking_enabled ): ?>
                             <td valign="top"  width="50%" style="text-align:center;">
-                                <input type="button" value="<?php __( "Link my account", 'uwp-social' ); ?>" class="button-primary" onclick="display_mapping_authenticate();" >
+                                <input type="button" value="<?php echo __( "Link my account", 'uwp-social' ); ?>" class="button-primary" onclick="display_mapping_authenticate();" >
                             </td>
                         <?php endif; ?>
 
                         <td valign="top"  width="50%" style="text-align:center;">
                             <?php if( $require_email != 1 && $change_username != 1): ?>
-                                <input type="button" value="<?php __( "Create a new account", 'uwp-social' ); ?>" class="button-primary" onclick="document.getElementById('info-form').submit();" >
+                                <input type="button" value="<?php echo __( "Create a new account", 'uwp-social' ); ?>" class="button-primary" onclick="document.getElementById('info-form').submit();" >
                             <?php else : ?>
-                                <input type="button" value="<?php __( "Create a new account", 'uwp-social' ); ?>" class="button-primary" onclick="display_mapping_complete_info();" >
+                                <input type="button" value="<?php echo __( "Create a new account", 'uwp-social' ); ?>" class="button-primary" onclick="display_mapping_complete_info();" >
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -343,7 +346,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                     <table id="mapping-authenticate" border="0">
                         <tr>
                             <td valign="top"  width="50%" style="text-align:center;">
-                                <h4><?php __( "Already have an account", 'uwp-social' ); ?>?</h4>
+                                <h4><?php echo __( "Already have an account", 'uwp-social' ); ?>?</h4>
 
                                 <p><?php printf( __( "Please enter your username and password of your existing account on our website. Once verified, it will linked to your % ID", 'uwp-social' ), ucfirst( $provider ) ) ; ?>.</p>
                             </td>
@@ -351,25 +354,25 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                         <tr>
                             <td valign="bottom"  width="50%" style="text-align:left;">
                                 <label>
-                                    <?php __( "Username", 'uwp-social' ); ?>
+                                    <?php echo __( "Username", 'uwp-social' ); ?>
                                     <br />
                                     <input type="text" name="user_login" class="input" value=""  size="25" placeholder="" />
                                 </label>
 
                                 <label>
-                                    <?php __( "Password", 'uwp-social' ); ?>
+                                    <?php echo __( "Password", 'uwp-social' ); ?>
                                     <br />
                                     <input type="text" name="user_password" class="input" value="" size="25" placeholder="" />
                                 </label>
 
-                                <input type="submit" value="<?php __( "Continue", 'uwp-social' ); ?>" class="button-primary" >
+                                <input type="submit" value="<?php echo __( "Continue", 'uwp-social' ); ?>" class="button-primary" >
 
-                                <a href="javascript:void(0);" onclick="display_mapping_options();" class="back-to-options"><?php __( "Back", 'uwp-social' ); ?></a>
+                                <a href="javascript:void(0);" onclick="display_mapping_options();" class="back-to-options"><?php echo __( "Back", 'uwp-social' ); ?></a>
                             </td>
                         </tr>
                     </table>
 
-                    <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo $linking_data['redirect_to']; ?>">
+                    <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo $redirect_to; ?>">
                     <input type="hidden" id="provider" name="provider" value="<?php echo $provider ?>">
                     <input type="hidden" id="action" name="action" value="uwp_social_account_linking">
                     <input type="hidden" id="account_linking" name="account_linking" value="1">
@@ -379,8 +382,8 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                     <table id="mapping-complete-info" border="0">
                         <tr>
                             <td valign="top"  width="50%" style="text-align:center;">
-                                <?php if( $linking_data["linking_enabled"] ): ?>
-                                    <h4><?php __( "New to our website", 'uwp-social' ); ?>?</h4>
+                                <?php if( $linking_enabled ): ?>
+                                    <h4><?php echo __( "New to our website", 'uwp-social' ); ?>?</h4>
                                 <?php endif; ?>
 
                                 <p><?php printf( __( "Please fill in your information in the form below. Once completed, you will be able to automatically sign into our website through your %s ID", 'uwp-social' ), $provider_name ); ?>.</p>
@@ -390,7 +393,7 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
                             <td valign="bottom"  width="50%" style="text-align:left;">
                                 <?php if( $change_username == 1 ): ?>
                                     <label>
-                                        <?php __( "Username", 'uwp-social' ); ?>
+                                        <?php echo __( "Username", 'uwp-social' ); ?>
                                         <br />
                                         <input type="text" name="user_login" class="input" value="<?php echo $requested_user_login; ?>" size="25" placeholder="" />
                                     </label>
@@ -398,22 +401,22 @@ function uwp_social_account_linking($shall_pass, $linking_data) {
 
                                 <?php if( $require_email == 1 ): ?>
                                     <label>
-                                        <?php __( "E-mail", 'uwp-social' ); ?>
+                                        <?php echo __( "E-mail", 'uwp-social' ); ?>
                                         <br />
                                         <input type="text" name="user_email" class="input" value="<?php echo $requested_user_email; ?>" size="25" placeholder="" />
                                     </label>
                                 <?php endif; ?>
                                 
-                                <input type="submit" value="<?php __( "Continue", 'uwp-social' ); ?>" class="button-primary" >
+                                <input type="submit" value="<?php echo __( "Continue", 'uwp-social' ); ?>" class="button-primary" >
 
-                                <?php if( $linking_data["linking_enabled"] ): ?>
-                                    <a href="javascript:void(0);" onclick="display_mapping_options();" class="back-to-options"><?php __( "Back", 'uwp-social' ); ?></a>
+                                <?php if( $linking_enabled ): ?>
+                                    <a href="javascript:void(0);" onclick="display_mapping_options();" class="back-to-options"><?php echo __( "Back", 'uwp-social' ); ?></a>
                                 <?php endif; ?>
                             </td>
                         </tr>
                     </table>
 
-                    <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo $linking_data['redirect_to']; ?>">
+                    <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo $redirect_to; ?>">
                     <input type="hidden" id="provider" name="provider" value="<?php echo $provider ?>">
                     <input type="hidden" id="action" name="action" value="uwp_social_account_linking">
                     <input type="hidden" id="profile_completion" name="profile_completion" value="1">
