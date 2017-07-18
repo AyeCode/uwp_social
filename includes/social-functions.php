@@ -683,8 +683,7 @@ function uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapt
 
     if(  $hybridauth_user_profile->photoURL )
     {
-        // todo: change this to uwp avatar
-//        uwp_update_usermeta($user_id, 'uwp_account_avatar_thumb', $hybridauth_user_profile->photoURL);
+        uwp_update_usermeta($user_id, 'uwp_account_avatar_thumb', $hybridauth_user_profile->photoURL);
         update_user_meta( $user_id, 'uwp_social_user_image', $hybridauth_user_profile->photoURL );
     }
     
