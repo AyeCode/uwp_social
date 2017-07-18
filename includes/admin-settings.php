@@ -336,7 +336,14 @@ add_filter('uwp_registered_settings', 'uwp_add_social_settings');
 function uwp_add_social_settings($uwp_settings) {
 
     $options = array(
-        
+        'uwp_social_settings_info' => array(
+            'id'   => 'uwp_social_settings_info',
+            'name' => __( 'Info', 'uwp-social' ),
+            'desc' => __( 'You can allow users to login via several social networks, once enabled the login icons will appear on most login forms and you can also use the UWP widget to add a social login buttons to widget areas.', 'uwp-social' ),
+            'type' => 'info',
+            'std'  => '1',
+            'class' => 'uwp_label_inline',
+        )
     );
 
     $google_options = array(

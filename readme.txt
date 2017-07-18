@@ -1,9 +1,9 @@
 === UsersWP - Social Login ===
-Contributors: viruthagiri, stiofansisland, paoltaia
+Contributors: viruthagiri, stiofansisland, paoltaia, ayecode
 Donate link: http://userswp.io/
 Tags: buddypress, frontend, login, register, account, users, social-connect, userswp
 Requires at least: 3.1
-Tested up to: 4.4
+Tested up to: 4.7
 Stable tag: 1.0.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -15,8 +15,6 @@ Social Login addon for UsersWP.
 Social Login addon for UsersWP.
 
 This addon lets your user to register and login with popular sites like Facebook, Google etc.
-
-This addon is a Work In Progress.
 
 100% translatable.
 
