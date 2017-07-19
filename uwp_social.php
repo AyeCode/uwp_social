@@ -1,22 +1,24 @@
 <?php
 /*
 Plugin Name: UsersWP - Social Login
-Plugin URI: https://wpgeodirectory.com
-Description: Social add-on for UsersWP.
-Version: 1.0.0-dev
-Author: GeoDirectory team
-Author URI: https://wpgeodirectory.com
+Plugin URI: https://userswp.io
+Description: Social login add-on for UsersWP.
+Version: 1.0.0
+Author: AyeCode Ltd
+Author URI: https://userswp.io
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 Text Domain: uwp-social
 Domain Path: /languages
 Requires at least: 3.1
-Tested up to: 4.6
+Tested up to: 4.7
+Update URL: https://userswp.io
+Update ID: 326
 */
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'UWP_SOCIAL_VERSION', '1.0.0-dev' );
+define( 'UWP_SOCIAL_VERSION', '1.0.0' );
 
 define( 'UWP_SOCIAL_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -31,7 +33,7 @@ class Users_WP_Social {
     /**
      * Plugin Version
      */
-    private $version = '1.0.0-dev';
+    private $version = UWP_SOCIAL_VERSION;
 
     private $file;
 
@@ -84,6 +86,9 @@ class Users_WP_Social {
             add_action('login_enqueue_scripts', array($this, 'enqueue_styles'));
         }
         do_action( 'uwp_social_setup_actions' );
+        if(is_admin()){
+            add_action( 'admin_init', array( $this, 'activation_redirect' ) );
+        }
         add_action( 'init', array($this, 'load_textdomain') );
     }
 
@@ -123,6 +128,29 @@ class Users_WP_Social {
         }
 
 
+    }
+
+    /**
+     * Redirect to the social settings page on activation.
+     *
+     * @since 1.0.0
+     */
+    public function activation_redirect() {
+        // Bail if no activation redirect
+        if ( !get_transient( '_uwp_social_activation_redirect' ) ) {
+            return;
+        }
+
+        // Delete the redirect transient
+        delete_transient( '_uwp_social_activation_redirect' );
+
+        // Bail if activating from network, or bulk
+        if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+            return;
+        }
+
+        wp_safe_redirect( admin_url( 'admin.php?page=uwp_social' ) );
+        exit;
     }
 
 
