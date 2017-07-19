@@ -829,8 +829,12 @@ abstract class BaseFacebook
       return false;
     }
 
-    $response_params = array();
-    parse_str($access_token_response, $response_params);
+    // Newer API returns JSON not an array so we need to check if we need to convert it
+    if($response_params = json_decode($access_token_response,true)){}
+    else{
+      $response_params = array();
+      parse_str($access_token_response, $response_params);
+    }
     if (!isset($response_params['access_token'])) {
       return false;
     }

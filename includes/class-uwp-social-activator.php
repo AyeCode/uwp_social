@@ -29,6 +29,9 @@ class UWP_Social_Activator
     {
         self::create_tables();
         self::add_default_options();
+
+        // Set activation redirect flag
+        set_transient( '_uwp_social_activation_redirect', true, 30 );
     }
 
     public static function add_default_options()
