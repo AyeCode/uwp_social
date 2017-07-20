@@ -49,6 +49,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.1 =
+Textdomain not being loaded correctly - FIXED
+
 = 1.0.0 =
 * First release.
 
