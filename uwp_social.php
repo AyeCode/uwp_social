@@ -57,7 +57,6 @@ class Users_WP_Social {
             self::$instance->setup_globals();
             self::$instance->includes();
             self::$instance->setup_actions();
-            self::$instance->load_textdomain();
         }
 
         return self::$instance;
@@ -90,6 +89,7 @@ class Users_WP_Social {
         if(is_admin()){
             add_action( 'admin_init', array( $this, 'activation_redirect' ) );
         }
+        add_action( 'init', array($this, 'load_textdomain') );
     }
 
     public function enqueue_styles() {
@@ -98,30 +98,11 @@ class Users_WP_Social {
         
     }
 
+    /**
+     * Load the textdomain.
+     */
     public function load_textdomain() {
-
-        // Set filter for plugin's languages directory
-        $lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
-        $lang_dir = apply_filters( 'uwp_social_languages_directory', $lang_dir );
-
-        // Traditional WordPress plugin locale filter
-        $locale        = apply_filters( 'plugin_locale',  get_locale(), 'uwp-social' );
-        $mofile        = sprintf( '%1$s-%2$s.mo', 'uwp-social', $locale );
-
-        // Setup paths to current locale file
-        $mofile_local  = $lang_dir . $mofile;
-        $mofile_global = WP_LANG_DIR . '/uwp-social/' . $mofile;
-
-        if ( file_exists( $mofile_global ) ) {
-            // Look in global /wp-content/languages/uwp-social/ folder
-            load_textdomain( 'uwp-social', $mofile_global );
-        } elseif ( file_exists( $mofile_local ) ) {
-            // Look in local /wp-content/plugins/uwp-social/languages/ folder
-            load_textdomain( 'uwp-social', $mofile_local );
-        } else {
-            // Load the default language files
-            load_plugin_textdomain( 'uwp-social', false, $lang_dir );
-        }
+        load_plugin_textdomain( 'uwp-social', false, basename( dirname( __FILE__ ) ) . '/languages' );
     }
 
     private function includes() {
