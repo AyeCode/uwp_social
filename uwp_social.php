@@ -173,17 +173,17 @@ function activate_uwp_social($network_wide) {
             // Switch to the new blog.
             switch_to_blog( $main_blog_id );
 
-            require_once('includes/class-uwp-social-activator.php');
+            require_once('includes/class-activator.php');
             UWP_Social_Activator::activate();
 
             // Restore original blog.
             restore_current_blog();
         } else {
-            require_once('includes/class-uwp-social-activator.php');
+            require_once('includes/class-activator.php');
             UWP_Social_Activator::activate();
         }
     } else {
-        require_once('includes/class-uwp-social-activator.php');
+        require_once('includes/class-activator.php');
         UWP_Social_Activator::activate();
     }
 }
