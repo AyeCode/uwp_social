@@ -114,7 +114,7 @@ class Users_WP_Social {
 
             require_once dirname( __FILE__ ) . '/includes/helper-functions.php';
             require_once dirname( __FILE__ ) . '/includes/social-functions.php';
-            require_once dirname( __FILE__ ) . '/includes/widget-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/widgets.php';
             require_once dirname( __FILE__ ) . '/includes/error-functions.php';
             require_once dirname( __FILE__ ) . '/includes/linking-functions.php';
 
@@ -173,17 +173,17 @@ function activate_uwp_social($network_wide) {
             // Switch to the new blog.
             switch_to_blog( $main_blog_id );
 
-            require_once('includes/class-uwp-social-activator.php');
+            require_once('includes/activator.php');
             UWP_Social_Activator::activate();
 
             // Restore original blog.
             restore_current_blog();
         } else {
-            require_once('includes/class-uwp-social-activator.php');
+            require_once('includes/activator.php');
             UWP_Social_Activator::activate();
         }
     } else {
-        require_once('includes/class-uwp-social-activator.php');
+        require_once('includes/activator.php');
         UWP_Social_Activator::activate();
     }
 }
