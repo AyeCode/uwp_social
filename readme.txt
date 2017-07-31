@@ -51,6 +51,7 @@ TBA
 
 = 1.0.1 =
 * Renamed some files - CHANGED
+* Textdomain not being loaded correctly - FIXED
 * Post method uses incorrect action name - FIXED
 
 = 1.0.0 =
