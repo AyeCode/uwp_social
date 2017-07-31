@@ -25,52 +25,35 @@ function uwp_social_google_tab_content($form) {
     echo $form;
     ?>
     <div class="uwp_social_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>Google API</code>
-            and these credentials are needed in order for <b>Google</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>Google API Application</b>, follow the steps
-        </p>
-
         <ol>
             <li>
-                First go to: <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>
+                <?php echo __('First go to:', 'uwp-social'); ?> <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>
             </li>
             <li>
-                On the <b>Dashboard sidebar</b> click on <b>Project</b> then click <b>Create Project</b>
+                <?php echo __('On the <b>Dashboard sidebar</b> click on <b>Project</b> then click <b>Create Project</b>', 'uwp-social'); ?>
             </li>
             <li>
-                Once the project is created. Select that project, then <b>APIs &amp; auth</b> &gt; <b>Consent screen</b> and fill the required information.
+                <?php echo __('Once the project is created. Select that project, then <b>APIs & auth</b> > <b>Consent screen</b> and fill the required information.', 'uwp-social'); ?>
             </li>
             <li>
-                Then <b>APIs &amp; auth</b> &gt; <b>APIs</b> and enable <b>Google+ API</b>. If you want to import the user contatcs enable <b>Contacts API</b> as well.
+                <?php echo __('Then <b>APIs & auth</b> > <b>APIs</b> and enable <b>Google+ API</b>. If you want to import the user contatcs enable <b>Contacts API</b> as well.', 'uwp-social'); ?>
             </li>
             <li>
-                After that you will need to create an new application: <b>APIs &amp; auth</b> &gt; <b>Credentials</b> and then click <b>Create new Client ID</b>.
+                <?php echo __('After that you will need to create an new application: <b>APIs & auth</b> > <b>Credentials</b> and then click <b>Create new Client ID</b>.', 'uwp-social'); ?>
             </li>
             <li>
-                On the <b>Create Client ID</b> popup :
+                <?php echo __('On the <b>Create Client ID</b> popup :', 'uwp-social'); ?>
             </li>
             <li>
                 <ul style="margin-left:35px">
-                    <li>Select <b>Web application</b> as your application type.</li>
-                    <li>Put your website domain in the <b>Authorized JavaScript origins</b> field. This should match with the current hostname <b>localhost</b>.</li>
-                    <li>
-                        Provide this URL as the <b>Authorized redirect URI</b> for your application: <br>
-                        <span style="color:green"><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Google</span>
-                    </li>
+                    <li><?php echo __('Select <b>Web application</b> as your application type.', 'uwp-social'); ?></li>
+                    <li><?php echo __('Put your website domain in the <b>Authorized JavaScript origins</b> field. This should match with the current hostname.', 'uwp-social'); ?></li>
+                    <li><?php echo __('Provide this URL as the <b>Authorized redirect URI</b> for your application:', 'uwp-social'); ?></li>
+                    <li><code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Google</code></li>
                 </ul>
             </li>
             <li>
-                Once you have registered past the created application credentials (Client ID and Secret) into the boxes above
+                <?php echo __('Once you have registered past the created application credentials (Client ID and Secret) into the boxes above', 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -83,49 +66,30 @@ function uwp_social_facebook_tab_content($form) {
     echo $form;
     ?>
     <div class="uwp_social_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>Facebook API</code>
-            and these credentials are needed in order for <b>Facebook</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>Facebook API Application</b>, follow the steps
-        </p>
-
         <ol>
             <li>
-                First go to: <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a>
+                <?php echo __('First go to:', 'uwp-social'); ?> <a href="https://developers.facebook.com/apps" target="_blank">https://developers.facebook.com/apps</a>
             </li>
             <li>
-                Select <b>Add a New App</b> from the <b>Apps</b> menu at the top.
+                <?php echo __('Select <b>Add a New App</b> from the <b>Apps</b> menu at the top.', 'uwp-social'); ?>
             </li>
             <li>
-                Fill out Display Name, Namespace, choose a category and click <b>Create App</b>
+                <?php echo __('Fill out Display Name, Namespace, choose a category and click <b>Create App</b>', 'uwp-social'); ?>
             </li>
             <li>
-                Go to Settings page and click on <b>Add Platform</b>.
+                <?php echo __('Go to Settings page and click on <b>Add Platform</b>.
                 Choose website and enter in the new screen your website url in <b>App Domains</b> and <b>Site URL</b> fields.
-                They should match with the current hostname <b><?php echo $_SERVER["SERVER_NAME"]; ?></b>
+                They should match with the current hostname', 'uwp-social'); ?>
+                <b><?php echo $_SERVER["SERVER_NAME"]; ?></b>
             </li>
             <li>
-                Go to the <b>Status &amp; Review</b> page and choose <b>yes</b> where it says <b>Do you want to make this app and all its live features available to the general public?</b>
+                <?php echo __('Go to the <b>Status & Review</b> page and choose <b>yes</b> where it says <b>Do you want to make this app and all its live features available to the general public?</b>', 'uwp-social'); ?>
             </li>
             <li>
-                Go back to the <b>Dashboard</b> page and past the created application credentials (APP ID and Secret) into the boxes above.
+                <?php echo __('Go back to the <b>Dashboard</b> page and past the created application credentials (APP ID and Secret) into the boxes above.', 'uwp-social'); ?>
             </li>
             <li>
-                And that's it!
-            </li>
-            <li>
-                If for some reason you still can't manage to create an application for Facebook,
-                first try to <a href="https://www.google.com/search?q=Facebook API create application" target="_blank">Google it</a>,
-                then check it on <a href="http://www.youtube.com/results?search_query=Facebook API create application " target="_blank">Youtube</a>
+                <?php echo __("And that's it!", 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -137,40 +101,26 @@ function uwp_social_twitter_tab_content($form) {
     echo $form;
     ?>
     <div class="uwp_social_tab_content_help" style="">
-        <p>
-            <b>Application</b> id and secret (also sometimes referred as <b>Consumer</b> key and secret
-            or <b>Client</b> id and secret) are what we call an application credentials.
-            This application will link your website <code><?php echo $_SERVER["SERVER_NAME"]; ?></code> to <code>Twitter API</code>
-            and these credentials are needed in order for <b>Twitter</b> users to access your website.
-        </p>
-
-        <p>
-            These credentials may also differ in format, name and content depending on the social network.
-        </p>
-
-        <p>
-            To enable authentication with this provider and to register a new <b>Twitter API Application</b>, follow the steps
-        </p>
-
         <ol>
             <li>
-                First go to: <a href="https://dev.twitter.com/apps" target="_blank">https://dev.twitter.com/apps</a>
+                <?php echo __('First go to:', 'uwp-social'); ?> <a href="https://dev.twitter.com/apps" target="_blank">https://dev.twitter.com/apps</a>
             </li>
             <li>
-                Create a new application.
+                <?php echo __('Create a new application.', 'uwp-social'); ?>
             </li>
             <li>
-                Fill out any required fields such as the application name and description.
+                <?php echo __('Fill out any required fields such as the application name and description.', 'uwp-social'); ?>
             </li>
             <li>
-                Provide this URL as the <b>Callback URL</b> for your application: <br>
+                <?php echo __('Provide this URL as the <b>Callback URL</b> for your application:', 'uwp-social'); ?>
+                <br>
                 <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Twitter</code>
             </li>
             <li>
-                Once you have registered, past the created application credentials (Consumer Key and Secret) into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials (Consumer Key and Secret) into the boxes above.', 'uwp-social'); ?>
             </li>
             <li>
-                And that's it!
+                <?php echo __("And that's it!", 'uwp-social'); ?>
             </li>
         </ol>
 
@@ -186,18 +136,18 @@ function uwp_social_linkedin_tab_content($form) {
 
         <ol>
             <li>
-                Go to <a target="_blank" href="https://www.linkedin.com/developer/apps">https://www.linkedin.com/developer/apps</a> and <strong>create
-                    a new application</strong> by clicking "Create Application".
+                <?php echo sprintf(__('Go to <a href="%s">%s</a> and <strong>create a new application</strong>.'), "https://www.linkedin.com/developer/apps", "linkedin.com/developer/apps"); ?>
             </li>
             <li>
-                Fill out any required fields such as the application name and description.
+                <?php echo __('Fill out any required fields such as the application name and description.', 'uwp-social'); ?>
             </li>
             <li>
-                Put your website domain in the OAuth 2.0 Authorized Redirect URLs: (i.e
-                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=LinkedIn</code>)
+                <?php echo __('Put your website domain in the OAuth 2.0 Authorized Redirect URLs:', 'uwp-social'); ?>
+                <br>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=LinkedIn</code>
             </li>
             <li>
-                Once you have registered, past the created application credentials into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials into the boxes above.', 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -211,16 +161,18 @@ function uwp_social_instagram_tab_content($form) {
     <div class="uwp_social_tab_content_help" style="">
         <ol>
             <li>
-                Go to <a href="http://instagram.com/developer/clients/manage/">instagram.com/developer/clients/manage/</a> and <strong>create a new application</strong> (Register new Client).
+                <?php echo sprintf(__('Go to <a href="%s">%s</a> and <strong>create a new application</strong>.'), "http://instagram.com/developer/clients/manage/", "instagram.com/developer/clients/manage/"); ?>
             </li>
             <li>
-                Fill out any required fields such as the application name and description.
+                <?php echo __('Fill out any required fields such as the application name and description.', 'uwp-social'); ?>
             </li>
             <li>
-                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Instagram</code>
+                <?php echo __('Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: ', 'uwp-social'); ?>
+                <br>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Instagram</code>
             </li>
             <li>
-                Once you have registered, past the created application credentials into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials into the boxes above.', 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -235,21 +187,21 @@ function uwp_social_yahoo_tab_content($form) {
 
         <ol>
             <li>
-                Go to <a target="_blank" href="https://developer.yahoo.com/apps">https://developer.yahoo.com/apps</a> and <strong>create
-                    a new application</strong> by clicking "Create an App".
+                <?php echo sprintf(__('Go to <a href="%s">%s</a> and <strong>create a new application</strong>.'), "https://developer.yahoo.com/apps", "developer.yahoo.com/apps"); ?>
             </li>
             <li>
-                Fill out any required fields such as the Application Name.
+                <?php echo __('Fill out any required fields such as the Application Name.', 'uwp-social'); ?>
             </li>
             <li>
-                Specify the domain to which your application will be returning after successfully authenticating. (i.e.
+                <?php echo __('Specify the domain to which your application will be returning after successfully authenticating.', 'uwp-social'); ?>
+                <br>
                 <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Yahoo</code>
             </li>
             <li>
-                Select private user data APIs that your application needs to access.
+                <?php echo __('Select private user data APIs that your application needs to access.', 'uwp-social'); ?>
             </li>
             <li>
-                Once you have registered, past the created application credentials into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials into the boxes above.', 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -263,16 +215,17 @@ function uwp_social_vkontakte_tab_content($form) {
     <div class="uwp_social_tab_content_help" style="">
         <ol>
             <li>
-                Go to <a href="https://vk.com/apps?act=manage">vk.com/apps?act=manage</a> and <strong>create a new application</strong>.
+                <?php echo sprintf(__('Go to <a href="%s">%s</a> and <strong>create a new application</strong>.'), "https://vk.com/apps?act=manage", "vk.com/apps?act=manage"); ?>
             </li>
             <li>
-                Fill out any required fields such as the application name and description.
+                <?php echo __('Fill out any required fields such as the application name and description.', 'uwp-social'); ?>
             </li>
             <li>
-                Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Vkontakte</code>
+                <?php echo __('Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) for your application:', 'uwp-social'); ?>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=Vkontakte</code>
             </li>
             <li>
-                Once you have registered, past the created application credentials into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials into the boxes above.', 'uwp-social'); ?>
             </li>
         </ol>
     </div>
@@ -286,16 +239,17 @@ function uwp_social_wordpress_tab_content($form) {
     <div class="uwp_social_tab_content_help" style="">
         <ol>
             <li>
-                Go to <a href="https://developer.wordpress.com/apps/">developer.wordpress.com/apps/</a> and <strong>create a new application</strong>.
+                <?php echo sprintf(__('Go to <a href="%s">%s</a> and <strong>create a new application</strong>.'), "https://developer.wordpress.com/apps/", "developer.wordpress.com/apps/"); ?>
             </li>
             <li>
-                Fill out any required fields such as the application name and description.
+                <?php echo __('Fill out any required fields such as the application name and description.', 'uwp-social'); ?>
             </li>
             <li>
-                Provide this URL as the <strong>Redirect URLs</strong> for your application: <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=WordPress</code>
+                <?php echo __('Provide this URL as the <strong>Redirect URLs</strong> for your application: ', 'uwp-social'); ?>
+                <code><?php echo UWP_SOCIAL_HYBRIDAUTH_ENDPOINT; ?>?hauth.done=WordPress</code>
             </li>
             <li>
-                Once you have registered, past the created application credentials into the boxes above.
+                <?php echo __('Once you have registered, past the created application credentials into the boxes above.', 'uwp-social'); ?>
             </li>
         </ol>
     </div>

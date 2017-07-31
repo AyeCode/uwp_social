@@ -50,8 +50,9 @@ TBA
 == Changelog ==
 
 = 1.0.1 =
-Textdomain not being loaded correctly - FIXED
-Post method uses incorrect action name - FIXED
+* Renamed some files - CHANGED
+* Textdomain not being loaded correctly - FIXED
+* Post method uses incorrect action name - FIXED
 
 = 1.0.0 =
 * First release.
