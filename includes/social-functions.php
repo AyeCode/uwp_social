@@ -158,7 +158,7 @@ function uwp_social_authenticate_process() {
             $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
         } else {
             //todo: maybe display error?
-            $provider = 'google';
+            $provider = 'Google';
         }
 
         $config = uwp_social_build_provider_config($provider);
@@ -957,7 +957,7 @@ function uwp_social_provider_loading_screen( $provider, $authenticated_url, $red
     <form name="loginform" method="post" action="<?php echo $authenticated_url; ?>">
         <input type="hidden" id="redirect_to" name="redirect_to" value="<?php echo esc_url( $redirect_to ); ?>">
         <input type="hidden" id="provider" name="provider" value="<?php echo $provider ?>">
-        <input type="hidden" id="action" name="action" value="wordpress_social_authenticated">
+        <input type="hidden" id="action" name="action" value="uwp_social_authenticated">
     </form>
     </body>
     </html>
