@@ -26,7 +26,7 @@ define( 'UWP_SOCIAL_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 define( 'UWP_SOCIAL_HYBRIDAUTH_ENDPOINT', UWP_SOCIAL_PLUGIN_URL . 'vendor/hybridauth/' );
 
-class Users_WP_Social {
+class UsersWP_Social {
 
     private static $instance;
 
@@ -52,8 +52,8 @@ class Users_WP_Social {
 
 
     public static function get_instance() {
-        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof Users_WP_Social ) ) {
-            self::$instance = new Users_WP_Social;
+        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof UsersWP_Social ) ) {
+            self::$instance = new UsersWP_Social;
             self::$instance->setup_globals();
             self::$instance->includes();
             self::$instance->setup_actions();
@@ -81,7 +81,7 @@ class Users_WP_Social {
     }
 
     private function setup_actions() {
-        if (class_exists( 'Users_WP' )) {
+        if (class_exists( 'UsersWP' )) {
             add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
             add_action('login_enqueue_scripts', array($this, 'enqueue_styles'));
         }
@@ -112,18 +112,18 @@ class Users_WP_Social {
 
         if ( empty ( $errors ) ) {
 
-            require_once dirname( __FILE__ ) . '/includes/helper-functions.php';
-            require_once dirname( __FILE__ ) . '/includes/social-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/helpers.php';
+            require_once dirname( __FILE__ ) . '/includes/social.php';
             require_once dirname( __FILE__ ) . '/includes/widgets.php';
-            require_once dirname( __FILE__ ) . '/includes/error-functions.php';
-            require_once dirname( __FILE__ ) . '/includes/linking-functions.php';
+            require_once dirname( __FILE__ ) . '/includes/errors.php';
+            require_once dirname( __FILE__ ) . '/includes/linking.php';
 
             do_action( 'uwp_social_include_files' );
 
             if ( ! is_admin() )
                 return;
 
-            require_once dirname( __FILE__ ) . '/includes/admin-settings.php';
+            require_once dirname( __FILE__ ) . '/admin/settings.php';
             do_action( 'uwp_social_include_admin_files' );
         }
 
@@ -195,7 +195,7 @@ function init_uwp_social() {
     $errors = uwp_social_check_plugin_requirements();
 
     if ( empty ( $errors ) ) {
-        Users_WP_Social::get_instance();
+        UsersWP_Social::get_instance();
     }
 
 }
@@ -212,7 +212,7 @@ function uwp_social_check_plugin_requirements()
 
     $name = get_file_data( __FILE__, array ( 'Plugin Name' ) );
 
-    if ( ! class_exists( 'Users_WP' ) ) {
+    if ( ! class_exists( 'UsersWP' ) ) {
         $errors[] =  '<b>'.$name[0].'</b>'.__( ' addon requires <a href="https://wordpress.org/plugins/userswp/" target="_blank">UsersWP</a> plugin.', 'uwp-social' );
     }
     

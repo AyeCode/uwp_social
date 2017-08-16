@@ -52,6 +52,7 @@ TBA
 = 1.0.1 =
 * Renamed some files - CHANGED
 * Post method uses incorrect action name - FIXED
+* Class names renamed from Users_WP to UsersWP for better naming and consistency - CHANGED
 
 = 1.0.0 =
 * First release.

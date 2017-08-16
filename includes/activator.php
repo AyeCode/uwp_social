@@ -5,8 +5,8 @@
  * @link       http://wpgeodirectory.com
  * @since      1.0.0
  *
- * @package    Users_WP
- * @subpackage Users_WP/includes
+ * @package    uwp_social
+ * @subpackage uwp_social/includes
  */
 
 /**
@@ -15,8 +15,8 @@
  * This class defines all code necessary to run during the plugin's activation.
  *
  * @since      1.0.0
- * @package    Users_WP
- * @subpackage Users_WP/includes
+ * @package    uwp_social
+ * @subpackage uwp_social/includes
  * @author     GeoDirectory Team <info@wpgeodirectory.com>
  */
 class UWP_Social_Activator
@@ -28,15 +28,9 @@ class UWP_Social_Activator
     public static function activate()
     {
         self::create_tables();
-        self::add_default_options();
 
         // Set activation redirect flag
         set_transient( '_uwp_social_activation_redirect', true, 30 );
-    }
-
-    public static function add_default_options()
-    {
-        
     }
 
     public static function create_tables()
