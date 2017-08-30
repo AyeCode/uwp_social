@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.0.0\n"
+"Project-Id-Version: UsersWP - Social 1.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-18 19:11+0100\n"
-"PO-Revision-Date: 2017-07-18 19:11+0100\n"
+"POT-Creation-Date: 2017-07-31 19:14+0100\n"
+"PO-Revision-Date: 2017-07-31 19:14+0100\n"
 "Last-Translator: \n"
 "Language-Team: GeoDirectory <info@userswp.io>\n"
 "Language: en_US\n"
@@ -493,7 +493,7 @@ msgstr ""
 msgid "Widget Title:"
 msgstr ""
 
-#: uwp_social.php:233
+#: uwp_social.php:216
 msgid ""
 " addon requires <a href=\"https://wordpress.org/plugins/userswp/\" target="
 "\"_blank\">UsersWP</a> plugin."
