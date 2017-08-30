@@ -53,6 +53,7 @@ TBA
 * Renamed some files - CHANGED
 * Textdomain not being loaded correctly - FIXED
 * Post method uses incorrect action name - FIXED
+* Class names renamed from Users_WP to UsersWP for better naming and consistency - CHANGED
 
 = 1.0.0 =
 * First release.

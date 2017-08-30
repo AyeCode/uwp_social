@@ -1,11 +1,23 @@
 <?php
-add_filter('uwp_display_form_title', 'uwp_social_display_form_title', 10, 3);
+/**
+ * Modifies the settings form title.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $title         Original title.
+ * @param       string      $page          admin.php?page=uwp_xxx.
+ * @param       string      $active_tab    active tab in that settings page.
+ *
+ * @return      string      Form title.
+ */
 function uwp_social_display_form_title($title, $page, $active_tab) {
     if ($page == 'uwp_social' && $active_tab == 'main') {
         $title = __('Social Settings', 'uwp-social');
     }
     return $title;
 }
+add_filter('uwp_display_form_title', 'uwp_social_display_form_title', 10, 3);
 
 add_action('uwp_social_settings_main_tab_content', 'uwp_social_main_tab_content', 10, 1);
 add_action('uwp_social_settings_google_tab_content', 'uwp_social_google_tab_content', 10, 1);
@@ -16,11 +28,31 @@ add_action('uwp_social_settings_instagram_tab_content', 'uwp_social_instagram_ta
 add_action('uwp_social_settings_yahoo_tab_content', 'uwp_social_yahoo_tab_content', 10, 1);
 add_action('uwp_social_settings_vkontakte_tab_content', 'uwp_social_vkontakte_tab_content', 10, 1);
 add_action('uwp_social_settings_wordpress_tab_content', 'uwp_social_wordpress_tab_content', 10, 1);
+
+/**
+ * Prints the settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_main_tab_content($form) {
     echo $form;
 }
 
-// Google
+/**
+ * Prints the Google settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_google_tab_content($form) {
     echo $form;
     ?>
@@ -61,7 +93,16 @@ function uwp_social_google_tab_content($form) {
     <?php
 }
 
-// Facebook
+/**
+ * Prints the Facebook settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_facebook_tab_content($form) {
     echo $form;
     ?>
@@ -96,7 +137,16 @@ function uwp_social_facebook_tab_content($form) {
     <?php
 }
 
-// Twitter
+/**
+ * Prints the Twitter settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_twitter_tab_content($form) {
     echo $form;
     ?>
@@ -128,7 +178,16 @@ function uwp_social_twitter_tab_content($form) {
     <?php
 }
 
-// LinkedIn
+/**
+ * Prints the LinkedIn settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_linkedin_tab_content($form) {
     echo $form;
     ?>
@@ -154,7 +213,16 @@ function uwp_social_linkedin_tab_content($form) {
     <?php
 }
 
-// Instagram
+/**
+ * Prints the Instagram settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_instagram_tab_content($form) {
     echo $form;
     ?>
@@ -179,7 +247,16 @@ function uwp_social_instagram_tab_content($form) {
     <?php
 }
 
-// Yahoo
+/**
+ * Prints the Yahoo settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_yahoo_tab_content($form) {
     echo $form;
     ?>
@@ -208,7 +285,16 @@ function uwp_social_yahoo_tab_content($form) {
     <?php
 }
 
-// vkontakte
+/**
+ * Prints the vkontakte settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_vkontakte_tab_content($form) {
     echo $form;
     ?>
@@ -232,7 +318,16 @@ function uwp_social_vkontakte_tab_content($form) {
     <?php
 }
 
-// WordPress
+/**
+ * Prints the WordPress settings form.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       string      $form         Setting form html.
+ *
+ * @return      void
+ */
 function uwp_social_wordpress_tab_content($form) {
     echo $form;
     ?>
@@ -257,6 +352,16 @@ function uwp_social_wordpress_tab_content($form) {
 }
 
 add_action('uwp_admin_sub_menus', 'uwp_add_admin_social_sub_menu', 10, 1);
+/**
+ * Adds the current userswp addon settings page menu as submenu.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       callable   $settings_page    The function to be called to output the content for this page.
+ *
+ * @return      void
+ */
 function uwp_add_admin_social_sub_menu($settings_page) {
 
     add_submenu_page(
@@ -271,6 +376,16 @@ function uwp_add_admin_social_sub_menu($settings_page) {
 }
 
 add_filter('uwp_settings_tabs', 'uwp_add_social_tab');
+/**
+ * Adds settings tabs for the current userswp addon.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       array     $tabs    Existing tabs array.
+ *
+ * @return      array     Tabs array.
+ */
 function uwp_add_social_tab($tabs) {
     $tabs['uwp_social'] = array(
         'main' => __( 'General', 'uwp-social' ),
@@ -287,6 +402,16 @@ function uwp_add_social_tab($tabs) {
 }
 
 add_filter('uwp_registered_settings', 'uwp_add_social_settings');
+/**
+ * Registers form fields for the current userswp addon settings page.
+ *
+ * @since       1.0.0
+ * @package     userswp
+ *
+ * @param       array     $uwp_settings    Existing settings array.
+ *
+ * @return      array     Settings array.
+ */
 function uwp_add_social_settings($uwp_settings) {
 
     $options = array(
