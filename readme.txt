@@ -3,8 +3,8 @@ Contributors: viruthagiri, stiofansisland, paoltaia, ayecode
 Donate link: http://userswp.io/
 Tags: buddypress, frontend, login, register, account, users, social-connect, userswp
 Requires at least: 3.1
-Tested up to: 4.7
-Stable tag: 1.0.0
+Tested up to: 4.8
+Stable tag: 1.0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -51,6 +51,7 @@ TBA
 
 = 1.0.1 =
 * Renamed some files - CHANGED
+* Textdomain not being loaded correctly - FIXED
 * Post method uses incorrect action name - FIXED
 * Class names renamed from Users_WP to UsersWP for better naming and consistency - CHANGED
 
