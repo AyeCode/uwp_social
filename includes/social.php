@@ -176,7 +176,6 @@ function uwp_social_authenticate_process() {
             $provider = 'Google';
         }
 
-        do_action( 'uwp_clear_user_php_session' );
 
         $config = uwp_social_build_provider_config($provider);
 
@@ -1063,7 +1062,7 @@ function uwp_social_change_username_value($value, $provider) {
 /**
  * Clear the stored data by hybridauth and wsl in php session
  */
-add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
+//add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
 function uwp_process_login_clear_user_php_session()
 {
     $_SESSION["HA::STORE"]        = array(); // used by hybridauth library. to clear as soon as the auth process ends.
