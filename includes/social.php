@@ -33,8 +33,6 @@ function uwp_get_available_social_providers() {
         "linkedin" => array(
             "provider_id"       => "LinkedIn",
             "provider_name"     => "LinkedIn",
-            "callback"          => true,
-            "require_client_id" => true,
             "new_app_link"      => "https://www.linkedin.com/secure/developer",
             "cat"               => "professional",
         ),
@@ -136,15 +134,32 @@ function uwp_social_login_buttons_display($args, $instance, $shortcode = false) 
 
 add_action('init', 'uwp_social_authenticate_init');
 function uwp_social_authenticate_init() {
-    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_authenticate') {
+
+    // check for uwp actions
+    $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : null;
+
+    if( ! in_array( $action, array( "uwp_social_authenticate", "uwp_social_authenticated", "uwp_social_account_linking" ) ) )
+    {
+        return;
+    }
+
+    if( is_user_logged_in() )
+    {
+        $current_user = wp_get_current_user();
+        echo uwp_social_render_notice_page( sprintf( __( "You are already logged in as %s. Do you want to <a href='%s'>log out</a>?", 'uwp-social' ), $current_user->display_name, wp_logout_url( home_url() )) );
+        die();
+
+    }
+
+    if ($action == 'uwp_social_authenticate') {
         uwp_social_authenticate_process();
     }
 
-    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_authenticated') {
+    if ($action == 'uwp_social_authenticated') {
         uwp_social_authenticated_process();
     }
 
-    if (isset($_REQUEST['action']) && $_REQUEST['action'] == 'uwp_social_account_linking') {
+    if ($action == 'uwp_social_account_linking') {
         uwp_social_authenticated_process();
     }
 }
@@ -161,6 +176,8 @@ function uwp_social_authenticate_process() {
             $provider = 'Google';
         }
 
+        do_action( 'uwp_clear_user_php_session' );
+
         $config = uwp_social_build_provider_config($provider);
 
         // load hybridauth main class
@@ -175,7 +192,7 @@ function uwp_social_authenticate_process() {
             $hybridauth = new Hybrid_Auth( $config );
 
             $params = apply_filters("uwp_process_login_authenticate_params",array(),$provider);
-            $adapter = $hybridauth->authenticate( $provider,$params );
+            $adapter = $hybridauth->authenticate( $provider, $params );
         }
             // if hybridauth fails to authenticate the user, then we display an error message
         catch( Exception $e )
@@ -192,7 +209,6 @@ function uwp_social_authenticate_process() {
             ),
             home_url()
         );
-
         // display a loading screen
         uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
 
@@ -285,7 +301,7 @@ function uwp_social_authenticated_process()
     // provider is enabled?
     $provider_key = strtolower($provider);
     $enable = uwp_get_option('enable_uwp_social_'.$provider_key, "0");
-
+    
     if ($enable != "1") {
         $e = new Exception( __( "Unknown or disabled provider.", 'uwp-social' ), 3 );
         uwp_social_render_error( $e );
@@ -337,6 +353,11 @@ function uwp_social_authenticated_process()
             $user_id = $wordpress_user_id;
             $is_new_user = false;
         }
+    }
+
+    if (is_string($user_id)) {
+        echo $user_id;
+        die();
     }
 
     $wp_user = get_userdata( $user_id );
@@ -546,6 +567,22 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
     if( empty( $display_name ) )
     {
         $display_name = strtolower( $provider ) . "_user";
+    }
+
+
+    // user name should be unique
+    if( username_exists( $user_login ) )
+    {
+        $i = 1;
+        $user_login_tmp = $user_login;
+
+        do
+        {
+            $user_login_tmp = $user_login . "_" . ($i++);
+        }
+        while( username_exists ($user_login_tmp));
+
+        $user_login = $user_login_tmp;
     }
 
     $userdata = array(
@@ -1021,4 +1058,15 @@ function uwp_social_change_username_value($value, $provider) {
         $value = true;
     }
     return $value;
+}
+
+/**
+ * Clear the stored data by hybridauth and wsl in php session
+ */
+add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
+function uwp_process_login_clear_user_php_session()
+{
+    $_SESSION["HA::STORE"]        = array(); // used by hybridauth library. to clear as soon as the auth process ends.
+    $_SESSION["HA::CONFIG"]       = array(); // used by hybridauth library. to clear as soon as the auth process ends.
+    $_SESSION["uwp::userprofile"] = array(); // used by wsl to temporarily store the user profile so we don't make unnecessary calls to social apis.
 }
