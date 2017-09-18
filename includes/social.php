@@ -199,14 +199,14 @@ function uwp_social_authenticate_process() {
             uwp_social_render_error( $e, $config, $provider );
         }
 
-        $redirect_to = isset( $_REQUEST[ 'redirect_to' ] ) ? $_REQUEST[ 'redirect_to' ] : home_url();
+        $redirect_to = isset( $_REQUEST[ 'redirect_to' ] ) ? $_REQUEST[ 'redirect_to' ] : trailingslashit(home_url());
 
         $authenticated_url = add_query_arg(
             array(
                 'action' =>  'uwp_social_authenticated',
                 'provider' => $provider
             ),
-            home_url()
+            trailingslashit(home_url())
         );
         // display a loading screen
         uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
