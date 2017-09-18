@@ -590,8 +590,8 @@ function uwp_add_social_settings($uwp_settings) {
             'std'  => '1',
             'class' => 'uwp_label_inline',
         ),
-        'uwp_social_linkedin_id' => array(
-            'id' => 'uwp_social_linkedin_id',
+        'uwp_social_linkedin_key' => array(
+            'id' => 'uwp_social_linkedin_key',
             'name' => __( 'LinkedIn Client ID', 'uwp-social' ),
             'desc' => "",
             'type' => 'text',
