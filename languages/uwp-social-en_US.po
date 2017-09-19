@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.0.1\n"
+"Project-Id-Version: UsersWP - Social 1.0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-07-31 19:14+0100\n"
-"PO-Revision-Date: 2017-07-31 19:14+0100\n"
+"POT-Creation-Date: 2017-09-19 15:11+0100\n"
+"PO-Revision-Date: 2017-09-19 15:11+0100\n"
 "Last-Translator: \n"
 "Language-Team: GeoDirectory <info@userswp.io>\n"
 "Language: en_US\n"
@@ -18,248 +18,405 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: includes/admin-settings.php:5
+#: admin/settings.php:16
 msgid "Social Settings"
 msgstr ""
 
-#: includes/admin-settings.php:322
+#: admin/settings.php:62 admin/settings.php:112 admin/settings.php:156
+msgid "First go to:"
+msgstr ""
+
+#: admin/settings.php:65
+msgid ""
+"On the <b>Dashboard sidebar</b> click on <b>Project</b> then click <b>Create "
+"Project</b>"
+msgstr ""
+
+#: admin/settings.php:68
+msgid ""
+"Once the project is created. Select that project, then <b>APIs & auth</b> > "
+"<b>Consent screen</b> and fill the required information."
+msgstr ""
+
+#: admin/settings.php:71
+msgid ""
+"Then <b>APIs & auth</b> > <b>APIs</b> and enable <b>Google+ API</b>. If you "
+"want to import the user contatcs enable <b>Contacts API</b> as well."
+msgstr ""
+
+#: admin/settings.php:74
+msgid ""
+"After that you will need to create an new application: <b>APIs & auth</b> > "
+"<b>Credentials</b> and then click <b>Create new Client ID</b>."
+msgstr ""
+
+#: admin/settings.php:77
+msgid "On the <b>Create Client ID</b> popup :"
+msgstr ""
+
+#: admin/settings.php:81
+msgid "Select <b>Web application</b> as your application type."
+msgstr ""
+
+#: admin/settings.php:82
+msgid ""
+"Put your website domain in the <b>Authorized JavaScript origins</b> field. "
+"This should match with the current hostname."
+msgstr ""
+
+#: admin/settings.php:83
+msgid ""
+"Provide this URL as the <b>Authorized redirect URI</b> for your application:"
+msgstr ""
+
+#: admin/settings.php:88
+msgid ""
+"Once you have registered past the created application credentials (Client ID "
+"and Secret) into the boxes above"
+msgstr ""
+
+#: admin/settings.php:115
+msgid "Select <b>Add a New App</b> from the <b>Apps</b> menu at the top."
+msgstr ""
+
+#: admin/settings.php:118
+msgid ""
+"Fill out Display Name, Namespace, choose a category and click <b>Create App</"
+"b>"
+msgstr ""
+
+#: admin/settings.php:121
+msgid ""
+"Go to Settings page and click on <b>Add Platform</b>.\n"
+"                Choose website and enter in the new screen your website url "
+"in <b>App Domains</b> and <b>Site URL</b> fields.\n"
+"                They should match with the current hostname"
+msgstr ""
+
+#: admin/settings.php:127
+msgid ""
+"Go to the <b>Status & Review</b> page and choose <b>yes</b> where it says "
+"<b>Do you want to make this app and all its live features available to the "
+"general public?</b>"
+msgstr ""
+
+#: admin/settings.php:130
+msgid ""
+"Go back to the <b>Dashboard</b> page and past the created application "
+"credentials (APP ID and Secret) into the boxes above."
+msgstr ""
+
+#: admin/settings.php:133 admin/settings.php:173
+msgid "And that's it!"
+msgstr ""
+
+#: admin/settings.php:159
+msgid "Create a new application."
+msgstr ""
+
+#: admin/settings.php:162 admin/settings.php:201 admin/settings.php:235
+#: admin/settings.php:307 admin/settings.php:340
+msgid ""
+"Fill out any required fields such as the application name and description."
+msgstr ""
+
+#: admin/settings.php:165
+msgid "Provide this URL as the <b>Callback URL</b> for your application:"
+msgstr ""
+
+#: admin/settings.php:170
+msgid ""
+"Once you have registered, past the created application credentials (Consumer "
+"Key and Secret) into the boxes above."
+msgstr ""
+
+#: admin/settings.php:198 admin/settings.php:232 admin/settings.php:267
+#: admin/settings.php:304 admin/settings.php:337
+#, php-format
+msgid ""
+"Go to <a href=\"%s\">%s</a> and <strong>create a new application</strong>."
+msgstr ""
+
+#: admin/settings.php:204
+msgid "Put your website domain in the OAuth 2.0 Authorized Redirect URLs:"
+msgstr ""
+
+#: admin/settings.php:209 admin/settings.php:243 admin/settings.php:281
+#: admin/settings.php:314 admin/settings.php:347
+msgid ""
+"Once you have registered, past the created application credentials into the "
+"boxes above."
+msgstr ""
+
+#: admin/settings.php:238
+msgid ""
+"Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) "
+"for your application: "
+msgstr ""
+
+#: admin/settings.php:270
+msgid "Fill out any required fields such as the Application Name."
+msgstr ""
+
+#: admin/settings.php:273
+msgid ""
+"Specify the domain to which your application will be returning after "
+"successfully authenticating."
+msgstr ""
+
+#: admin/settings.php:278
+msgid "Select private user data APIs that your application needs to access."
+msgstr ""
+
+#: admin/settings.php:310
+msgid ""
+"Provide this URL as the <strong>OAuth redirect_uri</strong> (callback url) "
+"for your application:"
+msgstr ""
+
+#: admin/settings.php:343
+msgid ""
+"Provide this URL as the <strong>Redirect URLs</strong> for your application: "
+msgstr ""
+
+#: admin/settings.php:391
 msgid "General"
 msgstr ""
 
-#: includes/admin-settings.php:323
+#: admin/settings.php:392
 msgid "Google"
 msgstr ""
 
-#: includes/admin-settings.php:324
+#: admin/settings.php:393
 msgid "Facebook"
 msgstr ""
 
-#: includes/admin-settings.php:325
+#: admin/settings.php:394
 msgid "Twitter"
 msgstr ""
 
-#: includes/admin-settings.php:326
+#: admin/settings.php:395
 msgid "LinkedIn"
 msgstr ""
 
-#: includes/admin-settings.php:327
+#: admin/settings.php:396
 msgid "Instagram"
 msgstr ""
 
-#: includes/admin-settings.php:328
+#: admin/settings.php:397
 msgid "Yahoo"
 msgstr ""
 
-#: includes/admin-settings.php:329
+#: admin/settings.php:398
 msgid "WordPress"
 msgstr ""
 
-#: includes/admin-settings.php:330
+#: admin/settings.php:399
 msgid "VKontakte"
 msgstr ""
 
-#: includes/admin-settings.php:341
+#: admin/settings.php:420
 msgid "Info"
 msgstr ""
 
-#: includes/admin-settings.php:342
+#: admin/settings.php:421
 msgid ""
 "You can allow users to login via several social networks, once enabled the "
 "login icons will appear on most login forms and you can also use the UWP "
 "widget to add a social login buttons to widget areas."
 msgstr ""
 
-#: includes/admin-settings.php:360
+#: admin/settings.php:439
 msgid "Google APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:364
+#: admin/settings.php:443
 msgid "Enter Google APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:368
+#: admin/settings.php:447
 msgid "Google APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:372
+#: admin/settings.php:451
 msgid "Enter Google APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:376
+#: admin/settings.php:455
 msgid "Google APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:412
+#: admin/settings.php:491
 msgid "Facebook API ID"
 msgstr ""
 
-#: includes/admin-settings.php:416
+#: admin/settings.php:495
 msgid "Enter Facebook API ID"
 msgstr ""
 
-#: includes/admin-settings.php:420
+#: admin/settings.php:499
 msgid "Facebook API Secret"
 msgstr ""
 
-#: includes/admin-settings.php:424
+#: admin/settings.php:503
 msgid "Enter Facebook API Secret"
 msgstr ""
 
-#: includes/admin-settings.php:428
+#: admin/settings.php:507
 msgid "Facebook APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:464
+#: admin/settings.php:543
 msgid "Twitter API Key"
 msgstr ""
 
-#: includes/admin-settings.php:468
+#: admin/settings.php:547
 msgid "Enter Twitter API Key"
 msgstr ""
 
-#: includes/admin-settings.php:472
+#: admin/settings.php:551
 msgid "Twitter API Secret"
 msgstr ""
 
-#: includes/admin-settings.php:476
+#: admin/settings.php:555
 msgid "Enter Twitter API Secret"
 msgstr ""
 
-#: includes/admin-settings.php:480
+#: admin/settings.php:559
 msgid "Twitter APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:516
+#: admin/settings.php:595
 msgid "LinkedIn Client ID"
 msgstr ""
 
-#: includes/admin-settings.php:520
+#: admin/settings.php:599
 msgid "Enter LinkedIn Client ID"
 msgstr ""
 
-#: includes/admin-settings.php:524
+#: admin/settings.php:603
 msgid "LinkedIn Client Secret"
 msgstr ""
 
-#: includes/admin-settings.php:528
+#: admin/settings.php:607
 msgid "Enter LinkedIn Client Secret"
 msgstr ""
 
-#: includes/admin-settings.php:532
+#: admin/settings.php:611
 msgid "LinkedIn APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:568
+#: admin/settings.php:647
 msgid "Instagram APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:572
+#: admin/settings.php:651
 msgid "Enter Instagram APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:576
+#: admin/settings.php:655
 msgid "Instagram APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:580
+#: admin/settings.php:659
 msgid "Enter Instagram APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:584
+#: admin/settings.php:663
 msgid "Instagram APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:620
+#: admin/settings.php:699
 msgid "Yahoo Client ID"
 msgstr ""
 
-#: includes/admin-settings.php:624
+#: admin/settings.php:703
 msgid "Enter Yahoo Client ID"
 msgstr ""
 
-#: includes/admin-settings.php:628
+#: admin/settings.php:707
 msgid "Yahoo Client Secret"
 msgstr ""
 
-#: includes/admin-settings.php:632
+#: admin/settings.php:711
 msgid "Enter Yahoo Client Secret"
 msgstr ""
 
-#: includes/admin-settings.php:636
+#: admin/settings.php:715
 msgid "Yahoo APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:672
+#: admin/settings.php:751
 msgid "WordPress APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:676
+#: admin/settings.php:755
 msgid "Enter WordPress APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:680
+#: admin/settings.php:759
 msgid "WordPress APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:684
+#: admin/settings.php:763
 msgid "Enter WordPress APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:688
+#: admin/settings.php:767
 msgid "WordPress APP Callback URL"
 msgstr ""
 
-#: includes/admin-settings.php:724
+#: admin/settings.php:803
 msgid "Vkontakte APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:728
+#: admin/settings.php:807
 msgid "Enter Vkontakte APP ID"
 msgstr ""
 
-#: includes/admin-settings.php:732
+#: admin/settings.php:811
 msgid "Vkontakte APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:736
+#: admin/settings.php:815
 msgid "Enter Vkontakte APP Secret"
 msgstr ""
 
-#: includes/admin-settings.php:740
+#: admin/settings.php:819
 msgid "Vkontakte APP Callback URL"
 msgstr ""
 
-#: includes/error-functions.php:7
+#: includes/errors.php:7
 msgid "Unspecified error!"
 msgstr ""
 
-#: includes/error-functions.php:22
+#: includes/errors.php:22
 msgid "Unspecified error."
 msgstr ""
 
-#: includes/error-functions.php:23
+#: includes/errors.php:23
 msgid "UsersWP Social Login is not properly configured."
 msgstr ""
 
-#: includes/error-functions.php:24
+#: includes/errors.php:24
 #, php-format
 msgid ""
 "UsersWP Social Login is not properly configured.<br /> <b>%s</b> need to be "
 "properly configured."
 msgstr ""
 
-#: includes/error-functions.php:25 includes/social-functions.php:290
+#: includes/errors.php:25 includes/social.php:305
 msgid "Unknown or disabled provider."
 msgstr ""
 
-#: includes/error-functions.php:26
+#: includes/errors.php:26
 #, php-format
 msgid ""
 "UsersWP Social Login is not properly configured.<br /> <b>%s</b> requires "
 "your application credentials."
 msgstr ""
 
-#: includes/error-functions.php:27
+#: includes/errors.php:27
 #, php-format
 msgid ""
 "<b>What does this error mean ?</b><br />Most likely, you didn't setup the "
@@ -268,228 +425,233 @@ msgid ""
 "Social Login to work."
 msgstr ""
 
-#: includes/error-functions.php:27
+#: includes/errors.php:27
 msgid ""
 "<br />Instructions for use can be found in the <a href=\"#\" target=\"_blank"
 "\">User Manual</a>."
 msgstr ""
 
-#: includes/error-functions.php:29
+#: includes/errors.php:29
 #, php-format
 msgid ""
 "Authentication failed. Either you have cancelled the authentication or <b>"
 "%s</b> refused the connection."
 msgstr ""
 
-#: includes/error-functions.php:30
+#: includes/errors.php:30
 #, php-format
 msgid ""
 "Request failed. Either you have cancelled the authentication or <b>%s</b> "
 "refused the connection."
 msgstr ""
 
-#: includes/error-functions.php:31
+#: includes/errors.php:31
 msgid "You're not connected to the provider."
 msgstr ""
 
-#: includes/error-functions.php:32
+#: includes/errors.php:32
 msgid "Provider does not support this feature."
 msgstr ""
 
-#: includes/error-functions.php:67 includes/error-functions.php:143
-#: includes/helper-functions.php:132
+#: includes/errors.php:67 includes/errors.php:143 includes/helpers.php:132
 msgid "Oops! We ran into an issue"
 msgstr ""
 
-#: includes/error-functions.php:167
+#: includes/errors.php:167
 msgid "Back to home"
 msgstr ""
 
-#: includes/linking-functions.php:281
+#: includes/linking.php:281
 #, php-format
 msgid "Hi %s"
 msgstr ""
 
-#: includes/linking-functions.php:282
+#: includes/linking.php:282
 #, php-format
 msgid ""
 "You're now signed in with your %s account but you are still one step away of "
 "getting into our website"
 msgstr ""
 
-#: includes/linking-functions.php:291 includes/linking-functions.php:349
+#: includes/linking.php:291 includes/linking.php:349
 msgid "Already have an account"
 msgstr ""
 
-#: includes/linking-functions.php:292
+#: includes/linking.php:292
 #, php-format
 msgid "Link your existing account on our website to your %s ID."
 msgstr ""
 
-#: includes/linking-functions.php:297 includes/linking-functions.php:386
+#: includes/linking.php:297 includes/linking.php:386
 msgid "New to our website"
 msgstr ""
 
-#: includes/linking-functions.php:298
+#: includes/linking.php:298
 #, php-format
 msgid "Create a new account and it will be associated with your %s ID."
 msgstr ""
 
-#: includes/linking-functions.php:305
+#: includes/linking.php:305
 msgid "Link my account"
 msgstr ""
 
-#: includes/linking-functions.php:311 includes/linking-functions.php:313
+#: includes/linking.php:311 includes/linking.php:313
 msgid "Create a new account"
 msgstr ""
 
-#: includes/linking-functions.php:351
+#: includes/linking.php:351
 msgid ""
 "Please enter your username and password of your existing account on our "
 "website. Once verified, it will linked to your % ID"
 msgstr ""
 
-#: includes/linking-functions.php:357 includes/linking-functions.php:396
+#: includes/linking.php:357 includes/linking.php:396
 msgid "Username"
 msgstr ""
 
-#: includes/linking-functions.php:363
+#: includes/linking.php:363
 msgid "Password"
 msgstr ""
 
-#: includes/linking-functions.php:368 includes/linking-functions.php:410
+#: includes/linking.php:368 includes/linking.php:410
 msgid "Continue"
 msgstr ""
 
-#: includes/linking-functions.php:370 includes/linking-functions.php:413
+#: includes/linking.php:370 includes/linking.php:413
 msgid "Back"
 msgstr ""
 
-#: includes/linking-functions.php:389
+#: includes/linking.php:389
 #, php-format
 msgid ""
 "Please fill in your information in the form below. Once completed, you will "
 "be able to automatically sign into our website through your %s ID"
 msgstr ""
 
-#: includes/linking-functions.php:404
+#: includes/linking.php:404
 msgid "E-mail"
 msgstr ""
 
-#: includes/linking-functions.php:427
+#: includes/linking.php:427
 #, php-format
 msgid "Back to %s"
 msgstr ""
 
-#: includes/social-functions.php:121 includes/widget-functions.php:48
+#: includes/social.php:119 includes/widgets.php:48
 msgid "Social Login"
 msgstr ""
 
-#: includes/social-functions.php:394
+#: includes/social.php:149
+#, php-format
+msgid ""
+"You are already logged in as %s. Do you want to <a href='%s'>log out</a>?"
+msgstr ""
+
+#: includes/social.php:414
 msgid "Registration is now closed."
 msgstr ""
 
-#: includes/social-functions.php:584
+#: includes/social.php:620
 msgid "An error occurred while creating a new user: "
 msgstr ""
 
-#: includes/social-functions.php:587
+#: includes/social.php:623
 msgid "An error occurred while creating a new user!"
 msgstr ""
 
-#: includes/social-functions.php:643
+#: includes/social.php:679
 #, php-format
 msgid ""
 "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try "
 "again</a>."
 msgstr ""
 
-#: includes/social-functions.php:752
+#: includes/social.php:788
 msgid "Not tonight."
 msgstr ""
 
-#: includes/social-functions.php:770
+#: includes/social.php:806
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Invalid username or incorrect password. <a href=\"%s"
 "\">Lost your password</a>?"
 msgstr ""
 
-#: includes/social-functions.php:800
+#: includes/social.php:836
 msgid "<strong>ERROR</strong>: Please type your e-mail address."
 msgstr ""
 
-#: includes/social-functions.php:805
+#: includes/social.php:841
 msgid "<strong>ERROR</strong>: Please enter a valid email address."
 msgstr ""
 
-#: includes/social-functions.php:810
+#: includes/social.php:846
 msgid "<strong>ERROR</strong>: Sorry, that email address is already used!"
 msgstr ""
 
-#: includes/social-functions.php:823
+#: includes/social.php:859
 msgid "<strong>ERROR</strong>: That username is not allowed."
 msgstr ""
 
-#: includes/social-functions.php:828
+#: includes/social.php:864
 msgid "<strong>ERROR</strong>: Username must be at least 4 characters."
 msgstr ""
 
-#: includes/social-functions.php:838
+#: includes/social.php:874
 msgid "<strong>ERROR</strong>: Sorry, usernames must have letters too!"
 msgstr ""
 
-#: includes/social-functions.php:843
+#: includes/social.php:879
 msgid "<strong>ERROR</strong>: Sorry, that username already exists!"
 msgstr ""
 
-#: includes/social-functions.php:908
+#: includes/social.php:944
 msgid "Redirecting..."
 msgstr ""
 
-#: includes/social-functions.php:951
+#: includes/social.php:987
 msgid "Processing, please wait..."
 msgstr ""
 
-#: includes/social-functions.php:996
+#: includes/social.php:1032
 #, php-format
 msgid "New user registration on your site: %s"
 msgstr ""
 
-#: includes/social-functions.php:997
+#: includes/social.php:1033
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: includes/social-functions.php:998
+#: includes/social.php:1034
 #, php-format
 msgid "Provider: %s"
 msgstr ""
 
-#: includes/social-functions.php:999
+#: includes/social.php:1035
 #, php-format
 msgid "Profile: %s"
 msgstr ""
 
-#: includes/social-functions.php:1000
+#: includes/social.php:1036
 #, php-format
 msgid "Email: %s"
 msgstr ""
 
-#: includes/social-functions.php:1002
+#: includes/social.php:1038
 #, php-format
 msgid "[%s] New User Registration"
 msgstr ""
 
-#: includes/widget-functions.php:15
+#: includes/widgets.php:15
 msgid "Displays Social Login"
 msgstr ""
 
-#: includes/widget-functions.php:18
+#: includes/widgets.php:18
 msgid "UWP > Social Login"
 msgstr ""
 
-#: includes/widget-functions.php:52
+#: includes/widgets.php:52
 msgid "Widget Title:"
 msgstr ""
 
