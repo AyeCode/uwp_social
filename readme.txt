@@ -50,7 +50,10 @@ TBA
 == Changelog ==
 
 = 1.0.2 =
-Linked in sometimes does not connect becasue of trailing slash missing in subdomain - FIXED
+* Major code refactoring - CHANGED
+* Docblocks added - ADDED
+* Linked in sometimes does not connect becasue of trailing slash missing in subdomain - FIXED
+* Delete social row when the user get deleted - ADDED
 
 = 1.0.1 =
 * Renamed some files - CHANGED
