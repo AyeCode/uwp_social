@@ -207,3 +207,15 @@ function uwp_social_destroy_session_on_logout() {
     }
 }
 add_action('wp_logout', 'uwp_social_destroy_session_on_logout');
+
+//When deleting user also delete the social profile row.
+add_action('delete_user', 'uwp_social_delete_user_row');
+function uwp_social_delete_user_row($user_id) {
+    if (!$user_id) {
+        return;
+    }
+
+    global $wpdb;
+    $social_table = $wpdb->base_prefix . 'uwp_social_profiles';
+    $wpdb->query($wpdb->prepare("DELETE FROM {$social_table} WHERE user_id = %d", $user_id));
+}
