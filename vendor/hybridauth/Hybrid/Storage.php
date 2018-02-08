@@ -16,6 +16,21 @@ class Hybrid_Storage
 	function __construct()
 	{
 		if ( ! session_id() ){
+
+			$session_path = session_save_path();
+
+			if( !file_exists($session_path) ) {
+				echo 'ERROR: Session path doesn\'t exist: ';
+				echo $session_path;
+				echo '<br/>';
+				exit;
+			}
+
+			if( !is_writable($session_path) ) {
+				echo 'ERROR: Session path is not writable: '.$session_path;
+				exit;
+			}
+
 			if( ! session_start() ){
 				throw new Exception( "Hybridauth requires the use of 'session_start()' at the start of your script, which appears to be disabled.", 1 );
 			}
