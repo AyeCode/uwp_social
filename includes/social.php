@@ -199,7 +199,7 @@ function uwp_social_authenticate_process() {
             uwp_social_render_error( $e, $config, $provider );
         }
 
-        $redirect_to = isset( $_REQUEST[ 'redirect_to' ] ) ? $_REQUEST[ 'redirect_to' ] : trailingslashit(home_url());
+        $redirect_to = uwp_get_social_login_rdirect_url();
 
         $authenticated_url = add_query_arg(
             array(
@@ -273,12 +273,7 @@ function uwp_social_build_provider_config( $provider )
 function uwp_social_authenticated_process()
 {
 
-    $redirect_page_id = uwp_get_option('login_redirect_to', 0);
-    if ($redirect_page_id) {
-        $redirect_to = esc_url( get_permalink($redirect_page_id) );
-    } else {
-        $redirect_to = home_url('/');
-    }
+    $redirect_to = uwp_get_social_login_rdirect_url();
 
     if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
         $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
@@ -1068,4 +1063,18 @@ function uwp_process_login_clear_user_php_session()
     $_SESSION["HA::STORE"]        = array(); // used by hybridauth library. to clear as soon as the auth process ends.
     $_SESSION["HA::CONFIG"]       = array(); // used by hybridauth library. to clear as soon as the auth process ends.
     $_SESSION["uwp::userprofile"] = array(); // used by wsl to temporarily store the user profile so we don't make unnecessary calls to social apis.
+}
+
+function uwp_get_social_login_rdirect_url(){
+    $redirect_page_id = uwp_get_option('login_redirect_to', -1);
+    if(isset( $_REQUEST['redirect_to'] )) {
+        $redirect_to = esc_url($_REQUEST['redirect_to']);
+    } elseif (isset($redirect_page_id) && (int)$redirect_page_id > 0) {
+        $redirect_to = esc_url(get_permalink($redirect_page_id));
+    } elseif(isset($redirect_page_id) && (int)$redirect_page_id == -1 && wp_get_referer()) {
+        $redirect_to = esc_url(wp_get_referer());
+    } else {
+        $redirect_to = home_url('/');
+    }
+    return apply_filters('uwp_login_redirect', $redirect_to);
 }
