@@ -88,6 +88,7 @@ class UsersWP_Social {
         do_action( 'uwp_social_setup_actions' );
         if(is_admin()){
             add_action( 'admin_init', array( $this, 'activation_redirect' ) );
+            add_filter( 'uwp_settings_general_uninstall', array( $this, 'uwp_social_settings_uninstall' ), 10, 1 );
         }
         add_action( 'init', array($this, 'load_textdomain') );
     }
@@ -153,6 +154,18 @@ class UsersWP_Social {
         exit;
     }
 
+    public function uwp_social_settings_uninstall($uninstall){
+        $uninstall['uwp_uninstall_social_data'] = array(
+            'id'   => 'uwp_uninstall_social_data',
+            'name' => __( 'UsersWP - Social', 'uwp-social' ),
+            'desc' => __( 'Remove all data when deleted?', 'uwp-social' ),
+            'type' => 'checkbox',
+            'std'  => '1',
+            'class' => 'uwp_label_inline',
+        );
+
+        return $uninstall;
+    }
 
 }
 
