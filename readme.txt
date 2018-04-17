@@ -51,6 +51,7 @@ TBA
 
 = 1.0.4 =
 * Fix login redirect to last page - FIXED
+* Plugin uninstall functionality - ADDED
 
 = 1.0.3 =
 * Added graceful error message if session problems - ADDED
