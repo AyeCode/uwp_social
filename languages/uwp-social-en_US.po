@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.0.3\n"
+"Project-Id-Version: UsersWP - Social 1.0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-08 13:32+0000\n"
-"PO-Revision-Date: 2018-02-08 13:32+0000\n"
+"POT-Creation-Date: 2018-04-17 11:21+0100\n"
+"PO-Revision-Date: 2018-04-17 11:22+0100\n"
 "Last-Translator: \n"
 "Language-Team: GeoDirectory <info@userswp.io>\n"
 "Language: en_US\n"
@@ -405,7 +405,7 @@ msgid ""
 "properly configured."
 msgstr ""
 
-#: includes/errors.php:25 includes/social.php:305
+#: includes/errors.php:25 includes/social.php:300
 msgid "Unknown or disabled provider."
 msgstr ""
 
@@ -547,98 +547,98 @@ msgid ""
 "You are already logged in as %s. Do you want to <a href='%s'>log out</a>?"
 msgstr ""
 
-#: includes/social.php:414
+#: includes/social.php:409
 msgid "Registration is now closed."
 msgstr ""
 
-#: includes/social.php:620
+#: includes/social.php:615
 msgid "An error occurred while creating a new user: "
 msgstr ""
 
-#: includes/social.php:623
+#: includes/social.php:618
 msgid "An error occurred while creating a new user!"
 msgstr ""
 
-#: includes/social.php:679
+#: includes/social.php:674
 #, php-format
 msgid ""
 "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try "
 "again</a>."
 msgstr ""
 
-#: includes/social.php:788
+#: includes/social.php:783
 msgid "Not tonight."
 msgstr ""
 
-#: includes/social.php:806
+#: includes/social.php:801
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Invalid username or incorrect password. <a href=\"%s"
 "\">Lost your password</a>?"
 msgstr ""
 
-#: includes/social.php:836
+#: includes/social.php:831
 msgid "<strong>ERROR</strong>: Please type your e-mail address."
 msgstr ""
 
-#: includes/social.php:841
+#: includes/social.php:836
 msgid "<strong>ERROR</strong>: Please enter a valid email address."
 msgstr ""
 
-#: includes/social.php:846
+#: includes/social.php:841
 msgid "<strong>ERROR</strong>: Sorry, that email address is already used!"
 msgstr ""
 
-#: includes/social.php:859
+#: includes/social.php:854
 msgid "<strong>ERROR</strong>: That username is not allowed."
 msgstr ""
 
-#: includes/social.php:864
+#: includes/social.php:859
 msgid "<strong>ERROR</strong>: Username must be at least 4 characters."
 msgstr ""
 
-#: includes/social.php:874
+#: includes/social.php:869
 msgid "<strong>ERROR</strong>: Sorry, usernames must have letters too!"
 msgstr ""
 
-#: includes/social.php:879
+#: includes/social.php:874
 msgid "<strong>ERROR</strong>: Sorry, that username already exists!"
 msgstr ""
 
-#: includes/social.php:944
+#: includes/social.php:939
 msgid "Redirecting..."
 msgstr ""
 
-#: includes/social.php:987
+#: includes/social.php:982
 msgid "Processing, please wait..."
 msgstr ""
 
-#: includes/social.php:1032
+#: includes/social.php:1027
 #, php-format
 msgid "New user registration on your site: %s"
 msgstr ""
 
-#: includes/social.php:1033
+#: includes/social.php:1028
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: includes/social.php:1034
+#: includes/social.php:1029
 #, php-format
 msgid "Provider: %s"
 msgstr ""
 
-#: includes/social.php:1035
+#: includes/social.php:1030
 #, php-format
 msgid "Profile: %s"
 msgstr ""
 
-#: includes/social.php:1036
+#: includes/social.php:1031
 #, php-format
 msgid "Email: %s"
 msgstr ""
 
-#: includes/social.php:1038
+#: includes/social.php:1033
 #, php-format
 msgid "[%s] New User Registration"
 msgstr ""
@@ -655,7 +655,15 @@ msgstr ""
 msgid "Widget Title:"
 msgstr ""
 
-#: uwp_social.php:216
+#: uwp_social.php:160
+msgid "UsersWP - Social"
+msgstr ""
+
+#: uwp_social.php:161
+msgid "Remove all data when deleted?"
+msgstr ""
+
+#: uwp_social.php:229
 msgid ""
 " addon requires <a href=\"https://wordpress.org/plugins/userswp/\" target="
 "\"_blank\">UsersWP</a> plugin."
