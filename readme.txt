@@ -49,6 +49,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.5 =
+* Implement widget and gutenberg blocks using super duper class - CHANGED
+
 = 1.0.4 =
 * Fix login redirect to last page - FIXED
 * Plugin uninstall functionality - ADDED
