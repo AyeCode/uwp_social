@@ -111,23 +111,22 @@ function uwp_social_login_buttons() {
     <?php
 }
 
-function uwp_social_login_buttons_display($args, $instance, $shortcode = false) {
-    
-    extract($args, EXTR_SKIP);
+function uwp_social_login_buttons_display() {
+
     ob_start();
-    
-    $title = empty($instance['title']) ? __('Social Login', 'uwp-social') : apply_filters('uwp_social_login_title', $instance['title']);
-    echo $before_widget;
+
     ?>
-    <?php if ($title) {
-        echo $before_title . $title . $after_title;
-    } ?>
+
     <div class="uwp-social-login-wrap">
         <?php uwp_social_login_buttons(); ?>
     </div>
-    <?php echo $after_widget;
+
+    <?php
+
     $output = ob_get_contents();
+
     ob_end_clean();
+
     return $output;
 }
 
