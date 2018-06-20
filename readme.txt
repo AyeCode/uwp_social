@@ -49,6 +49,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.6 =
+* Social login is unable to create new user sometimes - FIXED
+
 = 1.0.5 =
 * Implement widget and gutenberg blocks using super duper class - CHANGED
 

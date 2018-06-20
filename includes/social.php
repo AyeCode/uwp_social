@@ -586,7 +586,7 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
 
         'first_name'    => $hybridauth_user_profile->firstName,
         'last_name'     => $hybridauth_user_profile->lastName,
-        'user_url'      => $hybridauth_user_profile->profileURL,
+        'user_url'      => "'".$hybridauth_user_profile->profileURL."'",
         'description'   => $hybridauth_user_profile->description,
 
         'user_pass'     => wp_generate_password()
@@ -598,13 +598,9 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
 
     do_action( 'uwp_social_before_wp_insert_user', $userdata, $provider, $hybridauth_user_profile );
 
-    $user_id = apply_filters( 'uwp_social_delegate_wp_insert_user', $userdata, $provider, $hybridauth_user_profile );
+    $user_id = wp_insert_user( $userdata );
 
-    // Create a new WordPress user
-    if( ! $user_id || ! is_integer( $user_id ) )
-    {
-        $user_id = wp_insert_user( $userdata );
-    }
+    $user_id = apply_filters( 'uwp_social_delegate_wp_insert_user', $user_id, $provider, $hybridauth_user_profile );
 
     // do not continue without user_id
     if( ! $user_id || ! is_integer( $user_id ) )
