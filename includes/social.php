@@ -111,6 +111,10 @@ function uwp_social_login_buttons() {
     <?php
 }
 
+add_filter( 'login_form_middle', 'uwp_social_login_form_botton' );
+function uwp_social_login_form_botton($content){
+    return $content.uwp_social_login_buttons_display();
+}
 function uwp_social_login_buttons_display() {
 
     ob_start();

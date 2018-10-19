@@ -28,7 +28,6 @@ class UWP_Social_Login_Widget extends WP_Super_Duper {
                     'title'       => __( 'Social widget title', 'uwp-social' ),
                     'desc'        => __( 'Enter your UWP social Login widget title.', 'uwp-social' ),
                     'type'        => 'text',
-                    //'placeholder' => 'World',
                     'desc_tip'    => true,
                     'default'     => '',
                     'advanced'    => false
@@ -50,7 +49,7 @@ class UWP_Social_Login_Widget extends WP_Super_Duper {
 
         echo '<div class="uwp_widgets uwp_widget_social_login">';
 
-        echo uwp_social_login_buttons_display($args);
+        echo uwp_social_login_buttons_display();
 
         echo '</div>';
 
