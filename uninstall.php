@@ -11,10 +11,10 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-if ( 1 == uwp_get_option( 'uwp_uninstall_social_data' ) ) {
+$settings = get_option('uwp_settings', array());
+if ( 1 == $settings[ 'uwp_uninstall_social_data' ] ) {
     global $wpdb;
     $wpdb->hide_errors();
-    $settings = get_option('uwp_settings', array());
     
     $options = array(
         'enable_uwp_social_google',
@@ -77,6 +77,6 @@ if ( 1 == uwp_get_option( 'uwp_uninstall_social_data' ) ) {
 
     update_option('uwp_settings', $settings);
 
-    $tbl_social = uwp_get_table_prefix() . "uwp_social_profiles";
+    $tbl_social = $wpdb->prefix . "uwp_social_profiles";
     $wpdb->query( "DROP TABLE IF EXISTS ".$tbl_social );
 }
