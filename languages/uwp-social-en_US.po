@@ -1,11 +1,11 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.0.5\n"
+"Project-Id-Version: UsersWP - Social 1.0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-24 16:20+0100\n"
-"PO-Revision-Date: 2018-05-24 16:20+0100\n"
+"POT-Creation-Date: 2018-10-30 12:44+0000\n"
+"PO-Revision-Date: 2018-10-30 12:44+0000\n"
 "Last-Translator: \n"
-"Language-Team: GeoDirectory <info@userswp.io>\n"
+"Language-Team: AyeCode Ltd <contact@ayecode.io>\n"
 "Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -405,7 +405,7 @@ msgid ""
 "properly configured."
 msgstr ""
 
-#: includes/errors.php:25 includes/social.php:299
+#: includes/errors.php:25 includes/social.php:303
 msgid "Unknown or disabled provider."
 msgstr ""
 
@@ -537,13 +537,13 @@ msgstr ""
 msgid "Back to %s"
 msgstr ""
 
-#: includes/social.php:148
+#: includes/social.php:152
 #, php-format
 msgid ""
 "You are already logged in as %s. Do you want to <a href='%s'>log out</a>?"
 msgstr ""
 
-#: includes/social.php:408
+#: includes/social.php:412
 msgid "Registration is now closed."
 msgstr ""
 
