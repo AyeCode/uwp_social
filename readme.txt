@@ -49,6 +49,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.7 =
+* Login with LinkedIn gives error due to destruct method - FIXED
+
 = 1.0.6 =
 * Social login is unable to create new user sometimes - FIXED
 * GDV2 compatibility - ADDED
