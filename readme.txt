@@ -49,9 +49,14 @@ TBA
 
 == Changelog ==
 
+= 1.0.7 =
+* Login with LinkedIn gives error due to destruct method - FIXED
+
 = 1.0.6 =
 * Social login is unable to create new user sometimes - FIXED
 * GDV2 compatibility - ADDED
+* Remove session path check as it shows error on few hostings - FIXED
+* Use core WP functions in Uninstall functionality. - CHANGED
 
 = 1.0.5 =
 * Implement widget and gutenberg blocks using super duper class - CHANGED
