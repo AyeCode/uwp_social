@@ -12,7 +12,7 @@ Text Domain: uwp-social
 Domain Path: /languages
 Requires at least: 3.1
 Tested up to: 5.0
-Update URL: https://userswp.io
+Update URL: https://github.com/AyeCode/uwp_social/
 Update ID: 326
 */
 // Exit if accessed directly
