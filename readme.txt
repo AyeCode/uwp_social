@@ -1,10 +1,10 @@
 === UsersWP - Social Login ===
 Contributors: stiofansisland, paoltaia, ayecode
 Donate link: http://userswp.io/
-Tags: buddypress, frontend, login, register, account, users, social-connect, userswp
-Requires at least: 3.1
-Tested up to: 5.0
-Stable tag: 1.0.7
+Tags: social, social login, login, register, social-connect, userswp
+Requires at least: 4.9
+Tested up to: 5.2
+Stable tag: 1.0.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,13 +19,6 @@ This addon lets your user to register and login with popular sites like Facebook
 100% translatable.
 
 == Installation ==
-
-= Minimum Requirements =
-
-* WordPress 3.1 or greater
-* BuddyPress plugin
-* PHP version 5.2.4 or greater
-* MySQL version 5.0 or greater
 
 = Automatic installation =
 
@@ -48,6 +41,9 @@ No questions so far, but don't hesitate to ask!
 TBA
 
 == Changelog ==
+
+= 1.0.8 =
+* Integrate new settings interface - CHANGED
 
 = 1.0.7 =
 * Login with LinkedIn gives error due to destruct method - FIXED
