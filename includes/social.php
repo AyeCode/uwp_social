@@ -141,7 +141,7 @@ function uwp_social_authenticate_init() {
     // check for uwp actions
     $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : null;
 
-    if( ! in_array( $action, array( "uwp_social_authenticate", "uwp_social_authenticated", "uwp_social_account_linking" ) ) )
+    if( ! in_array( $action, array( "uwp_social_authenticate", "uwp_social_account_linking", "uwp_social_authenticated" ) ) )
     {
         return;
     }
@@ -154,73 +154,82 @@ function uwp_social_authenticate_init() {
 
     }
 
+    do_action( "uwp_social_authenticate_start" );
+
     if ($action == 'uwp_social_authenticate') {
         uwp_social_authenticate_process();
     }
 
-    if ($action == 'uwp_social_authenticated') {
-        uwp_social_authenticated_process();
-    }
-
-    if ($action == 'uwp_social_account_linking') {
-        uwp_social_authenticated_process();
-    }
+    uwp_social_authenticated_process();
 }
 
 function uwp_social_authenticate_process() {
+
     if (is_user_logged_in()) {
         wp_redirect(home_url());
-        die();
-    } else {
-        if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
-            $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
-        } else {
-            //todo: maybe display error?
-            $provider = 'Google';
-        }
-
-
-        $config = uwp_social_build_provider_config($provider);
-
-        // load hybridauth main class
-        if( ! class_exists('Hybrid_Auth', false) )
-        {
-            require_once UWP_SOCIAL_PATH . "vendor/hybridauth/Hybrid/Auth.php";
-        }
-
-        try
-        {
-            // create an instance oh hybridauth with the generated config
-            $hybridauth = new Hybrid_Auth( $config );
-
-            $params = apply_filters("uwp_process_login_authenticate_params",array(),$provider);
-            $adapter = $hybridauth->authenticate( $provider, $params );
-        }
-            // if hybridauth fails to authenticate the user, then we display an error message
-        catch( Exception $e )
-        {
-            uwp_social_render_error( $e, $config, $provider );
-        }
-
-        $redirect_to = uwp_get_social_login_rdirect_url();
-
-        $authenticated_url = add_query_arg(
-            array(
-                'action' =>  'uwp_social_authenticated',
-                'provider' => $provider
-            ),
-            trailingslashit(home_url())
-        );
-        // display a loading screen
-        uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
-
+        exit();
     }
+
+    if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
+        $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
+    } else {
+        echo uwp_social_render_error_page(__('Invalid social login provider.', 'uwp-social'));
+        die();
+    }
+
+    if( ! isset( $_REQUEST["uwp_redirect_to_provider"] ) )
+    {
+        do_action( 'uwp_clear_user_php_session' );
+
+        return uwp_social_provider_redirect_loading_screen( $provider);
+    }
+
+    $config = uwp_social_build_provider_config($provider);
+
+    if(!class_exists('Hybridauth')){
+        require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
+    }
+
+    try
+    {
+        // create an instance oh hybridauth with the config
+        $hybridauth = new Hybridauth\Hybridauth( $config );
+
+        $params = apply_filters("uwp_process_login_authenticate_params",array(),$provider);
+        uwp_set_provider_config_in_session_storage( $provider, $config );
+        $adapter = $hybridauth->authenticate( $provider, $params );
+    }
+
+    // if hybridauth fails to authenticate the user, then we display an error message
+    catch( Exception $e )
+    {
+        uwp_social_render_error( $e, $config, $provider );
+    }
+
+    $redirect_to = uwp_get_social_login_redirect_url();
+
+    $authenticated_url = add_query_arg(
+        array(
+            'action' =>  'uwp_social_authenticated',
+            'provider' => $provider
+        ),
+        trailingslashit(home_url('index.php'))
+    );
+    // display a loading screen
+    uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
 }
 
 function uwp_social_build_provider_config( $provider )
 {
+
+    if(!class_exists('Hybridauth')){
+        require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
+    }
+
     $config = array();
-    $config["base_url"] = UWP_SOCIAL_HYBRIDAUTH_ENDPOINT;
+    $config["current_page"] = Hybridauth\HttpClient\Util::getCurrentUrl(true);
+    $config["base_url"] = site_url('index.php');
+    $config["callback"] = site_url('index.php') . '?hauth.done=' . $provider;
     $config["providers"] = array();
     $config["providers"][$provider] = array();
     $config["providers"][$provider]["enabled"] = true;
@@ -245,21 +254,31 @@ function uwp_social_build_provider_config( $provider )
         $config["providers"][$provider]["keys"]["secret"] = uwp_get_option('uwp_social_'.$provider_key.'_secret');
     }
 
-    // set default scope
-    if( uwp_get_option('uwp_social_'.$provider_key.'_scope', false) )
-    {
-        $config["providers"][$provider]["keys"]["scope"] = uwp_get_option('uwp_social_'.$provider_key.'_scope');
-    }
-
     // set custom config for facebook
     if( strtolower( $provider ) == "facebook" )
     {
-//        $config["providers"][$provider]["display"] = "popup";
         $config["providers"][$provider]["trustForwarded"] = true;
         $config["providers"][$provider]["display"] = "page";
 
     }
 
+    if( $provider_key == "linkedin" )
+    {
+        $config["providers"][$provider]["scope"] = "r_liteprofile r_emailaddress";
+    }
+
+    // set custom config for google
+    if( $provider_key == "google" )
+    {
+        // set the default google scope
+        $config["providers"][$provider]["scope"] = "profile https://www.googleapis.com/auth/plus.profile.emails.read";
+    }
+
+    if( $provider_key == "instagram" )
+    {
+        // set the default google scope
+        $config["providers"][$provider]["scope"] = "basic";
+    }
 
     $provider_scope = isset( $config["providers"][$provider]["scope"] ) ? $config["providers"][$provider]["scope"] : '' ;
 
@@ -276,13 +295,13 @@ function uwp_social_build_provider_config( $provider )
 function uwp_social_authenticated_process()
 {
 
-    $redirect_to = uwp_get_social_login_rdirect_url();
+    $redirect_to = uwp_get_social_login_redirect_url();
 
     if (isset($_REQUEST['provider']) && !empty($_REQUEST['provider'])) {
         $provider = strip_tags(esc_sql(trim($_REQUEST['provider'])));
     } else {
-        //todo: maybe display error?
-        $provider = 'Google';
+        echo uwp_social_render_error_page(__('Invalid social login provider.', 'uwp-social'));
+        die();
     }
     
     // authentication mode
@@ -366,7 +385,27 @@ function uwp_social_authenticated_process()
     uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapter, $hybridauth_user_profile, $wp_user );
 }
 
+function uwp_social_get_provider_adapter( $provider_id )
+{
 
+    $adapter                 = null;
+    $provider = uwp_social_get_provider_name_by_id($provider_id);
+    $config = uwp_get_provider_config_from_session_storage( $provider );
+
+    if(!class_exists('Hybridauth')){
+        require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
+    }
+
+    try {
+        $hybridauth = new Hybridauth\Hybridauth( $config );
+        $adapter = $hybridauth->getAdapter( $provider_id );
+    } catch( Exception $e )
+    {
+        echo uwp_social_render_error( $e, $config, $provider_id, $adapter );
+        die();
+    }
+    return $adapter;
+}
 
 function uwp_social_get_user_data( $provider, $redirect_to )
 {
@@ -384,13 +423,11 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     if ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] ) {
         $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] );
     } else {
-        list($error,$hybridauth_user_profile) = uwp_request_user_social_profile( $provider );
-        if (!$error) {
-            $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
-        }
+        $hybridauth_user_profile = uwp_request_user_social_profile( $provider );
+        $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
     }
 
-    // must be error templte
+    // must be error template
     if (is_string($hybridauth_user_profile)) {
         echo $hybridauth_user_profile;
         die();
@@ -399,10 +436,7 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $adapter = uwp_social_get_provider_adapter( $provider );
 
     $hybridauth_user_email = sanitize_email( $hybridauth_user_profile->email );
-
-
     $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
-
 
     if( ! $user_id )
     {
@@ -642,24 +676,13 @@ function uwp_request_user_social_profile( $provider )
 
     try
     {
-//        try {
-//            // get idp adapter
-//            $adapter = uwp_social_get_provider_adapter($provider);
-//        }
-//        catch( Exception $e )
-//        {
-//            return array(
-//                true,
-//                uwp_social_render_error( $e, $config, $provider, $adapter )
-//            );
-//        }
 
         // get idp adapter
         $adapter = uwp_social_get_provider_adapter($provider);
 
-        $config = $adapter->config;
+        $config = uwp_get_provider_config_from_session_storage( $provider );
         // if user authenticated successfully with social network
-        if( $adapter->isUserConnected() )
+        if( $adapter->isConnected() )
         {
             // grab user profile via hybridauth api
             $hybridauth_user_profile = $adapter->getUserProfile();
@@ -669,7 +692,6 @@ function uwp_request_user_social_profile( $provider )
         else
         {
             return array(
-                true,
                 uwp_social_render_notice( sprintf( __( "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try again</a>.", 'uwp-social' ), $provider, site_url( 'wp-login.php', 'login_post' ) ) )
             );
         }
@@ -679,15 +701,11 @@ function uwp_request_user_social_profile( $provider )
     catch( Exception $e )
     {
         return array(
-            true,
             uwp_social_render_error( $e, $config, $provider, $adapter )
         );
     }
 
-    return array(
-        false,
-        $hybridauth_user_profile
-    );
+    return $hybridauth_user_profile;
 }
 
 
@@ -723,9 +741,7 @@ function uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapt
     // Set WP auth cookie
     wp_set_auth_cookie( $user_id, true );
 
-    // let keep it std
     do_action( 'wp_login', $wp_user->user_login, $wp_user );
-    
 
     do_action( "uwp_social_authenticate_before_wp_safe_redirect", $user_id, $provider, $hybridauth_user_profile, $redirect_to );
 
@@ -733,8 +749,7 @@ function uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapt
 
     wp_safe_redirect( $redirect_to );
 
-    // for good measures
-    die();
+    exit();
 }
 
 function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user_profile )
@@ -858,11 +873,6 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
                     $profile_completion_errors[] = __( '<strong>ERROR</strong>: Username must be at least 4 characters.', 'uwp-social' );
                 }
 
-                if ( strpos( ' ' . $requested_user_login, '_' ) != false )
-                {
-                    // $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, usernames may not contain the character &#8220;_&#8221;!', 'uwp-social' );
-                }
-
                 if ( preg_match( '/^[0-9]*$/', $requested_user_login ) )
                 {
                     $profile_completion_errors[] = __( '<strong>ERROR</strong>: Sorry, usernames must have letters too!', 'uwp-social' );
@@ -921,6 +931,72 @@ function uwp_social_get_provider_name_by_id( $provider_id)
     }
 
     return $provider_id;
+}
+
+function uwp_social_provider_redirect_loading_screen($provider){
+    $assets_base_url  = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
+    ob_start();
+    ?>
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="robots" content="NOINDEX, NOFOLLOW">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title><?php _e("Redirecting...", 'uwp-social') ?> - <?php bloginfo('name'); ?></title>
+        <style type="text/css">
+            html {
+                background: #f1f1f1;
+            }
+            body {
+                background: #fff;
+                color: #444;
+                font-family: "Open Sans", sans-serif;
+                margin: 2em auto;
+                padding: 1em 2em;
+                max-width: 700px;
+                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+            }
+            #loading-screen {
+                margin-top: 50px;
+            }
+            #loading-screen div{
+                line-height: 20px;
+                background-color: #f2f2f2;
+                border: 1px solid #ccc;
+                padding: 10px;
+                text-align:center;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
+                margin-top:25px;
+            }
+        </style>
+        <script>
+            function init()
+            {
+                setTimeout(function(){ window.location.replace( window.location.href + "&uwp_redirect_to_provider=true" ); }, 250);
+            }
+        </script>
+    </head>
+    <body id="loading-screen" onload="init();">
+    <table width="100%" border="0">
+        <tr>
+            <td align="center"><img src="<?php echo $assets_base_url ?>loading.gif" /></td>
+        </tr>
+        <tr>
+            <td align="center">
+                <div>
+                    <?php _e( "Processing, please wait...", 'uwp-social');  ?>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </body>
+    </html>
+    <?php
+    $output = ob_get_contents();
+    ob_end_clean();
+    echo $output;
+    die();
 }
 
 
@@ -1056,15 +1132,57 @@ function uwp_social_change_username_value($value, $provider) {
 /**
  * Clear the stored data by hybridauth and wsl in php session
  */
-//add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
+add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
 function uwp_process_login_clear_user_php_session()
 {
     $_SESSION["HA::STORE"]        = array(); // used by hybridauth library. to clear as soon as the auth process ends.
     $_SESSION["HA::CONFIG"]       = array(); // used by hybridauth library. to clear as soon as the auth process ends.
-    $_SESSION["uwp::userprofile"] = array(); // used by wsl to temporarily store the user profile so we don't make unnecessary calls to social apis.
+    $_SESSION["uwp::userprofile"] = array();
 }
 
-function uwp_get_social_login_rdirect_url(){
+function uwp_set_provider_config_in_session_storage($provider, $config){
+    $provider = strtolower($provider);
+
+    $_SESSION['uwp:' . $provider . ':config'] = (array) $config;
+}
+
+function uwp_get_provider_config_from_session_storage($provider){
+    $provider = strtolower($provider);
+
+    if(isset($_SESSION['uwp:' . $provider . ':config']))
+    {
+        return (array) $_SESSION['uwp:' . $provider . ':config'];
+    }
+}
+
+add_action('init', 'uwp_social_check_auth_done');
+function uwp_social_check_auth_done(){
+
+    if(isset($_REQUEST['hauth_done']) && !empty($_REQUEST['hauth_done']) || !empty($_REQUEST['hauth.done'])){
+        $provider_id     = $_REQUEST['hauth_done'];
+        $config = uwp_get_provider_config_from_session_storage( $provider_id );
+        $callback_url    = $config['current_page'];
+
+        if(!class_exists('Hybridauth')){
+            require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
+        }
+
+        try {
+            $hybridauth = new Hybridauth\Hybridauth($config);
+
+            $adapter = $hybridauth->authenticate($provider_id);
+
+            Hybridauth\HttpClient\Util::redirect($callback_url);
+        }
+        catch( Exception $e ){
+
+            return uwp_social_render_error( $e, $config, $provider_id );
+        }
+    }
+
+}
+
+function uwp_get_social_login_redirect_url(){
     $redirect_page_id = uwp_get_option('login_redirect_to', -1);
     if(isset( $_REQUEST['redirect_to'] )) {
         $redirect_to = esc_url($_REQUEST['redirect_to']);

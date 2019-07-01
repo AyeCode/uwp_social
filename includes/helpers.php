@@ -14,26 +14,6 @@ function uwp_email_exists( $email )
     return false;
 }
 
-function uwp_social_get_provider_adapter( $provider_id )
-{
-    if( ! class_exists('Hybrid_Auth', false) )
-    {
-        require_once UWP_SOCIAL_PATH . "vendor/hybridauth/Hybrid/Auth.php";
-    }
-
-    $adapter                 = null;
-    $config = null;
-
-    try {
-        $adapter = Hybrid_Auth::getAdapter( $provider_id );
-    } catch( Exception $e )
-    {
-        echo uwp_social_render_error( $e, $config, $provider_id, $adapter );
-        die();
-    }
-    return $adapter;
-}
-
 function uwp_get_social_profile( $provider, $provider_uid )
 {
     global $wpdb;

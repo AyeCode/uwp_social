@@ -31,6 +31,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
             add_action('uwp_sections_' . $this->id, array($this, 'output_toggle_advanced'));
             add_action('uwp_settings_save_' . $this->id, array($this, 'save'));
             add_action('uwp_sections_' . $this->id, array($this, 'output_sections'));
+            add_action('uwp_get_settings_uninstall', array($this, 'uninstall_options'));
 
         }
 
@@ -118,7 +119,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Google',
+                        'default'  => site_url('index.php') . '?hauth.done=Google',
                     ),
                     array(
                         'id'   => 'uwp_social_google_pick_username',
@@ -174,7 +175,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Facebook',
+                        'default'  => site_url('index.php') . '?hauth.done=Facebook',
                     ),
                     array(
                         'id'   => 'uwp_social_facebook_pick_username',
@@ -231,7 +232,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Twitter',
+                        'default'  => site_url('index.php') . '?hauth.done=Twitter',
                     ),
                     array(
                         'id'   => 'uwp_social_twitter_pick_username',
@@ -288,7 +289,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=LinkedIn',
+                        'default'  => site_url('index.php') . '?hauth.done=LinkedIn',
                     ),
                     array(
                         'id'   => 'uwp_social_linkedin_pick_username',
@@ -345,7 +346,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Instagram',
+                        'default'  => site_url('index.php') . '?hauth.done=Instagram',
                     ),
                     array(
                         'id'   => 'uwp_social_instagram_pick_username',
@@ -402,7 +403,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Yahoo',
+                        'default'  => site_url('index.php') . '?hauth.done=Yahoo',
                     ),
                     array(
                         'id'   => 'uwp_social_yahoo_pick_username',
@@ -459,7 +460,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=WordPress',
+                        'default'  => site_url('index.php') . '?hauth.done=WordPress',
                     ),
                     array(
                         'id'   => 'uwp_social_wordpress_pick_username',
@@ -516,7 +517,7 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'readonly' => true,
-                        'default'  => UWP_SOCIAL_HYBRIDAUTH_ENDPOINT.'?hauth.done=Vkontakte',
+                        'default'  => site_url('index.php') . '?hauth.done=Vkontakte',
                     ),
                     array(
                         'id'   => 'uwp_social_vkontakte_pick_username',
@@ -556,6 +557,18 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
             $settings = apply_filters('uwp_get_settings_' . $this->id, $settings, $current_section);
 
             $settings[] = array('type' => 'sectionend', 'id' => 'social_general_settings_options');
+
+            return $settings;
+        }
+
+        public function uninstall_options( $settings ){
+
+            $settings[] = array(
+                'name'     => __( 'UsersWP - Social', 'uwp-social' ),
+                'desc'     => __( 'Remove all data when deleted?', 'uwp-social' ),
+                'id'       => 'uwp_uninstall_social_data',
+                'type'     => 'checkbox',
+            );
 
             return $settings;
         }
