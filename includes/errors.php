@@ -19,7 +19,7 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
 
     switch( $e->getCode() )
     {
-        case 0 : $message = __("Unspecified error.", 'uwp-social'); break;
+        case 0 : !empty($apierror) ? $message = $apierror : $message = __("Unspecified error.", 'uwp-social'); break;
         case 1 : $message = __("UsersWP Social Login is not properly configured.", 'uwp-social'); break;
         case 2 : $message = sprintf( __("UsersWP Social Login is not properly configured.<br /> <b>%s</b> need to be properly configured.", 'uwp-social'), $provider_name ); break;
         case 3 : $message = __("Unknown or disabled provider.", 'uwp-social'); break;
@@ -178,14 +178,12 @@ function uwp_social_render_error_page( $message, $notes = null, $provider = null
     return trim($output);
 }
 
-
 function uwp_social_render_notice( $message )
 {
     do_action( "uwp_social_render_notice_page_before", $message );
 
     return uwp_social_render_notice_page( $message );
 }
-
 
 function uwp_social_render_notice_page( $message )
 {
