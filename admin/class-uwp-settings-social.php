@@ -84,12 +84,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
         {
 
             if ( !empty( $current_section ) && 'google' === $current_section ) {
-
+                $callback = uwp_get_callback_url('google');
                 $settings = apply_filters('uwp_social_google_options', array(
                     array(
                         'title' => __('Google Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_google_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use %s for Authorized redirect URI.','uwp-social'), '<a href="https://console.developers.google.com" target="_blank">', '</a>', '<code class="social_setting_title">'.$callback.'</code>'),
                         'desc_tip' => false,
                     ),
                     array(
@@ -114,14 +115,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter Google APP Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_google_callback',
-                        'name' => __( 'Google APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Google',
-                    ),
-                    array(
                         'id'   => 'uwp_social_google_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -139,12 +132,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'facebook' === $current_section ) {
-
+                $callback = uwp_get_callback_url('facebook');
                 $settings = apply_filters('uwp_social_facebook_options', array(
                     array(
                         'title' => __('Facebook Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_facebook_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://developers.facebook.com/apps" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -170,14 +164,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter Facebook API Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_facebook_callback',
-                        'name' => __( 'Facebook APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Facebook',
-                    ),
-                    array(
                         'id'   => 'uwp_social_facebook_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -196,12 +182,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'twitter' === $current_section ) {
-
+                $callback = uwp_get_callback_url('twitter');
                 $settings = apply_filters('uwp_social_twitter_options', array(
                     array(
                         'title' => __('Twitter Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_twitter_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://dev.twitter.com/apps" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -227,14 +214,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter Twitter API Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_twitter_callback',
-                        'name' => __( 'Twitter APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Twitter',
-                    ),
-                    array(
                         'id'   => 'uwp_social_twitter_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -253,12 +232,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'linkedin' === $current_section ) {
-
+                $callback = uwp_get_callback_url('linkedin');
                 $settings = apply_filters('uwp_social_linkedin_options', array(
                     array(
                         'title' => __('Linkedin Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_linkedin_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://www.linkedin.com/developer/apps" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -284,14 +264,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter LinkedIn Client Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_linkedin_callback',
-                        'name' => __( 'LinkedIn APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=LinkedIn',
-                    ),
-                    array(
                         'id'   => 'uwp_social_linkedin_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -310,12 +282,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'instagram' === $current_section ) {
-
+                $callback = uwp_get_callback_url('instagram');
                 $settings = apply_filters('uwp_social_instagram_options', array(
                     array(
                         'title' => __('Instagram Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_instagram_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="http://instagram.com/developer/clients/manage/" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -341,14 +314,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter Instagram APP Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_instagram_callback',
-                        'name' => __( 'Instagram APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Instagram',
-                    ),
-                    array(
                         'id'   => 'uwp_social_instagram_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -367,12 +332,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'yahoo' === $current_section ) {
-
+                $callback = uwp_get_callback_url('yahoo');
                 $settings = apply_filters('uwp_social_yahoo_options', array(
                     array(
                         'title' => __('Social Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_yahoo_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://developer.yahoo.com/apps" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -398,14 +364,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter Yahoo Client Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_yahoo_callback',
-                        'name' => __( 'Yahoo APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Yahoo',
-                    ),
-                    array(
                         'id'   => 'uwp_social_yahoo_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -424,12 +382,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'wordpress' === $current_section ) {
-
+                $callback = uwp_get_callback_url('wordpress');
                 $settings = apply_filters('uwp_social_wordpress_options', array(
                     array(
                         'title' => __('WordPress Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_wordpress_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://developer.wordpress.com/apps/" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -455,14 +414,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'placeholder' => __( 'Enter WordPress APP Secret', 'uwp-social' )
                     ),
                     array(
-                        'id' => 'uwp_social_wordpress_callback',
-                        'name' => __( 'WordPress APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=WordPress',
-                    ),
-                    array(
                         'id'   => 'uwp_social_wordpress_pick_username',
                         'name' => 'Let the user enter username?',
                         'desc' => 'By default, the username is auto generated. If this option enabled then we would ask the user to pick the username by displaying a form.',
@@ -481,12 +432,13 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                 ));
 
             } elseif ( !empty( $current_section ) && 'vkontakte' === $current_section ) {
-
+                $callback = uwp_get_callback_url('vkontakte');
                 $settings = apply_filters('uwp_social_vkontakte_options', array(
                     array(
                         'title' => __('Vkontakte Settings', 'uwp-social'),
                         'type' => 'title',
                         'id' => 'social_vkontakte_settings_options',
+                        'desc' => sprintf(__('<b>Note:</b> Create API key and secret from %sDeveloper site%s and enter below. Use <code>%s</code> for Authorized redirect URI.','uwp-social'), '<a href="https://vk.com/apps?act=manage" target="_blank">', '</a>', $callback),
                         'desc_tip' => false,
                     ),
                     array(
@@ -510,14 +462,6 @@ if (!class_exists('UsersWP_Settings_Social', false)) :
                         'desc' => "",
                         'type' => 'text',
                         'placeholder' => __( 'Enter Vkontakte APP Secret', 'uwp-social' )
-                    ),
-                    array(
-                        'id' => 'uwp_social_vkontakte_callback',
-                        'name' => __( 'Vkontakte APP Callback URL', 'uwp-social' ),
-                        'desc' => "",
-                        'type' => 'text',
-                        'readonly' => true,
-                        'default'  => site_url('index.php') . '?hauth.done=Vkontakte',
                     ),
                     array(
                         'id'   => 'uwp_social_vkontakte_pick_username',

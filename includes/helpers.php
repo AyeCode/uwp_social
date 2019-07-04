@@ -104,98 +104,215 @@ function uwp_social_store_user_profile( $user_id, $provider, $profile )
     return $wpdb->insert_id;
 }
 
-function uwp_social_err_template_html_head() {
+function uwp_social_login_buttons() {
+    $providers = uwp_get_available_social_providers();
     ?>
-    <head>
-        <meta name="robots" content="NOINDEX, NOFOLLOW">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title><?php bloginfo('name'); ?> - <?php _e("Oops! We ran into an issue", 'uwp-social') ?>.</title>
-        <style type="text/css">
-            body {
-                background: #f1f1f1;
+    <ul class="uwp_social_login_ul">
+        <?php
+        foreach ($providers as $array_key => $provider) {
+            $provider_id   = isset( $provider["provider_id"]   ) ? $provider["provider_id"]   : '';
+            $provider_name = isset( $provider["provider_name"] ) ? $provider["provider_name"] : '';
+
+            $enable = uwp_get_option('enable_uwp_social_'.$array_key, "0");
+            if ($enable == "1") {
+                if (isset($provider["require_client_id"]) && $provider["require_client_id"]) {
+                    $key = uwp_get_option('uwp_social_'.$array_key.'_id', "");
+                } else {
+                    $key = uwp_get_option('uwp_social_'.$array_key.'_key', "");
+                }
+                $secret = uwp_get_option('uwp_social_'.$array_key.'_secret', "");
+                $icon = plugins_url()."/uwp_social/assets/images/32/".$array_key.".png";
+                $url = home_url() . "/?action=uwp_social_authenticate&provider=".$provider_id;
+
+                if (!empty($key) && !empty($secret)) {
+                    ?>
+                    <li class="uwp_social_login_icon">
+                        <a href="<?php echo $url; ?>">
+                            <img src="<?php echo $icon; ?>" alt="<?php echo $provider_name; ?>">
+                        </a>
+                    </li>
+                    <?php
+                }
             }
-            h4 {
-                color: #666;
-                font: 20px "Open Sans", sans-serif;
-                margin: 0;
-                padding: 0;
-                padding-bottom: 7px;
-            }
-            p {
-                font-size: 14px;
-                margin: 15px 0;
-                line-height: 25px;
-                padding: 10px;
-                text-align:left;
-            }
-            a {
-                color: #21759B;
-                text-decoration: none;
-            }
-            a:hover {
-                color: #D54E21;
-            }
-            #error-page {
-                background: #fff;
-                color: #444;
-                font-family: "Open Sans", sans-serif;
-                margin: 2em auto;
-                padding: 1em 2em;
-                max-width: 700px;
-                -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
-                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
-                margin-top: 50px;
-            }
-            #error-page pre {
-                max-width: 680px;
-                overflow: scroll;
-                padding: 5px;
-                background: none repeat scroll 0 0 #F5F5F5;
-                border-radius:3px;
-                font-family: Consolas, Monaco, monospace;
-            }
-            .error-message {
-                line-height: 26px;
-                background-color: #f2f2f2;
-                border: 1px solid #ccc;
-                padding: 10px;
-                text-align:center;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.13);
-                margin-top:25px;
-            }
-            .error-hint{
-                margin:0;
-            }
-            #debuginfo {
-                display:none;
-                text-align: center;
-                margin: 0;
-                padding: 0;
-                padding-top: 10px;
-                margin-top: 10px;
-                border-top: 1px solid #d2d2d2;
-            }
-        </style>
-    </head>
+        }
+        ?>
+    </ul>
     <?php
 }
 
+function uwp_social_build_provider_config( $provider )
+{
 
-function uwp_social_destroy_session_on_logout() {
-    if ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] ) {
-        unset( $_SESSION['uwp::userprofile']);
+    if(!class_exists('Hybridauth')){
+        require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
     }
+
+    $config = array();
+    $config["current_page"] = Hybridauth\HttpClient\Util::getCurrentUrl(true);
+    $config["base_url"] = site_url();
+    $config["callback"] = uwp_get_callback_url($provider);
+    $config["providers"] = array();
+    $config["providers"][$provider] = array();
+    $config["providers"][$provider]["enabled"] = true;
+    $config["providers"][$provider]["keys"] = array( 'id' => null, 'key' => null, 'secret' => null );
+
+    $provider_key = strtolower($provider);
+    // provider application id ?
+    if( uwp_get_option('uwp_social_'.$provider_key.'_id', false) )
+    {
+        $config["providers"][$provider]["keys"]["id"] = uwp_get_option('uwp_social_'.$provider_key.'_id');
+    }
+
+    // provider application key ?
+    if( uwp_get_option('uwp_social_'.$provider_key.'_key', false) )
+    {
+        $config["providers"][$provider]["keys"]["key"] = uwp_get_option('uwp_social_'.$provider_key.'_key');
+    }
+
+    // provider application secret ?
+    if( uwp_get_option('uwp_social_'.$provider_key.'_secret', false) )
+    {
+        $config["providers"][$provider]["keys"]["secret"] = uwp_get_option('uwp_social_'.$provider_key.'_secret');
+    }
+
+    // set custom config for facebook
+    if( strtolower( $provider ) == "facebook" )
+    {
+        $config["providers"][$provider]["trustForwarded"] = true;
+        $config["providers"][$provider]["display"] = "page";
+
+    }
+
+    if( $provider_key == "linkedin" )
+    {
+        $config["providers"][$provider]["scope"] = "r_liteprofile r_emailaddress";
+    }
+
+    // set custom config for google
+    if( $provider_key == "google" )
+    {
+        // set the default google scope
+        $config["providers"][$provider]["scope"] = "profile https://www.googleapis.com/auth/plus.profile.emails.read";
+    }
+
+    if( $provider_key == "instagram" )
+    {
+        // set the default google scope
+        $config["providers"][$provider]["scope"] = "basic";
+    }
+
+    $provider_scope = isset( $config["providers"][$provider]["scope"] ) ? $config["providers"][$provider]["scope"] : '' ;
+
+    // allow to overwrite scopes
+    $config["providers"][$provider]["scope"] = apply_filters( 'uwp_social_provider_config_scope', $provider_scope, $provider );
+
+    // allow to overwrite hybridauth config for the selected provider
+    $config["providers"][$provider] = apply_filters( 'uwp_social_provider_config', $config["providers"][$provider], $provider );
+
+    return $config;
 }
-add_action('wp_logout', 'uwp_social_destroy_session_on_logout');
 
-//When deleting user also delete the social profile row.
-add_action('delete_user', 'uwp_social_delete_user_row');
-function uwp_social_delete_user_row($user_id) {
-    if (!$user_id) {
-        return;
+function uwp_get_available_social_providers() {
+    $providers =  array(
+        "facebook" => array(
+            "provider_id"       => "facebook",
+            "provider_name"     => "Facebook",
+            "require_client_id" => true,
+        ),
+        "google" => array(
+            "provider_id"       => "google",
+            "provider_name"     => "Google",
+            "require_client_id" => true,
+        ),
+        "twitter" => array(
+            "provider_id"       => "twitter",
+            "provider_name"     => "Twitter",
+            "require_client_id" => false,
+        ),
+        "linkedin" => array(
+            "provider_id"       => "linkedin",
+            "provider_name"     => "LinkedIn",
+            "require_client_id" => false,
+        ),
+        "instagram" => array(
+            "provider_id"       => "Instagram",
+            "provider_name"     => "Instagram",
+            "require_client_id" => true,
+        ),
+        "yahoo" => array(
+            "provider_id"       => "yahoo",
+            "provider_name"     => "Yahoo!",
+            "require_client_id" => true,
+        ),
+        "wordpress" => array(
+            "provider_id"       => "wordpress",
+            "provider_name"     => "WordPress",
+            "require_client_id" => true,
+        ),
+        "vkontakte" => array(
+            "provider_id"       => "Vkontakte",
+            "provider_name"     => "ВКонтакте",
+            "require_client_id" => true,
+        ),
+    );
+
+    $providers = apply_filters('uwp_get_available_social_providers', $providers);
+    return $providers;
+}
+
+function uwp_social_get_provider_name_by_id( $provider_id)
+{
+    $providers = uwp_get_available_social_providers();
+
+    foreach( $providers as $provider ) {
+        if ( $provider['provider_id'] == $provider_id ) {
+            return $provider['provider_name'];
+        }
     }
 
-    global $wpdb;
-    $social_table = $wpdb->base_prefix . 'uwp_social_profiles';
-    $wpdb->query($wpdb->prepare("DELETE FROM {$social_table} WHERE user_id = %d", $user_id));
+    return $provider_id;
+}
+
+function uwp_social_destroy_session_data() {
+    if ( isset( $_SESSION['uwp_social'] ) ) {
+        unset( $_SESSION['uwp_social']);
+    }
+
+    if ( isset( $_SESSION['HA::STORE'] ) ) {
+        unset( $_SESSION['HA::STORE']);
+    }
+
+    if ( isset( $_SESSION['HA::CONFIG'] ) ) {
+        unset( $_SESSION['HA::CONFIG']);
+    }
+
+}
+
+function uwp_get_social_login_redirect_url(){
+    $redirect_page_id = uwp_get_option('login_redirect_to', -1);
+    if(isset( $_REQUEST['redirect_to'] )) {
+        $redirect_to = esc_url($_REQUEST['redirect_to']);
+    } elseif (isset($redirect_page_id) && (int)$redirect_page_id > 0) {
+        $redirect_to = esc_url(get_permalink($redirect_page_id));
+    } elseif(isset($redirect_page_id) && (int)$redirect_page_id == -1 && wp_get_referer()) {
+        $redirect_to = esc_url(wp_get_referer());
+    } else {
+        $redirect_to = home_url('/');
+    }
+    return apply_filters('uwp_login_redirect', $redirect_to);
+}
+
+function uwp_get_callback_url($provider){
+    $callback = '';
+    $provider = strtolower($provider);
+
+    if(isset($provider) & !empty($provider)){
+        if('yahoo' == $provider){
+            $callback = site_url() . '/uwphauth/yaho';
+        } else {
+            $callback = site_url() . '/uwphauth/' . $provider;
+        }
+    }
+
+    return $callback;
 }

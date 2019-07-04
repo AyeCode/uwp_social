@@ -28,6 +28,7 @@ class UWP_Social_Activator
     public static function activate()
     {
         self::create_tables();
+        flush_rewrite_rules();
 
         // Set activation redirect flag
         set_transient( '_uwp_social_activation_redirect', true, 30 );
@@ -84,6 +85,8 @@ class UWP_Social_Activator
 
         $social_profiles = apply_filters('uwp_social_profiles_before_table_create', $social_profiles);
 
-        dbDelta($social_profiles);   
+        dbDelta($social_profiles);
+
+        update_option( 'uwp_social_db_version', UWP_SOCIAL_VERSION );
     }
 }

@@ -1,120 +1,5 @@
 <?php
-function uwp_get_available_social_providers() {
-    $providers =  array(
-        "facebook" => array(
-            "provider_id"       => "Facebook",
-            "provider_name"     => "Facebook",
-            "require_client_id" => true,
-            "callback"          => true,
-            "new_app_link"      => "https://developers.facebook.com/apps",
-            "default_api_scope" => "email, public_profile, user_friends",
-            "default_network"   => true,
-            "cat"               => "socialnetworks",
-        ),
-        "google" => array(
-            "provider_id"       => "Google",
-            "provider_name"     => "Google",
-            "callback"          => true,
-            "require_client_id" => true,
-            "new_app_link"      => "https://console.developers.google.com",
-            "default_api_scope" => "profile https://www.googleapis.com/auth/plus.profile.emails.read",
-            "default_network"   => true,
-            "cat"               => "socialnetworks",
-        ),
-        "twitter" => array(
-            "provider_id"       => "Twitter",
-            "provider_name"     => "Twitter",
-            "callback"          => true,
-            "require_client_id" => false,
-            "new_app_link"      => "https://dev.twitter.com/apps",
-            "default_network"  => true,
-            "cat"               => "microblogging",
-        ),
-        "linkedin" => array(
-            "provider_id"       => "LinkedIn",
-            "provider_name"     => "LinkedIn",
-            "new_app_link"      => "https://www.linkedin.com/secure/developer",
-            "cat"               => "professional",
-        ),
-        "instagram" => array(
-            "provider_id"       => "Instagram",
-            "provider_name"     => "Instagram",
-            "callback"          => true,
-            "require_client_id" => true,
-            "new_app_link"      => "http://instagr.am/developer/clients/manage/",
-            "cat"               => "media",
-        ),
-        "yahoo" => array(
-            "provider_id"       => "Yahoo",
-            "provider_name"     => "Yahoo!",
-            "require_client_id" => true,
-            "callback"          => true,
-            "new_app_link"      => null,
-            "cat"               => "pleasedie",
-        ),
-        "wordpress" => array(
-            "provider_id"       => "WordPress",
-            "provider_name"     => "WordPress",
-            "require_client_id" => true,
-            "callback"          => true,
-            "new_app_link"      => "https://developer.wordpress.com/apps/new/",
-            "cat"               => "blogging",
-        ),
-        "vkontakte" => array(
-            "provider_id"       => "Vkontakte",
-            "provider_name"     => "ВКонтакте",
-            "callback"          => true,
-            "require_client_id" => true,
-            "new_app_link"      => "http://vk.com/developers.php",
-            "cat"               => "socialnetworks",
-        ),
-    );
 
-    $providers = apply_filters('uwp_get_available_social_providers', $providers);
-    return $providers;
-}
-
-
-function uwp_social_login_buttons() {
-    $providers = uwp_get_available_social_providers();
-    ?>
-    <ul class="uwp_social_login_ul">
-    <?php
-    foreach ($providers as $array_key => $provider) {
-        $provider_id   = isset( $provider["provider_id"]   ) ? $provider["provider_id"]   : '';
-        $provider_name = isset( $provider["provider_name"] ) ? $provider["provider_name"] : '';
-
-        $enable = uwp_get_option('enable_uwp_social_'.$array_key, "0");
-        if ($enable == "1") {
-            if (isset($provider["require_client_id"]) && $provider["require_client_id"]) {
-                $key = uwp_get_option('uwp_social_'.$array_key.'_id', "");
-            } else {
-                $key = uwp_get_option('uwp_social_'.$array_key.'_key', "");
-            }
-            $secret = uwp_get_option('uwp_social_'.$array_key.'_secret', "");
-            $icon = plugins_url()."/uwp_social/assets/images/32/".$array_key.".png";
-            $url = home_url() . "/?action=uwp_social_authenticate&provider=".$provider_id;
-
-            if (!empty($key) && !empty($secret)) {
-                ?>
-                <li class="uwp_social_login_icon">
-                    <a href="<?php echo $url; ?>">
-                        <img src="<?php echo $icon; ?>" alt="<?php echo $provider_name; ?>">
-                    </a>
-                </li>
-                <?php
-            }
-        }
-    }
-    ?>
-    </ul>
-    <?php
-}
-
-add_filter( 'login_form_middle', 'uwp_social_login_form_botton' );
-function uwp_social_login_form_botton($content){
-    return $content.uwp_social_login_buttons_display();
-}
 function uwp_social_login_buttons_display() {
 
     ob_start();
@@ -134,6 +19,12 @@ function uwp_social_login_buttons_display() {
     return $output;
 }
 
+add_filter( 'query_vars', 'uwp_social_query_vars');
+function uwp_social_query_vars($vars){
+    $vars[] = "hauth_done";
+    $vars[] = "provider";
+    return $vars;
+}
 
 add_action('init', 'uwp_social_authenticate_init');
 function uwp_social_authenticate_init() {
@@ -141,17 +32,11 @@ function uwp_social_authenticate_init() {
     // check for uwp actions
     $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : null;
 
+    add_rewrite_rule('^uwphauth/([^/]*)/?','index.php?hauth_done=1&provider=$matches[1]','top');
+
     if( ! in_array( $action, array( "uwp_social_authenticate", "uwp_social_account_linking", "uwp_social_authenticated" ) ) )
     {
         return;
-    }
-
-    if( is_user_logged_in() )
-    {
-        $current_user = wp_get_current_user();
-        echo uwp_social_render_notice_page( sprintf( __( "You are already logged in as %s. Do you want to <a href='%s'>log out</a>?", 'uwp-social' ), $current_user->display_name, wp_logout_url( home_url() )) );
-        die();
-
     }
 
     do_action( "uwp_social_authenticate_start" );
@@ -181,10 +66,13 @@ function uwp_social_authenticate_process() {
     {
         do_action( 'uwp_clear_user_php_session' );
 
-        return uwp_social_provider_redirect_loading_screen( $provider);
+        uwp_social_provider_redirect_loading_screen( $provider);
+
+        return;
     }
 
     $config = uwp_social_build_provider_config($provider);
+    $adapter = '';
 
     if(!class_exists('Hybridauth')){
         require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
@@ -203,7 +91,8 @@ function uwp_social_authenticate_process() {
     // if hybridauth fails to authenticate the user, then we display an error message
     catch( Exception $e )
     {
-        uwp_social_render_error( $e, $config, $provider );
+        echo uwp_social_render_error( $e, $config, $provider, $adapter );
+        die();
     }
 
     $redirect_to = uwp_get_social_login_redirect_url();
@@ -213,84 +102,12 @@ function uwp_social_authenticate_process() {
             'action' =>  'uwp_social_authenticated',
             'provider' => $provider
         ),
-        trailingslashit(home_url('index.php'))
+        trailingslashit(home_url())
     );
+
     // display a loading screen
     uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to );
 }
-
-function uwp_social_build_provider_config( $provider )
-{
-
-    if(!class_exists('Hybridauth')){
-        require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
-    }
-
-    $config = array();
-    $config["current_page"] = Hybridauth\HttpClient\Util::getCurrentUrl(true);
-    $config["base_url"] = site_url('index.php');
-    $config["callback"] = site_url('index.php') . '?hauth.done=' . $provider;
-    $config["providers"] = array();
-    $config["providers"][$provider] = array();
-    $config["providers"][$provider]["enabled"] = true;
-    $config["providers"][$provider]["keys"] = array( 'id' => null, 'key' => null, 'secret' => null );
-
-    $provider_key = strtolower($provider);
-    // provider application id ?
-    if( uwp_get_option('uwp_social_'.$provider_key.'_id', false) )
-    {
-        $config["providers"][$provider]["keys"]["id"] = uwp_get_option('uwp_social_'.$provider_key.'_id');
-    }
-
-    // provider application key ?
-    if( uwp_get_option('uwp_social_'.$provider_key.'_key', false) )
-    {
-        $config["providers"][$provider]["keys"]["key"] = uwp_get_option('uwp_social_'.$provider_key.'_key');
-    }
-
-    // provider application secret ?
-    if( uwp_get_option('uwp_social_'.$provider_key.'_secret', false) )
-    {
-        $config["providers"][$provider]["keys"]["secret"] = uwp_get_option('uwp_social_'.$provider_key.'_secret');
-    }
-
-    // set custom config for facebook
-    if( strtolower( $provider ) == "facebook" )
-    {
-        $config["providers"][$provider]["trustForwarded"] = true;
-        $config["providers"][$provider]["display"] = "page";
-
-    }
-
-    if( $provider_key == "linkedin" )
-    {
-        $config["providers"][$provider]["scope"] = "r_liteprofile r_emailaddress";
-    }
-
-    // set custom config for google
-    if( $provider_key == "google" )
-    {
-        // set the default google scope
-        $config["providers"][$provider]["scope"] = "profile https://www.googleapis.com/auth/plus.profile.emails.read";
-    }
-
-    if( $provider_key == "instagram" )
-    {
-        // set the default google scope
-        $config["providers"][$provider]["scope"] = "basic";
-    }
-
-    $provider_scope = isset( $config["providers"][$provider]["scope"] ) ? $config["providers"][$provider]["scope"] : '' ;
-
-    // allow to overwrite scopes
-    $config["providers"][$provider]["scope"] = apply_filters( 'uwp_social_provider_config_scope', $provider_scope, $provider );
-
-    // allow to overwrite hybridauth config for the selected provider
-    $config["providers"][$provider] = apply_filters( 'uwp_social_provider_config', $config["providers"][$provider], $provider );
-
-    return $config;
-}
-
 
 function uwp_social_authenticated_process()
 {
@@ -320,7 +137,8 @@ function uwp_social_authenticated_process()
     
     if ($enable != "1") {
         $e = new Exception( __( "Unknown or disabled provider.", 'uwp-social' ), 3 );
-        uwp_social_render_error( $e );
+        echo uwp_social_render_error( $e );
+        die();
     }
 
 
@@ -388,9 +206,8 @@ function uwp_social_authenticated_process()
 function uwp_social_get_provider_adapter( $provider_id )
 {
 
-    $adapter                 = null;
-    $provider = uwp_social_get_provider_name_by_id($provider_id);
-    $config = uwp_get_provider_config_from_session_storage( $provider );
+    $adapter = null;
+    $config = uwp_get_provider_config_from_session_storage( $provider_id );
 
     if(!class_exists('Hybridauth')){
         require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
@@ -420,11 +237,11 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $requested_user_email     = '';
     $wordpress_user_id        = 0;
 
-    if ( isset( $_SESSION['uwp::userprofile'] ) && $_SESSION['uwp::userprofile'] ) {
-        $hybridauth_user_profile = json_decode( $_SESSION['uwp::userprofile'] );
+    if ( isset( $_SESSION['uwp_social']['uwp::userprofile'] ) && $_SESSION['uwp_social']['uwp::userprofile'] ) {
+        $hybridauth_user_profile = json_decode( $_SESSION['uwp_social']['uwp::userprofile'] );
     } else {
         $hybridauth_user_profile = uwp_request_user_social_profile( $provider );
-        $_SESSION['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
+        $_SESSION['uwp_social']['uwp::userprofile'] = json_encode( $hybridauth_user_profile );
     }
 
     // must be error template
@@ -570,11 +387,13 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
     if( ! $user_email )
     {
         $user_email = $hybridauth_user_profile->email;
+        $email_domain = 'example.com';
+        $email_domain = apply_filters('uwp_social_login_email_domain', $email_domain);
 
         // generate an email if none
         if( ! isset ( $user_email ) OR ! is_email( $user_email ) )
         {
-            $user_email = strtolower( $provider . "_user_" . $user_login ) . '@example.com';
+            $user_email = strtolower( $provider . "_user_" . $user_login ) . '@'. $email_domain;
         }
 
         // email should be unique
@@ -582,7 +401,7 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
         {
             do
             {
-                $user_email = md5( uniqid( wp_rand( 10000, 99000 ) ) ) . '@example.com';
+                $user_email = md5( uniqid( wp_rand( 10000, 99000 ) ) ) . '@'.$email_domain;
             }
             while( uwp_email_exists( $user_email ) );
         }
@@ -656,8 +475,6 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
     update_user_meta($user_id, 'last_name', apply_filters( 'uwp_social_pre_user_last_name', $userdata['last_name']));
 
     // Send notifications
-    // todo: process email notification
-
     do_action( 'uwp_social_after_wp_insert_user', $user_id, $provider, $hybridauth_user_profile );
 
     // returns the user created user id
@@ -919,20 +736,6 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
     return array( $shall_pass, $user_id, $requested_user_login, $requested_user_email );
 }
 
-
-function uwp_social_get_provider_name_by_id( $provider_id)
-{
-    $providers = uwp_get_available_social_providers();
-
-    foreach( $providers as $provider ) {
-        if ( $provider['provider_id'] == $provider_id ) {
-            return $provider['provider_name'];
-        }
-    }
-
-    return $provider_id;
-}
-
 function uwp_social_provider_redirect_loading_screen($provider){
     $assets_base_url  = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ob_start();
@@ -998,7 +801,6 @@ function uwp_social_provider_redirect_loading_screen($provider){
     echo $output;
     die();
 }
-
 
 function uwp_social_provider_loading_screen( $provider, $authenticated_url, $redirect_to )
 {
@@ -1074,41 +876,6 @@ function uwp_social_provider_loading_screen( $provider, $authenticated_url, $red
     die();
 }
 
-add_action( 'login_form', 'uwp_social_login_buttons_display_on_login' );
-function uwp_social_login_buttons_display_on_login() {
-    uwp_social_login_buttons();
-}
-
-
-add_action( 'uwp_social_fields', 'uwp_social_login_buttons_display_on_templates', 30, 1 );
-function uwp_social_login_buttons_display_on_templates($type) {
-    if ($type == 'login' || $type == 'register') {
-        uwp_social_login_buttons();
-    }
-}
-
-
-add_action('uwp_social_after_wp_insert_user', 'uwp_social_admin_notification', 10, 2);
-function uwp_social_admin_notification( $user_id, $provider )
-{
-    //Get the user details
-    $user = new WP_User($user_id);
-    $user_login = stripslashes( $user->user_login );
-
-    // The blogname option is escaped with esc_html on the way into the database
-    // in sanitize_option we want to reverse this for the plain text arena of emails.
-    $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
-
-    $message  = sprintf(__('New user registration on your site: %s', 'uwp-social'), $blogname        ) . "\r\n\r\n";
-    $message .= sprintf(__('Username: %s'                          , 'uwp-social'), $user_login      ) . "\r\n";
-    $message .= sprintf(__('Provider: %s'                          , 'uwp-social'), $provider        ) . "\r\n";
-    $message .= sprintf(__('Profile: %s'                           , 'uwp-social'), $user->user_url  ) . "\r\n";
-    $message .= sprintf(__('Email: %s'                             , 'uwp-social'), $user->user_email) . "\r\n";
-
-    wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration', 'uwp-social'), $blogname), $message);
-}
-
-
 add_filter( 'uwp_social_require_email', 'uwp_social_require_email_value', 10, 2 );
 function uwp_social_require_email_value($value, $provider) {
     $provider = strtolower($provider);
@@ -1129,37 +896,34 @@ function uwp_social_change_username_value($value, $provider) {
     return $value;
 }
 
-/**
- * Clear the stored data by hybridauth and wsl in php session
- */
-add_action( 'uwp_clear_user_php_session', 'uwp_process_login_clear_user_php_session' );
-function uwp_process_login_clear_user_php_session()
-{
-    $_SESSION["HA::STORE"]        = array(); // used by hybridauth library. to clear as soon as the auth process ends.
-    $_SESSION["HA::CONFIG"]       = array(); // used by hybridauth library. to clear as soon as the auth process ends.
-    $_SESSION["uwp::userprofile"] = array();
-}
-
 function uwp_set_provider_config_in_session_storage($provider, $config){
     $provider = strtolower($provider);
-
-    $_SESSION['uwp:' . $provider . ':config'] = (array) $config;
+    $_SESSION['uwp_social']['uwp:provider'] = $provider;
+    $_SESSION['uwp_social']['uwp:' . $provider . ':config'] = (array) $config;
 }
 
 function uwp_get_provider_config_from_session_storage($provider){
     $provider = strtolower($provider);
 
-    if(isset($_SESSION['uwp:' . $provider . ':config']))
+    if(isset($_SESSION['uwp_social']['uwp:' . $provider . ':config']))
     {
-        return (array) $_SESSION['uwp:' . $provider . ':config'];
+        return (array) $_SESSION['uwp_social']['uwp:' . $provider . ':config'];
     }
 }
 
-add_action('init', 'uwp_social_check_auth_done');
+add_action('template_redirect', 'uwp_social_check_auth_done');
 function uwp_social_check_auth_done(){
 
-    if(isset($_REQUEST['hauth_done']) && !empty($_REQUEST['hauth_done']) || !empty($_REQUEST['hauth.done'])){
-        $provider_id     = $_REQUEST['hauth_done'];
+    if(1 == get_query_var('hauth_done') && !empty(get_query_var('provider'))){
+        $provider_id = get_query_var('provider');
+        if(!$provider_id && isset($_SESSION['uwp_social']['uwp:provider'])){
+            $provider_id = $_SESSION['uwp_social']['uwp:provider'];
+        }
+
+        if("yaho" == strtolower($provider_id)){
+            $provider_id = "Yahoo";
+        }
+
         $config = uwp_get_provider_config_from_session_storage( $provider_id );
         $callback_url    = $config['current_page'];
 
@@ -1176,22 +940,9 @@ function uwp_social_check_auth_done(){
         }
         catch( Exception $e ){
 
-            return uwp_social_render_error( $e, $config, $provider_id );
+            echo uwp_social_render_error( $e, $config, $provider_id );
+            die();
         }
     }
 
-}
-
-function uwp_get_social_login_redirect_url(){
-    $redirect_page_id = uwp_get_option('login_redirect_to', -1);
-    if(isset( $_REQUEST['redirect_to'] )) {
-        $redirect_to = esc_url($_REQUEST['redirect_to']);
-    } elseif (isset($redirect_page_id) && (int)$redirect_page_id > 0) {
-        $redirect_to = esc_url(get_permalink($redirect_page_id));
-    } elseif(isset($redirect_page_id) && (int)$redirect_page_id == -1 && wp_get_referer()) {
-        $redirect_to = esc_url(wp_get_referer());
-    } else {
-        $redirect_to = home_url('/');
-    }
-    return apply_filters('uwp_login_redirect', $redirect_to);
 }
