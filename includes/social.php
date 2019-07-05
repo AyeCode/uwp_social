@@ -1,5 +1,4 @@
 <?php
-
 function uwp_social_login_buttons_display() {
 
     ob_start();
@@ -66,7 +65,7 @@ function uwp_social_authenticate_process() {
     {
         do_action( 'uwp_clear_user_php_session' );
 
-        uwp_social_provider_redirect_loading_screen( $provider);
+        uwp_social_provider_redirect_loading_screen();
 
         return;
     }
@@ -83,9 +82,8 @@ function uwp_social_authenticate_process() {
         // create an instance oh hybridauth with the config
         $hybridauth = new Hybridauth\Hybridauth( $config );
 
-        $params = apply_filters("uwp_process_login_authenticate_params",array(),$provider);
         uwp_set_provider_config_in_session_storage( $provider, $config );
-        $adapter = $hybridauth->authenticate( $provider, $params );
+        $adapter = $hybridauth->authenticate( $provider );
     }
 
     // if hybridauth fails to authenticate the user, then we display an error message
@@ -209,6 +207,11 @@ function uwp_social_get_provider_adapter( $provider_id )
     $adapter = null;
     $config = uwp_get_provider_config_from_session_storage( $provider_id );
 
+    if(!$config){
+        echo uwp_social_render_notice( __( "Invalid session data. Please try again.", 'uwp-social' ) );
+        die();
+    }
+
     if(!class_exists('Hybridauth')){
         require_once UWP_SOCIAL_PATH . '/vendor/hybridauth/autoload.php';
     }
@@ -232,7 +235,6 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     $config                   = null;
     $hybridauth               = null;
     $adapter                  = null;
-    $hybridauth_user_profile  = null;
     $requested_user_login     = '';
     $requested_user_email     = '';
     $wordpress_user_id        = 0;
@@ -736,7 +738,7 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
     return array( $shall_pass, $user_id, $requested_user_login, $requested_user_email );
 }
 
-function uwp_social_provider_redirect_loading_screen($provider){
+function uwp_social_provider_redirect_loading_screen(){
     $assets_base_url  = UWP_SOCIAL_PLUGIN_URL . 'assets/images/';
     ob_start();
     ?>
@@ -939,7 +941,6 @@ function uwp_social_check_auth_done(){
             Hybridauth\HttpClient\Util::redirect($callback_url);
         }
         catch( Exception $e ){
-
             echo uwp_social_render_error( $e, $config, $provider_id );
             die();
         }

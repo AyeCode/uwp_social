@@ -1,6 +1,2 @@
 <?php
-/*!
-* UsersWP Social Login
-*/
-
-require_once "endpoint.php";
+# Silence is golden.
