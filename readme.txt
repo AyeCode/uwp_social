@@ -4,7 +4,7 @@ Donate link: http://userswp.io/
 Tags: social, social login, login, register, social-connect, userswp
 Requires at least: 4.9
 Tested up to: 5.2
-Stable tag: 1.0.8
+Stable tag: 1.0.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,6 +41,10 @@ No questions so far, but don't hesitate to ask!
 TBA
 
 == Changelog ==
+
+= 1.0.9 =
+* Upgrade Hybridauth library to V3 to make compatibility with linkedIn API V2 - CHANGED
+* Auth URI changed due to change in Hybridauth V3. Auth URIs for all providers need to be changed - BREAKING CHANGE
 
 = 1.0.8 =
 * Integrate new settings interface - CHANGED

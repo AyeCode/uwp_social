@@ -232,9 +232,6 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     do_action( "uwp_social_get_user_data_start", $provider, $redirect_to );
 
     $user_id                  = null;
-    $config                   = null;
-    $hybridauth               = null;
-    $adapter                  = null;
     $requested_user_login     = '';
     $requested_user_email     = '';
     $wordpress_user_id        = 0;
@@ -374,7 +371,6 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
         if( username_exists( $user_login ) )
         {
             $i = 1;
-            $user_login_tmp = $user_login;
 
             do
             {
@@ -582,8 +578,6 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
     $hybridauth_user_email       = sanitize_email( $hybridauth_user_profile->email );
     $hybridauth_user_login       = sanitize_user( $hybridauth_user_profile->displayName, true );
     $hybridauth_user_avatar      = $hybridauth_user_profile->photoURL;
-    $hybridauth_user_website     = $hybridauth_user_profile->webSiteURL;
-    $hybridauth_user_link        = $hybridauth_user_profile->profileURL;
 
     $hybridauth_user_login       = trim( str_replace( array( ' ', '.' ), '_', $hybridauth_user_login ) );
     $hybridauth_user_login       = trim( str_replace( '__', '_', $hybridauth_user_login ) );

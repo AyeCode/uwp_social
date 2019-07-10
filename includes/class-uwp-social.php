@@ -89,13 +89,18 @@ class UsersWP_Social {
     public function automatic_upgrade(){
         $uwp_social_version = get_option( 'uwp_social_db_version' );
 
-        if ( empty($uwp_social_version) || ($uwp_social_version && version_compare( $uwp_social_version, '1.0.8', '>' )) ) {
-            if( empty( get_option( 'uwp-social-authuri-notice-dismissed' ) ) ) {
-                add_action('admin_notices', array($this, 'admin_notices'));
-                add_action('admin_footer', array($this, 'admin_footer_js'));
-                add_action('wp_ajax_nopriv_uwp_social_dismiss_authuri_notice', array($this, 'dismiss_notice'));
-                add_action('wp_ajax_uwp_social_dismiss_authuri_notice', array($this, 'dismiss_notice'));
-            }
+        if ( empty($uwp_social_version) || ($uwp_social_version && version_compare( $uwp_social_version, '1.0.9', '<' )) ) {
+
+            flush_rewrite_rules();
+
+            update_option( 'uwp_social_db_version', UWP_SOCIAL_VERSION );
+        }
+
+        if( empty( get_option( 'uwp-social-authuri-notice-dismissed' ) ) ) {
+            add_action('admin_notices', array($this, 'admin_notices'));
+            add_action('admin_footer', array($this, 'admin_footer_js'));
+            add_action('wp_ajax_nopriv_uwp_social_dismiss_authuri_notice', array($this, 'dismiss_notice'));
+            add_action('wp_ajax_uwp_social_dismiss_authuri_notice', array($this, 'dismiss_notice'));
         }
     }
 
@@ -195,10 +200,6 @@ class UsersWP_Social {
 
     public function dismiss_notice(){
         update_option( 'uwp-social-authuri-notice-dismissed', 1 );
-        $version = get_option( 'uwp_social_db_version' );
-        if(!$version){
-            update_option( 'uwp_social_db_version', UWP_SOCIAL_VERSION ); // update version if first time
-        }
         wp_die(1);
     }
 
