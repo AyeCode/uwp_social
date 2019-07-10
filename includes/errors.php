@@ -36,21 +36,7 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
         $adapter->logout();
     }
 
-    // provider api response
-    if( class_exists( 'Hybrid_Error', false ) && Hybrid_Error::getErrorCode() )
-    {
-        $tmp = Hybrid_Error::getErrorCode();
-
-        $apierror = $apierror . "\n" . '<br />' . $tmp;
-
-        // network issue
-        if( trim( $tmp ) == '0.' )
-        {
-            $apierror = "Could not establish connection to provider API";
-        }
-    }
-
-    return uwp_social_render_error_page( $message, $notes, $provider, $apierror, $e );
+    return uwp_social_render_error_page( $message, $notes );
 }
 
 function uwp_social_render_error_page( $message, $notes = null )
