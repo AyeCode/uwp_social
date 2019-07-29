@@ -42,6 +42,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.10 =
+* Session not available when user redirects back from social site - FIXED
+
 = 1.0.9 =
 * Upgrade Hybridauth library to V3 to make compatibility with linkedIn API V2 - CHANGED
 * Auth URI changed due to change in Hybridauth V3. Auth URIs for all providers need to be changed - BREAKING CHANGE

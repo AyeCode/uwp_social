@@ -15,6 +15,7 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
     }
     
     $provider_name = uwp_social_get_provider_name_by_id($provider);
+    $notes = $e->getMessage();
 
     switch( $e->getCode() )
     {
