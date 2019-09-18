@@ -894,13 +894,18 @@ function uwp_social_change_username_value($value, $provider) {
 
 function uwp_set_provider_config_in_session_storage($provider, $config){
     $provider = strtolower($provider);
+    if( !session_id() ){
+        session_start();
+    }
     $_SESSION['uwp_social']['uwp:provider'] = $provider;
     $_SESSION['uwp_social']['uwp:' . $provider . ':config'] = (array) $config;
 }
 
 function uwp_get_provider_config_from_session_storage($provider){
     $provider = strtolower($provider);
-
+    if( !session_id() ){
+        session_start();
+    }
     if(isset($_SESSION['uwp_social']['uwp:' . $provider . ':config']))
     {
         return (array) $_SESSION['uwp_social']['uwp:' . $provider . ':config'];
@@ -912,6 +917,9 @@ function uwp_social_check_auth_done(){
 
     if(1 == get_query_var('hauth_done') && !empty(get_query_var('provider'))){
         $provider_id = get_query_var('provider');
+        if( !session_id() ){
+            session_start();
+        }
         if(!$provider_id && isset($_SESSION['uwp_social']['uwp:provider'])){
             $provider_id = $_SESSION['uwp_social']['uwp:provider'];
         }
