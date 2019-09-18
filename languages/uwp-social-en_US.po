@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.0.9\n"
+"Project-Id-Version: UsersWP - Social 1.0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-10 16:01+0530\n"
-"PO-Revision-Date: 2019-07-10 16:01+0530\n"
+"POT-Creation-Date: 2019-09-18 17:12+0530\n"
+"PO-Revision-Date: 2019-09-18 17:12+0530\n"
 "Last-Translator: \n"
 "Language-Team: AyeCode Ltd <contact@ayecode.io>\n"
 "Language: en_US\n"
@@ -297,33 +297,33 @@ msgstr ""
 msgid "Unspecified error!"
 msgstr ""
 
-#: includes/errors.php:21
+#: includes/errors.php:22
 msgid "Unspecified error."
 msgstr ""
 
-#: includes/errors.php:22
+#: includes/errors.php:23
 msgid "UsersWP Social Login is not properly configured."
 msgstr ""
 
-#: includes/errors.php:23
+#: includes/errors.php:24
 #, php-format
 msgid ""
 "UsersWP Social Login is not properly configured.<br /> <b>%s</b> need to be "
 "properly configured."
 msgstr ""
 
-#: includes/errors.php:24 includes/social.php:137
+#: includes/errors.php:25 includes/social.php:137
 msgid "Unknown or disabled provider."
 msgstr ""
 
-#: includes/errors.php:25
+#: includes/errors.php:26
 #, php-format
 msgid ""
 "UsersWP Social Login is not properly configured.<br /> <b>%s</b> requires "
 "your application credentials."
 msgstr ""
 
-#: includes/errors.php:26
+#: includes/errors.php:27
 #, php-format
 msgid ""
 "<b>What does this error mean ?</b><br />Most likely, you didn't setup the "
@@ -332,39 +332,39 @@ msgid ""
 "Social Login to work."
 msgstr ""
 
-#: includes/errors.php:26
+#: includes/errors.php:27
 msgid ""
 "<br />Instructions for use can be found in the <a href=\"#\" target=\"_blank"
 "\">User Manual</a>."
 msgstr ""
 
-#: includes/errors.php:28
+#: includes/errors.php:29
 #, php-format
 msgid ""
 "Authentication failed. Either you have cancelled the authentication or <b>"
 "%s</b> refused the connection."
 msgstr ""
 
-#: includes/errors.php:29
+#: includes/errors.php:30
 #, php-format
 msgid ""
 "Request failed. Either you have cancelled the authentication or <b>%s</b> "
 "refused the connection."
 msgstr ""
 
-#: includes/errors.php:30
+#: includes/errors.php:31
 msgid "You're not connected to the provider."
 msgstr ""
 
-#: includes/errors.php:31
+#: includes/errors.php:32
 msgid "Provider does not support this feature."
 msgstr ""
 
-#: includes/errors.php:66 includes/errors.php:142
+#: includes/errors.php:53 includes/errors.php:129
 msgid "Oops! We ran into an issue"
 msgstr ""
 
-#: includes/errors.php:166
+#: includes/errors.php:153
 msgid "Back to home"
 msgstr ""
 
