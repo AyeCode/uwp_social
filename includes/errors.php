@@ -32,9 +32,11 @@ function uwp_social_render_error( $e, $config = null, $provider = null, $adapter
         case 8 : $message = __("Provider does not support this feature.", 'uwp-social'); break;
     }
 
-    if( is_object( $adapter ) )
+    if( !empty($provider) )
     {
-        $adapter->logout();
+	    $config = uwp_social_build_provider_config($provider);
+	    $hybridauth = new Hybridauth\Hybridauth( $config );
+	    $hybridauth->disconnectAllAdapters();
     }
 
     return uwp_social_render_error_page( $message, $notes );
