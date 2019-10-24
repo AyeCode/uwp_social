@@ -422,7 +422,6 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
     if( username_exists( $user_login ) )
     {
         $i = 1;
-        $user_login_tmp = $user_login;
 
         do
         {
@@ -943,7 +942,7 @@ function uwp_social_check_auth_done(){
             Hybridauth\HttpClient\Util::redirect($callback_url);
         }
         catch( Exception $e ){
-            echo uwp_social_render_error( $e, $config, $provider_id );
+            echo uwp_social_render_error( $e, $config, $provider_id, $adapter );
             die();
         }
     }

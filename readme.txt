@@ -42,6 +42,9 @@ TBA
 
 == Changelog ==
 
+= 1.0.11 =
+* Use Hybridauth latest library function for logout - FIXED
+
 = 1.0.10 =
 * Session not available when user redirects back from social site - FIXED
 
