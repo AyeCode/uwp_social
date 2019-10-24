@@ -32,11 +32,7 @@ class UsersWP_Social {
     }
 
     private function setup_actions() {
-        if (class_exists( 'UsersWP' )) {
-            add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-            add_action('login_enqueue_scripts', array($this, 'enqueue_styles'));
-        }
-
+      
         add_action('login_form_middle', array($this, 'login_form_botton'));
         add_action('uwp_social_fields', array($this, 'social_login_buttons_on_templates'), 30, 1);
         add_action('delete_user', array($this, 'delete_user_row'), 30, 1);
@@ -54,12 +50,6 @@ class UsersWP_Social {
         }
 
         add_action( 'init', array($this, 'load_textdomain') );
-    }
-
-    public function enqueue_styles() {
-
-        wp_enqueue_style( 'uwp_social_styles', UWP_SOCIAL_PLUGIN_URL . 'assets/css/styles.css', array(), $this->version, 'all' );
-
     }
 
     /**

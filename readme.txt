@@ -3,8 +3,8 @@ Contributors: stiofansisland, paoltaia, ayecode
 Donate link: http://userswp.io/
 Tags: social, social login, login, register, social-connect, userswp
 Requires at least: 4.9
-Tested up to: 5.2
-Stable tag: 1.0.10
+Tested up to: 5.3
+Stable tag: 1.2.0-beta
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -42,8 +42,9 @@ TBA
 
 == Changelog ==
 
-= 1.0.11 =
+= 1.2.0 =
 * Use Hybridauth latest library function for logout - FIXED
+* Compatibility with new UWP core style updates - ADDED
 
 = 1.0.10 =
 * Session not available when user redirects back from social site - FIXED

@@ -106,9 +106,10 @@ function uwp_social_store_user_profile( $user_id, $provider, $profile )
 
 function uwp_social_login_buttons() {
     $providers = uwp_get_available_social_providers();
-    ?>
-    <ul class="uwp_social_login_ul">
-        <?php
+//    print_r( $providers );
+    $is_bootstrap = uwp_get_option("design_style",'bootstrap') ?  true : false;
+    echo $is_bootstrap ? '<hr /><div class="text-muted h5 mt-n2 mb-2">'.__('Login via Social','uwp-social').'</div>' : '<ul class="uwp_social_login_ul">';
+
         foreach ($providers as $array_key => $provider) {
             $provider_id   = isset( $provider["provider_id"]   ) ? $provider["provider_id"]   : '';
             $provider_name = isset( $provider["provider_name"] ) ? $provider["provider_name"] : '';
@@ -121,23 +122,66 @@ function uwp_social_login_buttons() {
                     $key = uwp_get_option('uwp_social_'.$array_key.'_key', "");
                 }
                 $secret = uwp_get_option('uwp_social_'.$array_key.'_secret', "");
-                $icon = plugins_url()."/uwp_social/assets/images/32/".$array_key.".png";
                 $url = home_url() . "/?action=uwp_social_authenticate&provider=".$provider_id;
 
+                
+                //General |Google |Facebook |Twitter |LinkedIn |Instagram |Yahoo |WordPress |VKontakte
+                $icons = array(
+                    'facebook'  => 'fab fa-facebook-f',
+                    'twitter'  => 'fab fa-twitter',
+                    'instagram'  => 'fab fa-instagram',
+                    'linkedin'  => 'fab fa-linkedin-in',
+                    'wordpress'  => 'fab fa-wordpress-simple',
+                    'vkontakte'  => 'fab fa-vk',
+                    'facebook'  => 'fab fa-facebook-f',
+
+                );
+
+                $social_name_class = strtolower($provider_id);
+                $social_icon_class = isset($icons[$social_name_class]) ? $icons[$social_name_class] : "fab fa-". $social_name_class;
+
                 if (!empty($key) && !empty($secret)) {
-                    ?>
-                    <li class="uwp_social_login_icon">
-                        <a href="<?php echo $url; ?>">
-                            <img src="<?php echo $icon; ?>" alt="<?php echo $provider_name; ?>">
-                        </a>
-                    </li>
-                    <?php
+
+                    if($is_bootstrap ){
+                        echo aui()->button( array(
+                            'href'  => $url,
+                            'class'     => 'ml-1 mb-1 border-0 btn  btn-'. $social_name_class.' btn-sm btn-circle',
+                            'content' => '<i class="'. $social_icon_class.'  fa-fw fa-lg"></i>',
+                            'data-toggle' => 'tooltip',
+                            'title' => $provider_name,
+                        ) );
+                    }else{
+                        ?>
+                        <li class="uwp_social_login_icon">
+                            <a href="<?php echo $url; ?>">
+                                <i class="<?php echo $social_icon_class; ?>  fa-fw fa-lg" title="<?php echo $provider_name; ?>"></i>
+                            </a>
+                        </li>
+                        <?php
+                    }
+
                 }
             }
         }
-        ?>
-    </ul>
-    <?php
+    echo $is_bootstrap ? '' : '</ul><style>.uwp_social_login_ul {
+  margin: 0;
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  clear: both; }
+  .uwp_social_login_ul li {
+    padding: 0;
+    margin: 0 10px 10px 0;
+    border: none !important;
+    float: left; }
+    .uwp_social_login_ul li a{
+    background: #ccc;
+    padding: 4px 2px;
+    }
+    .uwp_social_login_ul li a, .uwp_social_login_ul li a:hover, .uwp_social_login_ul li img {
+      box-shadow: none !important;
+      -moz-box-shadow: none !important; }</style>';
+
 }
 
 function uwp_social_build_provider_config( $provider )
