@@ -108,7 +108,8 @@ function uwp_social_login_buttons() {
     $providers = uwp_get_available_social_providers();
 //    print_r( $providers );
     $is_bootstrap = uwp_get_option("design_style",'bootstrap') ?  true : false;
-    echo $is_bootstrap ? '<hr /><div class="text-muted h5 mt-n2 mb-2">'.__('Login via Social','uwp-social').'</div>' : '<ul class="uwp_social_login_ul">';
+    $title = __('Login via Social','uwp-social');
+    echo $is_bootstrap ? '<div class="bsui"><hr /><div class="text-muted h5 mt-n2 mb-2">'.$title.'</div>' : '<ul class="uwp_social_login_ul">';
 
         foreach ($providers as $array_key => $provider) {
             $provider_id   = isset( $provider["provider_id"]   ) ? $provider["provider_id"]   : '';
@@ -163,7 +164,7 @@ function uwp_social_login_buttons() {
                 }
             }
         }
-    echo $is_bootstrap ? '' : '</ul><style>.uwp_social_login_ul {
+    echo $is_bootstrap ? '</div>' : '</ul><style>.uwp_social_login_ul {
   margin: 0;
   list-style-type: none;
   padding: 0;

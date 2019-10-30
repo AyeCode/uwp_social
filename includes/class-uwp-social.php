@@ -49,7 +49,28 @@ class UsersWP_Social {
             add_filter( 'uwp_get_settings_pages', array( $this, 'uwp_socail_get_settings_pages' ), 10, 1 );
         }
 
+        add_action( 'login_enqueue_scripts', array( $this,'login_styles' ) );
+
         add_action( 'init', array($this, 'load_textdomain') );
+    }
+
+    /**
+     * Add required styles to the WP login page.
+     */
+    public function login_styles() {
+
+        // add font awesome
+        if(class_exists('WP_Font_Awesome_Settings')){
+            $wpfa = WP_Font_Awesome_Settings::instance();
+            $wpfa->enqueue_style();
+        }
+        
+        // add AUI
+        if(class_exists('AyeCode_UI_Settings')){
+            $aui = AyeCode_UI_Settings::instance();
+            $aui->enqueue_style();
+        }
+
     }
 
     /**
