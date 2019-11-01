@@ -42,6 +42,9 @@ TBA
 
 == Changelog ==
 
+= 1.2.1 =
+* Don't create dummy email if not returned by provider - FIXED
+
 = 1.2.0 =
 * Use Hybridauth latest library function for logout - FIXED
 * Compatibility with new UWP core style updates - ADDED

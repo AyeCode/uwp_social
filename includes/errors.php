@@ -245,6 +245,14 @@ function uwp_social_render_notice_page( $message )
                     </div>
                 </td>
             </tr>
+
+            <tr>
+                <td>
+                    <p style="padding: 0;">
+                        <a href="<?php echo home_url(); ?>" style="float:left">&xlarr; <?php _e("Back to home", 'uwp-social') ?></a>
+                    </p>
+                </td>
+            </tr>
         </table>
     </div>
     </body>
