@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: UsersWP - Social 1.2.0\n"
+"Project-Id-Version: UsersWP - Social 1.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-30 16:52+0000\n"
-"PO-Revision-Date: 2019-10-30 16:53+0000\n"
+"POT-Creation-Date: 2019-11-02 18:05+0530\n"
+"PO-Revision-Date: 2019-11-02 18:05+0530\n"
 "Last-Translator: \n"
 "Language-Team: AyeCode Ltd <contact@ayecode.io>\n"
 "Language: en_US\n"
@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: admin/class-uwp-settings-social.php:27
@@ -312,7 +312,7 @@ msgid ""
 "properly configured."
 msgstr ""
 
-#: includes/errors.php:25 includes/social.php:137
+#: includes/errors.php:25 includes/social.php:133
 msgid "Unknown or disabled provider."
 msgstr ""
 
@@ -364,7 +364,7 @@ msgstr ""
 msgid "Oops! We ran into an issue"
 msgstr ""
 
-#: includes/errors.php:155
+#: includes/errors.php:155 includes/errors.php:252
 msgid "Back to home"
 msgstr ""
 
@@ -448,77 +448,83 @@ msgstr ""
 msgid "Back to %s"
 msgstr ""
 
-#: includes/social.php:60 includes/social.php:118
+#: includes/social.php:60 includes/social.php:116
 msgid "Invalid social login provider."
 msgstr ""
 
-#: includes/social.php:211
+#: includes/social.php:178
+msgid ""
+"Couldn't fetch the email address of a user. Please try again or use "
+"alternate login method!"
+msgstr ""
+
+#: includes/social.php:213
 msgid "Invalid session data. Please try again."
 msgstr ""
 
-#: includes/social.php:262
+#: includes/social.php:264
 msgid "Registration is now closed."
 msgstr ""
 
-#: includes/social.php:464
+#: includes/social.php:467
 msgid "An error occurred while creating a new user: "
 msgstr ""
 
-#: includes/social.php:467
+#: includes/social.php:470
 msgid "An error occurred while creating a new user!"
 msgstr ""
 
-#: includes/social.php:509
+#: includes/social.php:512
 #, php-format
 msgid ""
 "Sorry, we couldn't connect you with <b>%s</b>. <a href=\"%s\">Please try "
 "again</a>."
 msgstr ""
 
-#: includes/social.php:609
-msgid "Not tonight."
+#: includes/social.php:612
+msgid "Linking is not enabled. Please check the social login add on settings."
 msgstr ""
 
-#: includes/social.php:627
+#: includes/social.php:630
 #, php-format
 msgid ""
 "<strong>ERROR</strong>: Invalid username or incorrect password. <a href=\"%s"
 "\">Lost your password</a>?"
 msgstr ""
 
-#: includes/social.php:657
+#: includes/social.php:660
 msgid "<strong>ERROR</strong>: Please type your e-mail address."
 msgstr ""
 
-#: includes/social.php:662
+#: includes/social.php:665
 msgid "<strong>ERROR</strong>: Please enter a valid email address."
 msgstr ""
 
-#: includes/social.php:667
+#: includes/social.php:670
 msgid "<strong>ERROR</strong>: Sorry, that email address is already used!"
 msgstr ""
 
-#: includes/social.php:680
+#: includes/social.php:683
 msgid "<strong>ERROR</strong>: That username is not allowed."
 msgstr ""
 
-#: includes/social.php:685
+#: includes/social.php:688
 msgid "<strong>ERROR</strong>: Username must be at least 4 characters."
 msgstr ""
 
-#: includes/social.php:690
+#: includes/social.php:693
 msgid "<strong>ERROR</strong>: Sorry, usernames must have letters too!"
 msgstr ""
 
-#: includes/social.php:695
+#: includes/social.php:698
 msgid "<strong>ERROR</strong>: Sorry, that username already exists!"
 msgstr ""
 
-#: includes/social.php:743 includes/social.php:811
+#: includes/social.php:746 includes/social.php:814
 msgid "Redirecting..."
 msgstr ""
 
-#: includes/social.php:786 includes/social.php:854
+#: includes/social.php:789 includes/social.php:857
 msgid "Processing, please wait..."
 msgstr ""
 

@@ -107,7 +107,7 @@ class UsersWP_Social {
             update_option( 'uwp_social_db_version', UWP_SOCIAL_VERSION );
         }
 
-        if( empty( get_option( 'uwp-social-authuri-notice-dismissed' ) ) ) {
+        if( version_compare( $uwp_social_version, '1.0.9', '<=' ) && empty( get_option( 'uwp-social-authuri-notice-dismissed' ) ) ) {
             add_action('admin_notices', array($this, 'admin_notices'));
             add_action('admin_footer', array($this, 'admin_footer_js'));
             add_action('wp_ajax_nopriv_uwp_social_dismiss_authuri_notice', array($this, 'dismiss_notice'));

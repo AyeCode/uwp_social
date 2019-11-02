@@ -66,8 +66,6 @@ function uwp_social_authenticate_process() {
         do_action( 'uwp_clear_user_php_session' );
 
         uwp_social_provider_redirect_loading_screen();
-
-        return;
     }
 
     $config = uwp_social_build_provider_config($provider);
@@ -126,8 +124,6 @@ function uwp_social_authenticated_process()
     $user_id                 = ''   ; // wp user id
     $adapter                 = ''   ; // hybriauth adapter for the selected provider
     $hybridauth_user_profile = ''   ; // hybriauth user profile
-    $requested_user_login    = ''   ; // username typed by users in Profile Completion
-    $requested_user_email    = ''   ; // email typed by users in Profile Completion
 
     // provider is enabled?
     $provider_key = strtolower($provider);
@@ -177,6 +173,12 @@ function uwp_social_authenticated_process()
                 // We also need to ask the user to pick the username. If not we auto generate it.
                 // Only Google and Facebook provides verified email address.
                 // For other networks we may need email verification to make sure they are using the correct address.
+
+                if(!$requested_user_email){
+	                echo uwp_social_render_notice( __( "Couldn't fetch the email address of a user. Please try again or use alternate login method!", 'uwp-social' ) );
+	                die();
+                }
+
                 $user_id = uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $requested_user_login, $requested_user_email );
 
                 $is_new_user = true;
@@ -381,6 +383,7 @@ function uwp_social_create_wp_user( $provider, $hybridauth_user_profile, $reques
             $user_login = $user_login_tmp;
         }
     }
+
 
     if( ! $user_email )
     {
@@ -606,7 +609,7 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
     {
         if( !$linking_enabled )
         {
-            return uwp_social_render_notice( __( "Not tonight.", 'uwp-social' ) );
+            return uwp_social_render_notice( __( "Linking is not enabled. Please check the social login add on settings.", 'uwp-social' ) );
         }
 
         $account_linking = true;

@@ -134,7 +134,6 @@ function uwp_social_login_buttons() {
                     'linkedin'  => 'fab fa-linkedin-in',
                     'wordpress'  => 'fab fa-wordpress-simple',
                     'vkontakte'  => 'fab fa-vk',
-                    'facebook'  => 'fab fa-facebook-f',
 
                 );
 
@@ -143,7 +142,7 @@ function uwp_social_login_buttons() {
 
                 if (!empty($key) && !empty($secret)) {
 
-                    if($is_bootstrap ){
+                    if( $is_bootstrap && class_exists("AUI") ){
                         echo aui()->button( array(
                             'href'  => $url,
                             'class'     => 'ml-1 mb-1 border-0 btn  btn-'. $social_name_class.' btn-sm btn-circle',

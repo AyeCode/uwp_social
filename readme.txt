@@ -4,7 +4,7 @@ Donate link: http://userswp.io/
 Tags: social, social login, login, register, social-connect, userswp
 Requires at least: 4.9
 Tested up to: 5.3
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,6 +41,9 @@ No questions so far, but don't hesitate to ask!
 TBA
 
 == Changelog ==
+
+= 1.2.1 =
+* Don't create dummy email if email not returned by provider - FIXED
 
 = 1.2.0 =
 * Use Hybridauth latest library function for logout - FIXED
