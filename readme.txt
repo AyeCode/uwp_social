@@ -42,6 +42,9 @@ TBA
 
 == Changelog ==
 
+= 1.2.2 =
+* Changes to fix unknown column error for avatar usermeta - FIXED
+
 = 1.2.1 =
 * Don't create dummy email if email not returned by provider - FIXED
 
