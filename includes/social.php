@@ -253,8 +253,12 @@ function uwp_social_get_user_data( $provider, $redirect_to )
 
     $adapter = uwp_social_get_provider_adapter( $provider );
 
-    $hybridauth_user_email = sanitize_email( $hybridauth_user_profile->email );
-    $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
+    $hybridauth_user_email = isset($hybridauth_user_profile->email) ? sanitize_email( $hybridauth_user_profile->email ) : '';
+    if(!empty($hybridauth_user_profile->identifier)){
+	    $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
+    } else {
+	    $user_id = 0;
+    }
 
     if( ! $user_id )
     {
@@ -305,7 +309,11 @@ function uwp_social_get_user_data( $provider, $redirect_to )
     }
     
     // check if user already exist in uwp social profiles
-    $user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
+	if(!empty($hybridauth_user_profile->identifier)){
+		$user_id = (int) uwp_get_social_profile( $provider, $hybridauth_user_profile->identifier );
+	} else {
+		$user_id = 0;
+	}
 
     // if not found in uwp social profiles, then check his verified email
     if( ! $user_id && ! empty( $hybridauth_user_profile->emailVerified ) )
@@ -558,7 +566,10 @@ function uwp_social_authenticate_user( $user_id, $provider, $redirect_to, $adapt
     // Set WP auth cookie
     wp_set_auth_cookie( $user_id, true );
 
-    do_action( 'wp_login', $wp_user->user_login, $wp_user );
+    if($wp_user){
+	    $user_login = isset($wp_user->user_login) ? $wp_user->user_login : '';
+	    do_action( 'wp_login', $user_login, $wp_user );
+    }
 
     do_action( "uwp_social_authenticate_before_wp_safe_redirect", $user_id, $provider, $hybridauth_user_profile, $redirect_to );
 
@@ -577,9 +588,9 @@ function uwp_social_new_users_gateway( $provider, $redirect_to, $hybridauth_user
 
     remove_action( 'register_form', 'uwp_render_auth_widget_in_wp_register_form' );
 
-    $hybridauth_user_email       = sanitize_email( $hybridauth_user_profile->email );
-    $hybridauth_user_login       = sanitize_user( $hybridauth_user_profile->displayName, true );
-    $hybridauth_user_avatar      = $hybridauth_user_profile->photoURL;
+    $hybridauth_user_email       = isset($hybridauth_user_profile->email) ? sanitize_email( $hybridauth_user_profile->email ) : '';
+    $hybridauth_user_login       = isset($hybridauth_user_profile->displayName) ? sanitize_user( $hybridauth_user_profile->displayName, true ) : '';
+    $hybridauth_user_avatar      = isset($hybridauth_user_profile->photoURL) ? sanitize_text_field($hybridauth_user_profile->photoURL) : '';
 
     $hybridauth_user_login       = trim( str_replace( array( ' ', '.' ), '_', $hybridauth_user_login ) );
     $hybridauth_user_login       = trim( str_replace( '__', '_', $hybridauth_user_login ) );
