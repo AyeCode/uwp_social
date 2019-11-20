@@ -220,10 +220,11 @@ function uwp_social_build_provider_config( $provider )
     }
 
     // set custom config for facebook
-    if( strtolower( $provider ) == "facebook" )
+    if( $provider_key == "facebook" )
     {
         $config["providers"][$provider]["trustForwarded"] = true;
         $config["providers"][$provider]["display"] = "page";
+	    $config["providers"][$provider]["scope"] = "email";
 
     }
 
